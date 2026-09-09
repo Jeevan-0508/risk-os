@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc -b --noEmit"
+    "typecheck": "tsc -b --noEmit",
+    "deploy": "bun run build && node scripts/copy-dist-to-docs.mjs"
   },
   "dependencies": {
     "@xyflow/react": "^12.3.5",

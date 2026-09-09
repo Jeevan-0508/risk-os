@@ -2,6 +2,8 @@
 
 **See the risk. Model the impact. Control the program.**
 
+**Live app:** [jeevan-0508.github.io/risk-os](https://jeevan-0508.github.io/risk-os/)
+
 An open-source Program Risk & Delivery Operating System — the piece of software a program manager,
 risk manager, PMO, or transformation lead would actually use to run a programme end-to-end, not a
 generic project-tracker with a "risks" tab bolted on.
@@ -379,7 +381,12 @@ node node_modules/vitest/vitest.mjs run
 bun install
 bun run dev      # http://localhost:5173
 bun run build    # production bundle to dist/
+bun run deploy   # rebuilds and copies dist/ into docs/, for GitHub Pages
 ```
+
+GitHub Pages is configured to serve from `main` / `/docs` — `docs/` holds both the built app
+(`index.html`, `assets/`) and the methodology markdown files side by side; `bun run deploy` is the
+one command that keeps the served build in sync with the latest source.
 
 ## Roadmap / known limitations (stated honestly)
 
