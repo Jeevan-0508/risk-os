@@ -87,6 +87,15 @@ export function validateProgram(input: unknown): ValidationResult {
     }
   }
 
+  // Portfolio metadata is new and optional on the wire, but every screen that reads
+  // it (Portfolio Command Center, concentration engine, health weighting) wants a
+  // real value, so a pre-portfolio import is repaired the same way old collections are.
+  if (typeof draft.businessUnit !== 'string') draft.businessUnit = 'Unassigned';
+  if (!['critical', 'high', 'medium', 'low'].includes(draft.strategicPriority as string)) draft.strategicPriority = 'medium';
+  if (!['active', 'on-hold', 'closed', 'archived'].includes(draft.programStatus as string)) draft.programStatus = 'active';
+  if (typeof draft.createdAt !== 'string' || !isIsoDate(draft.createdAt)) draft.createdAt = (draft.startDate as string) ?? '2020-01-01';
+  if (typeof draft.updatedAt !== 'string' || !isIsoDate(draft.updatedAt)) draft.updatedAt = (draft.statusDate as string) ?? draft.createdAt;
+
   for (const key of COLLECTIONS) {
     if (!Array.isArray(draft[key])) {
       warnings.push('Collection "' + key + '" was missing or not an array and was treated as empty.');
@@ -143,4 +152,78 @@ export function auditReferences(program: Program): string[] {
   check('Benefit risk link', (program.benefits ?? []).flatMap((b) => b.threateningRiskIds ?? []), risks);
 
   return notes;
+}
+
+// ---------------------------------------------------------------- portfolio
+
+export interface PortfolioValidationResult {
+  ok: boolean;
+  errors: string[];
+  warnings: string[];
+  portfolio?: import('./types').Portfolio;
+}
+
+/**
+ * Validates a whole portfolio export. Each programme is run through
+ * validateProgram individually so a single malformed programme is reported
+ * by name rather than failing the entire import, then cross-link references
+ * (which point across programmes, so auditReferences cannot see them) are
+ * checked here.
+ */
+export function validatePortfolio(input: unknown): PortfolioValidationResult {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+
+  if (!isRecord(input)) return { ok: false, errors: ['The file does not contain a JSON object.'], warnings };
+  const raw = isRecord(input.portfolio) ? (input.portfolio as Record<string, unknown>) : input;
+
+  if (typeof raw.id !== 'string' || typeof raw.name !== 'string') {
+    errors.push('Portfolio is missing an "id" or "name".');
+  }
+  if (!Array.isArray(raw.programs) || raw.programs.length === 0) {
+    errors.push('Portfolio has no "programs" array, or it is empty.');
+  }
+  if (errors.length > 0) return { ok: false, errors, warnings };
+
+  const programs: Program[] = [];
+  for (const [i, entry] of (raw.programs as unknown[]).entries()) {
+    const result = validateProgram(entry);
+    if (!result.ok || !result.program) {
+      errors.push('Programme at position ' + i + ' could not be read: ' + result.errors.join(' '));
+      continue;
+    }
+    warnings.push(...result.warnings.map((w) => '[' + (result.program!.codename || i) + '] ' + w));
+    programs.push(result.program);
+  }
+  if (errors.length > 0) return { ok: false, errors, warnings };
+
+  const programIds = new Set(programs.map((p) => p.id));
+  const idCounts = new Map<string, number>();
+  for (const p of programs) idCounts.set(p.id, (idCounts.get(p.id) ?? 0) + 1);
+  const dupes = [...idCounts.entries()].filter(([, n]) => n > 1).map(([id]) => id);
+  if (dupes.length > 0) errors.push('Duplicate programme id(s): ' + dupes.join(', ') + '.');
+
+  const crossLinksRaw = Array.isArray(raw.crossLinks) ? (raw.crossLinks as Record<string, unknown>[]) : [];
+  const crossLinks = crossLinksRaw.filter((link) => isRecord(link));
+  if (crossLinks.length !== crossLinksRaw.length) {
+    warnings.push(crossLinksRaw.length - crossLinks.length + ' cross-programme link(s) were not objects and were dropped.');
+  }
+  for (const link of crossLinks) {
+    const from = link.fromProgramId as string;
+    const to = link.toProgramId as string;
+    if (!programIds.has(from)) warnings.push('Cross-programme link "' + (link.label ?? link.id) + '" references unknown fromProgramId "' + from + '".');
+    if (!programIds.has(to)) warnings.push('Cross-programme link "' + (link.label ?? link.id) + '" references unknown toProgramId "' + to + '".');
+  }
+
+  if (errors.length > 0) return { ok: false, errors, warnings };
+
+  const portfolio: import('./types').Portfolio = {
+    id: raw.id as string,
+    name: raw.name as string,
+    description: typeof raw.description === 'string' ? raw.description : '',
+    programs,
+    crossLinks: crossLinks as unknown as import('./types').CrossProgramLink[],
+  };
+
+  return { ok: true, errors, warnings, portfolio };
 }

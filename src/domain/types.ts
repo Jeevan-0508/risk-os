@@ -80,6 +80,8 @@ export interface Comment {
 
 // ---------------------------------------------------------------- program
 
+export type ProgramStatus = 'active' | 'on-hold' | 'closed' | 'archived';
+
 export interface Program {
   id: string;
   name: string;
@@ -95,6 +97,12 @@ export interface Program {
   spendToDate: number;
   forecastSpend: number;
   currency: string;
+  /** Portfolio metadata. Optional so a pre-portfolio programme JSON still imports; validate.ts fills defaults. */
+  businessUnit?: string;
+  strategicPriority?: Priority;
+  programStatus?: ProgramStatus;
+  createdAt?: ISODate;
+  updatedAt?: ISODate;
   strategicObjectives: string[];
   owners: Owner[];
   workstreams: Workstream[];
@@ -201,6 +209,10 @@ export interface Risk {
   evidence: Evidence[];
   comments: Comment[];
   tags: string[];
+  /** Supplier this risk concentrates on, for cross-program vendor-concentration analysis. Two risks sharing a vendor are not automatically the same risk. */
+  vendor?: string;
+  /** Set only when this risk is literally the same underlying risk manifesting in more than one programme (e.g. one shared vendor's capacity shortfall). Distinct from merely sharing a vendor or category. */
+  sharedRiskGroupId?: string;
 }
 
 export interface Cause {
@@ -561,4 +573,50 @@ export interface PersistedState {
   /** Where the current programme came from, shown in Settings. */
   source: 'demo' | 'imported' | 'created' | 'edited';
   program: Program;
+}
+
+// ---------------------------------------------------------------- portfolio
+
+/**
+ * A dependency that crosses a programme boundary. Ordinary Dependency rows
+ * stay inside one programme (their upstream/downstream are free text); a
+ * CrossProgramLink is the only place an id from one programme's arrays is
+ * used to point at another programme, and it always lives on the Portfolio,
+ * never inside a Program, so a programme's own JSON export still stands alone.
+ */
+export type CrossProgramLinkKind = 'dependency' | 'vendor' | 'resource';
+
+export interface CrossProgramLink {
+  id: string;
+  kind: CrossProgramLinkKind;
+  label: string;
+  description: string;
+  fromProgramId: string;
+  /** Milestone in the "from" programme whose slip is the trigger, when kind is 'dependency'. */
+  fromMilestoneId?: string;
+  toProgramId: string;
+  /** Milestone in the "to" programme that inherits the slip, when kind is 'dependency'. */
+  toMilestoneId?: string;
+  /** Shared supplier name, when kind is 'vendor'. */
+  vendorName?: string;
+  /** Shared owner name, when kind is 'resource'. */
+  resourceName?: string;
+  /** 0..1: how much of the upstream slip/exposure actually transfers downstream. A link can exist without transferring 100%. */
+  passThroughPct: number;
+}
+
+export interface Portfolio {
+  id: string;
+  name: string;
+  description: string;
+  programs: Program[];
+  crossLinks: CrossProgramLink[];
+}
+
+export interface PersistedPortfolioState {
+  version: number;
+  savedAt: string;
+  source: 'demo' | 'imported' | 'created' | 'edited';
+  activeProgramId: string;
+  portfolio: Portfolio;
 }

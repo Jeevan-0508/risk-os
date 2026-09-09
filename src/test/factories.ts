@@ -3,10 +3,12 @@ import type {
   Benefit,
   ChangeRequest,
   Control,
+  CrossProgramLink,
   Decision,
   Dependency,
   FMEAItem,
   Milestone,
+  Portfolio,
   Program,
   Risk,
 } from '@/domain/types';
@@ -262,6 +264,30 @@ export function makeProgram(over: Partial<Program> = {}): Program {
     fmea: [],
     dmaic: [],
     metrics: [],
+    ...over,
+  };
+}
+
+export function makeCrossLink(over: Partial<CrossProgramLink> = {}): CrossProgramLink {
+  return {
+    id: 'xlink-t1',
+    kind: 'dependency',
+    label: 'Test cross-programme link',
+    description: 'Cross-programme link used in unit tests.',
+    fromProgramId: 'prog-a',
+    toProgramId: 'prog-b',
+    passThroughPct: 1,
+    ...over,
+  };
+}
+
+export function makePortfolio(over: Partial<Portfolio> = {}): Portfolio {
+  return {
+    id: 'portfolio-t1',
+    name: 'Test portfolio',
+    description: 'Portfolio used in unit tests.',
+    programs: [],
+    crossLinks: [],
     ...over,
   };
 }
