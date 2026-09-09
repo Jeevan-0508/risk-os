@@ -411,3 +411,12 @@ one command that keeps the served build in sync with the latest source.
 Everything else described in this README — every screen, every calculation, the demo data
 relationships, import/export, persistence, and the test suite — was run and observed working as part
 of building this application, not assumed.
+
+## Licence
+
+MIT — see [LICENSE](LICENSE). Copyright (c) 2026 Jeevan Siddhabhaktula.
+
+Built by [Jeevan Siddhabhaktula](https://github.com/Jeevan-0508). Companion projects:
+[AI Governance Control Room](https://github.com/Jeevan-0508/ai-governance-control-room) ·
+[Freight Fraud Taxonomy](https://github.com/Jeevan-0508/freight-fraud-taxonomy) ·
+[Freight Risk Atlas](https://github.com/Jeevan-0508/freight-risk-atlas)
