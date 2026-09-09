@@ -6,9 +6,9 @@ import { Panel, Chip, Stat } from '@/ui/primitives';
 import { downloadJson, exportFilename, serialiseProgram } from '@/state/persistence';
 import { formatCurrency } from '@/lib/format';
 import { formatDate, formatDateTime } from '@/lib/dates';
-import { ROUTES } from '@/nav';
+import { ROUTE_BY_PATH } from '@/nav';
 
-const meta = ROUTES.find((r) => r.code === '13')!;
+const meta = ROUTE_BY_PATH['/settings'];
 
 const SOURCE_LABEL: Record<string, string> = {
   demo: 'ORION demo programme',

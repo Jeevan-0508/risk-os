@@ -8,10 +8,10 @@ import { SlideOver, Section, Field } from '@/ui/SlideOver';
 import { useFocusParam } from '@/ui/useFocusParam';
 import { formatCurrency, titleCase } from '@/lib/format';
 import { formatDate } from '@/lib/dates';
-import { ROUTES } from '@/nav';
+import { ROUTE_BY_PATH } from '@/nav';
 import type { ChangeDecision, ChangeRequest } from '@/domain/types';
 
-const meta = ROUTES.find((r) => r.code === '08')!;
+const meta = ROUTE_BY_PATH['/change'];
 
 export function ChangeScreen() {
   const program = useStore((s) => s.program);

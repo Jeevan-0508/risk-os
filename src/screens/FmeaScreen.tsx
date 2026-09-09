@@ -9,11 +9,11 @@ import { useFocusParam } from '@/ui/useFocusParam';
 import { formatPercent, titleCase } from '@/lib/format';
 import { formatDate } from '@/lib/dates';
 import { chartTheme, tooltipStyle } from '@/ui/chart';
-import { ROUTES } from '@/nav';
+import { ROUTE_BY_PATH } from '@/nav';
 import type { FMEAItem } from '@/domain/types';
 import type { RpnBand } from '@/domain/engines/fmeaEngine';
 
-const meta = ROUTES.find((r) => r.code === '05')!;
+const meta = ROUTE_BY_PATH['/fmea'];
 
 /**
  * AIAG-VDA methodology, not a generic severity table: severity 5 escalates

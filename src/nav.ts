@@ -12,6 +12,14 @@ export interface RouteMeta {
 
 export const ROUTES: RouteMeta[] = [
   {
+    code: '00',
+    path: '/portfolio',
+    label: 'Portfolio',
+    icon: 'layout-dashboard',
+    group: 'Situation',
+    purpose: 'Portfolio health, cross-programme dependencies, vendor and owner concentration across every programme',
+  },
+  {
     code: '01',
     path: '/',
     label: 'Command Center',
@@ -45,6 +53,14 @@ export const ROUTES: RouteMeta[] = [
   },
   {
     code: '05',
+    path: '/global-risks',
+    label: 'Global Risks',
+    icon: 'list-tree',
+    group: 'Registers',
+    purpose: 'Every risk in every programme, one table, filterable by cross-programme link and severity',
+  },
+  {
+    code: '06',
     path: '/fmea',
     label: 'FMEA Studio',
     icon: 'grid-3x3',
@@ -52,7 +68,7 @@ export const ROUTES: RouteMeta[] = [
     purpose: 'Failure modes, RPN ranking and modelled reduction after countermeasures',
   },
   {
-    code: '06',
+    code: '07',
     path: '/root-cause',
     label: 'Root Cause',
     icon: 'git-branch',
@@ -60,7 +76,7 @@ export const ROUTES: RouteMeta[] = [
     purpose: 'Five Whys, Ishikawa, Pareto and the DMAIC record behind them',
   },
   {
-    code: '07',
+    code: '08',
     path: '/dependencies',
     label: 'Dependencies',
     icon: 'share-2',
@@ -68,7 +84,7 @@ export const ROUTES: RouteMeta[] = [
     purpose: 'Critical chain, slip cascade and the benefits each dependency guards',
   },
   {
-    code: '08',
+    code: '09',
     path: '/change',
     label: 'Change Control',
     icon: 'git-pull-request',
@@ -76,7 +92,7 @@ export const ROUTES: RouteMeta[] = [
     purpose: 'Change requests, six impact axes and the decision on each one',
   },
   {
-    code: '09',
+    code: '10',
     path: '/decisions',
     label: 'Decisions',
     icon: 'scale',
@@ -84,7 +100,7 @@ export const ROUTES: RouteMeta[] = [
     purpose: 'Options considered, rationale, evidence and expected versus actual outcome',
   },
   {
-    code: '10',
+    code: '11',
     path: '/benefits',
     label: 'Benefits',
     icon: 'trending-up',
@@ -92,7 +108,7 @@ export const ROUTES: RouteMeta[] = [
     purpose: 'Expected against realised value and the exposure threatening the rest',
   },
   {
-    code: '11',
+    code: '12',
     path: '/simulation',
     label: 'Simulation',
     icon: 'dices',
@@ -100,7 +116,7 @@ export const ROUTES: RouteMeta[] = [
     purpose: 'Monte Carlo schedule and cost ranges with their assumptions stated',
   },
   {
-    code: '12',
+    code: '13',
     path: '/brief',
     label: 'Executive Brief',
     icon: 'file-text',
@@ -108,7 +124,7 @@ export const ROUTES: RouteMeta[] = [
     purpose: 'One page for the steering committee, ready to present or export',
   },
   {
-    code: '13',
+    code: '14',
     path: '/settings',
     label: 'Settings',
     icon: 'settings',

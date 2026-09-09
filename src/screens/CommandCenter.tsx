@@ -10,11 +10,11 @@ import { SlideOver, Section } from '@/ui/SlideOver';
 import { cx } from '@/lib/cx';
 import { formatCurrency, formatNumber, formatPercent } from '@/lib/format';
 import { formatDate, formatMonthLabel } from '@/lib/dates';
-import { ROUTES } from '@/nav';
+import { ROUTE_BY_PATH } from '@/nav';
 import { chartTheme, tooltipStyle } from '@/ui/chart';
 import type { DimensionHealth } from '@/domain/engines/healthEngine';
 
-const meta = ROUTES[0];
+const meta = ROUTE_BY_PATH['/'];
 
 export function CommandCenter() {
   const program = useStore((s) => s.program);

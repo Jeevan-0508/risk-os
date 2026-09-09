@@ -12,10 +12,10 @@ import { useFocusParam } from '@/ui/useFocusParam';
 import { cx } from '@/lib/cx';
 import { formatCurrency, formatPercent, titleCase } from '@/lib/format';
 import { formatDate } from '@/lib/dates';
-import { ROUTES } from '@/nav';
+import { ROUTE_BY_PATH } from '@/nav';
 import type { Milestone, Workstream } from '@/domain/types';
 
-const meta = ROUTES.find((r) => r.code === '02')!;
+const meta = ROUTE_BY_PATH['/program'];
 
 const KIND_LABEL: Record<TwinNodeKind, string> = {
   program: 'Program',

@@ -7,6 +7,7 @@ import {
   GitPullRequest,
   Grid3x3,
   Layers,
+  LayoutDashboard,
   ListTree,
   Scale,
   Settings,
@@ -16,6 +17,7 @@ import {
 } from 'lucide-react';
 
 export const ICONS: Record<string, LucideIcon> = {
+  'layout-dashboard': LayoutDashboard,
   gauge: Gauge,
   layers: Layers,
   'list-tree': ListTree,

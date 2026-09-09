@@ -10,10 +10,10 @@ import { useFocusParam } from '@/ui/useFocusParam';
 import { formatCurrency, formatPercent, titleCase } from '@/lib/format';
 import { formatDate, formatMonthLabel } from '@/lib/dates';
 import { chartTheme, tooltipStyle } from '@/ui/chart';
-import { ROUTES } from '@/nav';
+import { ROUTE_BY_PATH } from '@/nav';
 import type { Control, Risk } from '@/domain/types';
 
-const meta = ROUTES.find((r) => r.code === '04')!;
+const meta = ROUTE_BY_PATH['/risk'];
 
 export function RiskEngineScreen() {
   const program = useStore((s) => s.program);

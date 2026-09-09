@@ -7,9 +7,11 @@ import { CommandPalette } from '@/ui/CommandPalette';
 import { NoticeHost } from '@/ui/NoticeHost';
 import { ErrorBoundary } from '@/ui/ErrorBoundary';
 
+import { PortfolioCommandCenter } from '@/screens/PortfolioCommandCenter';
 import { CommandCenter } from '@/screens/CommandCenter';
 import { ProgramScreen } from '@/screens/ProgramScreen';
 import { RaidScreen } from '@/screens/RaidScreen';
+import { GlobalRiskRegister } from '@/screens/GlobalRiskRegister';
 import { RiskEngineScreen } from '@/screens/RiskEngineScreen';
 import { FmeaScreen } from '@/screens/FmeaScreen';
 import { RootCauseScreen } from '@/screens/RootCauseScreen';
@@ -22,9 +24,11 @@ import { BriefScreen } from '@/screens/BriefScreen';
 import { SettingsScreen } from '@/screens/SettingsScreen';
 
 const ELEMENTS: Record<string, () => JSX.Element> = {
+  '/portfolio': PortfolioCommandCenter,
   '/': CommandCenter,
   '/program': ProgramScreen,
   '/raid': RaidScreen,
+  '/global-risks': GlobalRiskRegister,
   '/risk': RiskEngineScreen,
   '/fmea': FmeaScreen,
   '/root-cause': RootCauseScreen,

@@ -9,10 +9,10 @@ import { useFocusParam } from '@/ui/useFocusParam';
 import { formatPercent, titleCase } from '@/lib/format';
 import { chartTheme, tooltipStyle } from '@/ui/chart';
 import { cx } from '@/lib/cx';
-import { ROUTES } from '@/nav';
+import { ROUTE_BY_PATH } from '@/nav';
 import type { Cause, FishboneCategory } from '@/domain/types';
 
-const meta = ROUTES.find((r) => r.code === '06')!;
+const meta = ROUTE_BY_PATH['/root-cause'];
 
 const CATEGORY_LABEL: Record<FishboneCategory, string> = {
   people: 'People',

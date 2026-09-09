@@ -17,6 +17,9 @@ const SOURCE_LABEL: Record<string, string> = {
 
 export function TopBar({ onOpenPalette }: { onOpenPalette: () => void }) {
   const location = useLocation();
+  const portfolio = useStore((s) => s.portfolio);
+  const activeProgramId = useStore((s) => s.activeProgramId);
+  const switchProgram = useStore((s) => s.switchProgram);
   const program = useStore((s) => s.program);
   const analytics = useStore((s) => s.analytics);
   const source = useStore((s) => s.source);
@@ -46,7 +49,18 @@ export function TopBar({ onOpenPalette }: { onOpenPalette: () => void }) {
     <header className="flex h-14 shrink-0 items-center gap-4 border-b border-base-600 bg-base-800/80 px-4 backdrop-blur">
       <div className="min-w-0">
         <div className="flex items-baseline gap-2">
-          <span className="num text-sm font-bold tracking-widest text-ink-100">{program.codename}</span>
+          <label className="sr-only" htmlFor="program-switcher">Active programme</label>
+          <select
+            id="program-switcher"
+            className="num h-6 rounded border border-base-600 bg-base-800 px-1.5 text-sm font-bold tracking-widest text-ink-100"
+            value={activeProgramId}
+            onChange={(e) => switchProgram(e.target.value)}
+            title="Switch active programme"
+          >
+            {portfolio.programs.map((p) => (
+              <option key={p.id} value={p.id}>{p.codename}</option>
+            ))}
+          </select>
           <span className="truncate text-xs uppercase tracking-wider text-ink-400">{program.name}</span>
         </div>
         <p className="truncate text-2xs text-ink-500">{route ? route.code + ' / ' + route.label + ' \u2014 ' + route.purpose : location.pathname}</p>

@@ -6,9 +6,9 @@ import { ScreenHeader } from '@/ui/ScreenHeader';
 import { Panel, Chip, Stat, RagBadge } from '@/ui/primitives';
 import { formatCurrency, formatPercent, titleCase } from '@/lib/format';
 import { formatDate } from '@/lib/dates';
-import { ROUTES } from '@/nav';
+import { ROUTE_BY_PATH } from '@/nav';
 
-const meta = ROUTES.find((r) => r.code === '12')!;
+const meta = ROUTE_BY_PATH['/brief'];
 
 function buildBriefText(program: import('@/domain/types').Program, analytics: import('@/state/analytics').Analytics): string {
   const money = (n: number) => formatCurrency(n, program.currency);

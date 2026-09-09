@@ -7,9 +7,9 @@ import { ScreenHeader } from '@/ui/ScreenHeader';
 import { Panel, Chip, Stat } from '@/ui/primitives';
 import { formatCurrency, formatNumber, formatPercent } from '@/lib/format';
 import { chartTheme, tooltipStyle } from '@/ui/chart';
-import { ROUTES } from '@/nav';
+import { ROUTE_BY_PATH } from '@/nav';
 
-const meta = ROUTES.find((r) => r.code === '11')!;
+const meta = ROUTE_BY_PATH['/simulation'];
 const LEVELS = [0.1, 0.5, 0.8, 0.9, 0.95];
 
 /**

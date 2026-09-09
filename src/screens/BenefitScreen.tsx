@@ -9,11 +9,11 @@ import { useFocusParam } from '@/ui/useFocusParam';
 import { chartTheme, tooltipStyle } from '@/ui/chart';
 import { formatCurrency, formatPercent, titleCase } from '@/lib/format';
 import { formatDate, formatMonthLabel } from '@/lib/dates';
-import { ROUTES } from '@/nav';
+import { ROUTE_BY_PATH } from '@/nav';
 import type { Benefit } from '@/domain/types';
 import type { BenefitAssessment } from '@/domain/engines/benefitEngine';
 
-const meta = ROUTES.find((r) => r.code === '10')!;
+const meta = ROUTE_BY_PATH['/benefits'];
 
 const STATUS_TONE: Record<Benefit['status'], 'threat' | 'attention' | 'controlled' | 'info' | 'neutral'> = {
   'not-started': 'neutral',
