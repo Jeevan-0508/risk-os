@@ -65,3 +65,67 @@ export function downloadJson(filename: string, contents: string): void {
   anchor.remove();
   URL.revokeObjectURL(url);
 }
+
+// ---------------------------------------------------------------- portfolio
+
+import type { Portfolio, PersistedPortfolioState } from '@/domain/types';
+
+export const PORTFOLIO_STORAGE_KEY = 'riskos.portfolio.v1';
+export const PORTFOLIO_SCHEMA_VERSION = 1;
+
+/**
+ * Portfolio persistence lives alongside the legacy single-programme key
+ * rather than replacing it: an old single-programme save is migrated into a
+ * one-programme portfolio the first time it is read (see store.ts), and the
+ * legacy key/functions above stay exactly as they were for that migration
+ * path and for anything that still round-trips a single Program export.
+ */
+export function loadPersistedPortfolio(): PersistedPortfolioState | null {
+  try {
+    const raw = window.localStorage.getItem(PORTFOLIO_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as PersistedPortfolioState;
+    if (!parsed || typeof parsed !== 'object' || !parsed.portfolio) return null;
+    if (parsed.version !== PORTFOLIO_SCHEMA_VERSION) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+export function savePersistedPortfolio(
+  portfolio: Portfolio,
+  activeProgramId: string,
+  source: PersistedPortfolioState['source'],
+): boolean {
+  try {
+    const payload: PersistedPortfolioState = {
+      version: PORTFOLIO_SCHEMA_VERSION,
+      savedAt: new Date().toISOString(),
+      source,
+      activeProgramId,
+      portfolio,
+    };
+    window.localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(payload));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function clearPersistedPortfolio(): void {
+  try {
+    window.localStorage.removeItem(PORTFOLIO_STORAGE_KEY);
+  } catch {
+    // A blocked storage API is not a reason to break the session.
+  }
+}
+
+export function exportPortfolioFilename(portfolio: Portfolio): string {
+  const slug = (portfolio.name || 'portfolio').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  return 'riskos-portfolio-' + slug + '-' + new Date().toISOString().slice(0, 10) + '.json';
+}
+
+export function serialisePortfolio(portfolio: Portfolio): string {
+  return JSON.stringify({ version: PORTFOLIO_SCHEMA_VERSION, exportedAt: new Date().toISOString(), portfolio }, null, 2);
+}
