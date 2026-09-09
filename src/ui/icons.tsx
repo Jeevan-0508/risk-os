@@ -1,0 +1,32 @@
+import {
+  Activity,
+  Dices,
+  FileText,
+  Gauge,
+  GitBranch,
+  GitPullRequest,
+  Grid3x3,
+  Layers,
+  ListTree,
+  Scale,
+  Settings,
+  Share2,
+  TrendingUp,
+  type LucideIcon,
+} from 'lucide-react';
+
+export const ICONS: Record<string, LucideIcon> = {
+  gauge: Gauge,
+  layers: Layers,
+  'list-tree': ListTree,
+  activity: Activity,
+  'grid-3x3': Grid3x3,
+  'git-branch': GitBranch,
+  'share-2': Share2,
+  'git-pull-request': GitPullRequest,
+  scale: Scale,
+  'trending-up': TrendingUp,
+  dices: Dices,
+  'file-text': FileText,
+  settings: Settings,
+};

@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-base-800 text-ink-200 font-sans antialiased;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'tnum';
+}
+
+*:focus-visible {
+  outline: 2px solid #3b9cff;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0e14;
+}
+::-webkit-scrollbar-thumb {
+  background: #26313f;
+  border-radius: 6px;
+  border: 2px solid #0a0e14;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #33404f;
+}
+
+@layer components {
+  .panel {
+    @apply rounded-md border border-base-600 bg-base-750;
+  }
+  .panel-head {
+    @apply flex items-center justify-between gap-3 border-b border-base-600 px-4 py-2.5;
+  }
+  .label {
+    @apply text-2xs font-medium uppercase tracking-[0.14em] text-ink-500;
+  }
+  .num {
+    @apply font-mono tabular-nums;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded border px-1.5 py-0.5 text-2xs font-medium uppercase tracking-wider;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded border border-base-550 bg-base-700 px-3 py-1.5 text-xs font-medium text-ink-200 transition-colors hover:border-base-500 hover:bg-base-650 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-primary {
+    @apply border-info/40 bg-info/15 text-info hover:border-info/70 hover:bg-info/25;
+  }
+  .btn-danger {
+    @apply border-threat/40 bg-threat/15 text-threat hover:border-threat/70 hover:bg-threat/25;
+  }
+  .input {
+    @apply w-full rounded border border-base-600 bg-base-800 px-2.5 py-1.5 text-sm text-ink-100 placeholder:text-ink-500 focus:border-info/60 focus:outline-none;
+  }
+  .th {
+    @apply sticky top-0 z-10 select-none whitespace-nowrap border-b border-base-600 bg-base-750 px-3 py-2 text-left text-2xs font-semibold uppercase tracking-wider text-ink-400;
+  }
+  .td {
+    @apply whitespace-nowrap border-b border-base-700/70 px-3 py-2 text-xs text-ink-200;
+  }
+  .rowlink {
+    @apply cursor-pointer transition-colors hover:bg-base-700/60;
+  }
+}
