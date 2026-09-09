@@ -1,4 +1,4 @@
-import type { HealthDimension, Program, RagStatus } from '@/domain/types';
+import type { HealthDimension, Program, RagStatus, RiskTrend } from '@/domain/types';
 import { clamp, ratio } from '@/lib/format';
 import { daysBetween } from '@/lib/dates';
 import { assessPortfolio, type PortfolioRiskSummary } from './riskEngine';
@@ -6,6 +6,12 @@ import { summariseSchedule, summariseActions, type ScheduleSummary, type ActionS
 import { summariseDependencies, type DependencySummary } from './dependencyEngine';
 import { summariseChanges, summariseDecisions, type ChangeSummary, type DecisionSummary } from './changeEngine';
 import { summariseBenefits, type BenefitSummary } from './benefitEngine';
+import { summariseControlPortfolio, type ControlPortfolioSummary } from './controlEngine';
+import { summariseTolerance, DEFAULT_RISK_APPETITE, type ToleranceSummary } from './toleranceEngine';
+import { summariseTreatments, type TreatmentSummary } from './treatmentEngine';
+import { summariseAcceptances, type AcceptanceSummary } from './acceptanceEngine';
+import { summariseAging, type AgingSummary } from './agingEngine';
+import { buildDecisionQueue, type DecisionQueueItem } from './decisionQueueEngine';
 
 export interface HealthDriver {
   label: string;
@@ -69,6 +75,13 @@ export interface ProgramHealth {
   decisions: DecisionSummary;
   benefits: BenefitSummary;
   actions: ActionSummary;
+  controls: ControlPortfolioSummary;
+  tolerance: ToleranceSummary;
+  treatments: TreatmentSummary;
+  acceptances: AcceptanceSummary;
+  aging: AgingSummary;
+  /** Deterministic, explainable escalation list: see decisionQueueEngine.ts. */
+  decisionQueue: DecisionQueueItem[];
   /** Ordered worst-first, used by the executive brief. */
   worstDimensions: DimensionHealth[];
 }
@@ -81,6 +94,44 @@ export function computeProgramHealth(program: Program): ProgramHealth {
   const decisions = summariseDecisions(program);
   const benefits = summariseBenefits(program);
   const actions = summariseActions(program.actions, program.statusDate);
+  const controls = summariseControlPortfolio(program.controls, program.risks, program.statusDate);
+
+  // ---- risk intelligence: tolerance, treatment effectiveness, acceptance expiry, aging, decision queue.
+  // Tolerance and aging are computed first because the decision queue and the aging classification both
+  // need to know which risks are already in breach; everything here reads risk.byId, it never recomputes it.
+  const appetite = program.riskAppetite ?? DEFAULT_RISK_APPETITE;
+  const benefitAtRiskByRiskId: Record<string, number> = {};
+  for (const r of program.risks) {
+    benefitAtRiskByRiskId[r.id] = r.affectedBenefitIds.reduce((sum, bid) => sum + (benefits.byId[bid]?.valueAtRisk ?? 0), 0);
+  }
+  const tolerance = summariseTolerance(program.risks, risk.byId, appetite, benefitAtRiskByRiskId);
+  // Enrichment by reference: assessPortfolio's assessments, byId and topRisks all point at the same
+  // objects, so setting .tolerance once here makes it visible everywhere RiskAssessment is read.
+  for (const [riskId, assessment] of Object.entries(risk.byId)) {
+    assessment.tolerance = tolerance.byId[riskId];
+  }
+
+  const treatments = summariseTreatments(program, risk.byId);
+  const acceptances = summariseAcceptances(program);
+
+  const trendByRiskId: Record<string, RiskTrend> = {};
+  const toleranceBreachedByRiskId: Record<string, boolean> = {};
+  for (const a of risk.assessments) {
+    trendByRiskId[a.riskId] = a.trend;
+    toleranceBreachedByRiskId[a.riskId] = a.tolerance?.status === 'breach';
+  }
+  const aging = summariseAging(program, trendByRiskId, toleranceBreachedByRiskId);
+
+  const decisionQueue = buildDecisionQueue(program, {
+    tolerance,
+    treatments,
+    acceptances,
+    aging,
+    dependencies,
+    benefits,
+    schedule,
+    assessmentById: risk.byId,
+  });
 
   // ---- risk
   const exposureVsBudget = ratio(risk.totalResidualExposure, program.budget);
@@ -118,6 +169,14 @@ export function computeProgramHealth(program: Program): ProgramHealth {
       detail:
         Math.round(risk.uncontrolledExposure).toLocaleString('en-GB') +
         ' of residual exposure sits on risks with no linked control',
+    },
+    {
+      label: 'Tolerance breaches',
+      contribution: penalty(ratio(tolerance.breachCount, 6), 20),
+      detail:
+        tolerance.breachCount +
+        ' risk(s) breach the programme\'s explicit tolerance boundary' +
+        (tolerance.escalationRequiredCount > 0 ? ', ' + tolerance.escalationRequiredCount + ' requiring escalation' : ''),
     },
   ];
 
@@ -287,6 +346,8 @@ export function computeProgramHealth(program: Program): ProgramHealth {
       { label: 'Critical', value: String(risk.criticalCount) },
       { label: 'Accelerating', value: String(risk.acceleratingCount) },
       { label: 'Avg control eff.', value: Math.round(risk.averageControlEffectiveness * 100) + '%' },
+      { label: 'Tolerance breaches', value: String(tolerance.breachCount) },
+      { label: 'Decisions queued', value: String(decisionQueue.length) },
     ]),
     schedule: build(
       'schedule',
@@ -389,7 +450,7 @@ export function computeProgramHealth(program: Program): ProgramHealth {
     ],
   };
 
-  return { overall, dimensions, risk, schedule, dependencies, changes, decisions, benefits, actions, worstDimensions };
+  return { overall, dimensions, risk, schedule, dependencies, changes, decisions, benefits, actions, controls, tolerance, treatments, acceptances, aging, decisionQueue, worstDimensions };
 }
 
 function headlineForRisk(risk: PortfolioRiskSummary): string {

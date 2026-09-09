@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Bar, CartesianGrid, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { useStore } from '@/state/store';
-import { computePareto, groupFishbone, assessDmaic } from '@/domain/engines/dmaicEngine';
+import { computePareto, groupFishbone, assessDmaic, summariseSystemicRootCauses } from '@/domain/engines/dmaicEngine';
 import { ScreenHeader } from '@/ui/ScreenHeader';
 import { Panel, Chip, Stat, EmptyState } from '@/ui/primitives';
 import { SlideOver, Section, Field } from '@/ui/SlideOver';
@@ -33,6 +33,7 @@ export function RootCauseScreen() {
   const fishbone = useMemo(() => groupFishbone(program.causes), [program.causes]);
   const pareto = useMemo(() => computePareto(program.causes), [program.causes]);
   const rootCauseCount = program.causes.filter((c) => c.isRootCause).length;
+  const systemicRootCauses = useMemo(() => summariseSystemicRootCauses(program.causes).filter((s) => s.isSystemic), [program.causes]);
 
   return (
     <>
@@ -44,6 +45,29 @@ export function RootCauseScreen() {
         <Stat label="Vital few (Pareto)" value={pareto.filter((p) => p.isVitalFew).length} hint="drive 80% of observed frequency" tone="attention" />
         <Stat label="DMAIC projects" value={program.dmaic.length} tone="strategic" />
       </div>
+
+      {systemicRootCauses.length > 0 && (
+        <Panel
+          title="Systemic root causes"
+          subtitle="A validated root cause reaching more than one risk, never promoted merely because it recurs often."
+          className="mb-4"
+          dense
+        >
+          <ul className="divide-y divide-base-700">
+            {systemicRootCauses.map((s) => (
+              <li key={s.causeId}>
+                <button type="button" onClick={() => setFocus(s.causeId)} className="flex w-full items-center justify-between gap-3 px-4 py-2.5 text-left hover:bg-base-700/60">
+                  <div className="min-w-0">
+                    <span className="text-xs font-medium text-ink-100">{s.ref} {s.title}</span>
+                    <p className="mt-0.5 text-2xs text-ink-500">{CATEGORY_LABEL[s.category]}</p>
+                  </div>
+                  <Chip tone="threat">Affects {s.affectedRiskCount} risks: {s.affectedRiskIds.join(', ')}</Chip>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </Panel>
+      )}
 
       <div className="mb-4 flex gap-1 border-b border-base-600">
         {(['fishbone', 'pareto', 'dmaic'] as const).map((t) => (

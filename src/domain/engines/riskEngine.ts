@@ -10,6 +10,7 @@ import type {
 import { clamp, nonNegative, ratio } from '@/lib/format';
 import { daysBetween } from '@/lib/dates';
 import { combineControls, type CombinedControlEffect } from './controlEngine';
+import type { ToleranceAssessment } from './toleranceEngine';
 
 /** Probability bands used for the 5x5 matrix. Boundaries are inclusive upper. */
 export const PROBABILITY_BANDS: { band: Likert5; max: number; label: string }[] = [
@@ -133,6 +134,8 @@ export interface RiskAssessment {
   reputationExposure: number;
   isCritical: boolean;
   drivers: string[];
+  /** Populated by healthEngine as a post-processing enrichment step, never by assessRisk itself: see toleranceEngine.ts. Undefined until enriched. */
+  tolerance?: ToleranceAssessment;
 }
 
 const HORIZON_WEIGHT = { immediate: 1.15, near: 1.05, mid: 0.95, far: 0.85 } as const;

@@ -2782,5 +2782,7 @@ export const atlasProgram: Program = {
         }
       ]
     }
-  ]
+  ],
+  "treatments": [],
+  "acceptances": []
 };

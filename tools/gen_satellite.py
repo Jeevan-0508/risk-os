@@ -200,6 +200,7 @@ def build_program(p):
         "workstreams": workstreams, "milestones": milestones, "deliverables": deliverables, "risks": risks, "causes": causes,
         "controls": controls, "actions": actions, "issues": issues, "assumptions": assumptions, "dependencies": dependencies,
         "changes": changes, "decisions": decisions, "benefits": benefits, "fmea": fmea, "dmaic": [], "metrics": metrics,
+        "treatments": [], "acceptances": [],
     }
     return program
 

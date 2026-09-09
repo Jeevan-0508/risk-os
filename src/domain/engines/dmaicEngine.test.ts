@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { assessDmaic, computePareto, computeSigma, groupFishbone, normalQuantile } from './dmaicEngine';
-import { makeFmea } from '@/test/factories';
+import { assessDmaic, computePareto, computeSigma, correctiveActionsForCause, groupFishbone, normalQuantile, summariseSystemicRootCauses } from './dmaicEngine';
+import { makeAction, makeFmea, makeRisk } from '@/test/factories';
 import type { Cause, DmaicProject } from '@/domain/types';
 
 function makeCause(over: Partial<Cause> = {}): Cause {
@@ -231,5 +231,62 @@ describe('groupFishbone', () => {
     expect(people?.causes.map((c) => c.id)).toEqual(['b', 'a']);
     expect(people?.totalFrequency).toBe(12);
     expect(people?.rootCauseCount).toBe(1);
+  });
+});
+
+describe('summariseSystemicRootCauses', () => {
+  it('only ever includes causes explicitly marked isRootCause, never by frequency alone', () => {
+    const frequent = makeCause({ id: 'c1', isRootCause: false, frequency: 999, linkedRiskIds: ['r1', 'r2', 'r3'] });
+    const rare = makeCause({ id: 'c2', isRootCause: true, frequency: 1, linkedRiskIds: ['r1'] });
+    const summary = summariseSystemicRootCauses([frequent, rare]);
+    expect(summary.map((s) => s.causeId)).toEqual(['c2']);
+  });
+
+  it('flags isSystemic once a root cause reaches two or more risks, not on frequency', () => {
+    const systemic = makeCause({ id: 'c1', isRootCause: true, frequency: 2, linkedRiskIds: ['r1', 'r2'] });
+    const isolated = makeCause({ id: 'c2', isRootCause: true, frequency: 500, linkedRiskIds: ['r3'] });
+    const summary = summariseSystemicRootCauses([systemic, isolated]);
+    expect(summary.find((s) => s.causeId === 'c1')?.isSystemic).toBe(true);
+    expect(summary.find((s) => s.causeId === 'c2')?.isSystemic).toBe(false);
+  });
+
+  it('orders root causes by how many risks they reach, worst first', () => {
+    const small = makeCause({ id: 'c1', isRootCause: true, linkedRiskIds: ['r1'] });
+    const large = makeCause({ id: 'c2', isRootCause: true, linkedRiskIds: ['r1', 'r2', 'r3', 'r4'] });
+    const summary = summariseSystemicRootCauses([small, large]);
+    expect(summary[0].causeId).toBe('c2');
+  });
+});
+
+describe('correctiveActionsForCause', () => {
+  it('collects corrective actions from every risk the cause is linked to', () => {
+    const cause = makeCause({ id: 'c1', isRootCause: true, linkedRiskIds: ['r1', 'r2'] });
+    const risks = [
+      makeRisk({ id: 'r1', actionIds: ['a1'] }),
+      makeRisk({ id: 'r2', actionIds: ['a2'] }),
+    ];
+    const actions = [makeAction({ id: 'a1', ref: 'ACT-1' }), makeAction({ id: 'a2', ref: 'ACT-2' })];
+    const result = correctiveActionsForCause(cause, risks, actions);
+    expect(result.map((r) => r.ref).sort()).toEqual(['ACT-1', 'ACT-2']);
+  });
+
+  it('reports one entry, with both risks named, when the same corrective action serves two risks under one cause', () => {
+    const cause = makeCause({ id: 'c1', isRootCause: true, linkedRiskIds: ['r1', 'r2'] });
+    const risks = [
+      makeRisk({ id: 'r1', actionIds: ['a1'] }),
+      makeRisk({ id: 'r2', actionIds: ['a1'] }),
+    ];
+    const actions = [makeAction({ id: 'a1' })];
+    const result = correctiveActionsForCause(cause, risks, actions);
+    expect(result).toHaveLength(1);
+    expect(result[0].viaRiskIds.sort()).toEqual(['r1', 'r2']);
+  });
+
+  it('ignores risks the cause is not linked to', () => {
+    const cause = makeCause({ id: 'c1', isRootCause: true, linkedRiskIds: ['r1'] });
+    const risks = [makeRisk({ id: 'r1', actionIds: ['a1'] }), makeRisk({ id: 'r2', actionIds: ['a2'] })];
+    const actions = [makeAction({ id: 'a1' }), makeAction({ id: 'a2' })];
+    const result = correctiveActionsForCause(cause, risks, actions);
+    expect(result.map((r) => r.actionId)).toEqual(['a1']);
   });
 });

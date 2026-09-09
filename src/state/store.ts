@@ -50,7 +50,7 @@ interface StoreState extends PortfolioDerived {
 
 let noticeSeq = 0;
 
-interface Seed {
+export interface Seed {
   portfolio: Portfolio;
   activeProgramId: string;
   source: ProgramSource;
@@ -58,13 +58,20 @@ interface Seed {
 }
 
 /**
+ * Pure decision logic behind `initial()`, factored out so it is unit
+ * testable without faking `window.localStorage` at module-load time.
+ *
  * Reads the portfolio-shaped save first; failing that, migrates a legacy
- * single-programme save (from before this upgrade) into a one-programme
- * portfolio so nobody's local data is silently dropped; failing that, the
- * shipped demo portfolio.
+ * single-programme save (from before this upgrade) into a portfolio built
+ * from that programme plus the shipped demo's other programmes, so nobody's
+ * local data is silently dropped AND the other worked examples (ATLAS, NOVA,
+ * HELIOS) stay visible rather than disappearing behind a one-programme
+ * portfolio; failing that, the shipped demo portfolio.
  */
-function initial(): Seed {
-  const persistedPortfolio = loadPersistedPortfolio();
+export function resolveInitialSeed(
+  persistedPortfolio: ReturnType<typeof loadPersistedPortfolio>,
+  legacy: ReturnType<typeof loadPersisted>,
+): Seed {
   if (persistedPortfolio) {
     const result = validatePortfolio(persistedPortfolio.portfolio);
     if (result.ok && result.portfolio && result.portfolio.programs.length > 0) {
@@ -75,22 +82,27 @@ function initial(): Seed {
     }
   }
 
-  const legacy = loadPersisted();
   if (legacy) {
     const result = validateProgram(legacy.program);
     if (result.ok && result.program) {
+      const migrated = result.program;
+      const companionPrograms = demoPortfolio.programs.filter((p) => p.id !== migrated.id);
       const portfolio: Portfolio = {
         id: 'portfolio-migrated',
-        name: (result.program.name || 'Migrated') + ' Portfolio',
-        description: 'Migrated automatically from a single-programme save made before the portfolio upgrade.',
-        programs: [result.program],
-        crossLinks: [],
+        name: (migrated.name || 'Migrated') + ' Portfolio',
+        description: 'Migrated automatically from a single-programme save made before the portfolio upgrade, alongside the shipped demo programmes.',
+        programs: [migrated, ...companionPrograms],
+        crossLinks: demoPortfolio.crossLinks,
       };
-      return { portfolio, activeProgramId: result.program.id, source: legacy.source, savedAt: legacy.savedAt };
+      return { portfolio, activeProgramId: migrated.id, source: legacy.source, savedAt: legacy.savedAt };
     }
   }
 
   return { portfolio: demoPortfolio, activeProgramId: 'prog-orion', source: 'demo', savedAt: null };
+}
+
+function initial(): Seed {
+  return resolveInitialSeed(loadPersistedPortfolio(), loadPersisted());
 }
 
 const seed = initial();
@@ -250,6 +262,8 @@ export const useStore = create<StoreState>((set, get) => ({
       fmea: [],
       dmaic: [],
       metrics: [],
+      treatments: [],
+      acceptances: [],
     };
     const nextPortfolio: Portfolio = { ...portfolio, programs: [...portfolio.programs, program] };
     const saved = savePersistedPortfolio(nextPortfolio, program.id, 'created');

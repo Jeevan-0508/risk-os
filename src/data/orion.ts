@@ -1144,7 +1144,13 @@ export const orionProgram: Program = {
         "vendor",
         "critical-path",
         "scenario-a"
-      ]
+      ],
+      "lastAssessmentDate": "2026-05-09",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [
+        "trt-01"
+      ],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-02",
@@ -1258,7 +1264,11 @@ export const orionProgram: Program = {
         "security",
         "gate",
         "scenario-a"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-15",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-03",
@@ -1354,7 +1364,11 @@ export const orionProgram: Program = {
         "integration",
         "customer-impact",
         "scenario-a"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-13",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-04",
@@ -1476,7 +1490,11 @@ export const orionProgram: Program = {
       "tags": [
         "data-quality",
         "scenario-b"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-16",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-05",
@@ -1573,7 +1591,11 @@ export const orionProgram: Program = {
       "tags": [
         "platform",
         "capacity"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-23",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-06",
@@ -1685,7 +1707,11 @@ export const orionProgram: Program = {
         "vendor",
         "critical-path",
         "scenario-c"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-14",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-07",
@@ -1797,7 +1823,11 @@ export const orionProgram: Program = {
         "infrastructure",
         "external",
         "scenario-c"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-18",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-08",
@@ -1890,7 +1920,11 @@ export const orionProgram: Program = {
       "tags": [
         "automation",
         "warranty"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-20",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-09",
@@ -2000,7 +2034,11 @@ export const orionProgram: Program = {
         "reporting",
         "finance",
         "scenario-b"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-12",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-10",
@@ -2086,7 +2124,11 @@ export const orionProgram: Program = {
       "tags": [
         "adoption",
         "benefit"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-25",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-11",
@@ -2189,7 +2231,11 @@ export const orionProgram: Program = {
       "tags": [
         "carrier",
         "legal"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-17",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-12",
@@ -2278,7 +2324,11 @@ export const orionProgram: Program = {
       "tags": [
         "commercial",
         "inflation"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-21",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-13",
@@ -2380,7 +2430,11 @@ export const orionProgram: Program = {
       "tags": [
         "testing",
         "critical-path"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-11",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-14",
@@ -2492,7 +2546,11 @@ export const orionProgram: Program = {
       "tags": [
         "customs",
         "regulatory"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-13",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-15",
@@ -2595,7 +2653,11 @@ export const orionProgram: Program = {
       "tags": [
         "gdpr",
         "regulatory"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-20",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-16",
@@ -2707,7 +2769,11 @@ export const orionProgram: Program = {
       ],
       "tags": [
         "key-person"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-19",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-17",
@@ -2807,7 +2873,11 @@ export const orionProgram: Program = {
       "tags": [
         "training",
         "readiness"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-10",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-18",
@@ -2891,7 +2961,11 @@ export const orionProgram: Program = {
       "tags": [
         "cutover",
         "customer-impact"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-16",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-19",
@@ -2978,7 +3052,11 @@ export const orionProgram: Program = {
       ],
       "tags": [
         "recruitment"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-18",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-20",
@@ -3082,7 +3160,11 @@ export const orionProgram: Program = {
       "tags": [
         "works-council",
         "regulatory"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-17",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-21",
@@ -3172,7 +3254,11 @@ export const orionProgram: Program = {
       "tags": [
         "legacy",
         "vendor"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-22",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-22",
@@ -3269,7 +3355,11 @@ export const orionProgram: Program = {
       "tags": [
         "scope",
         "rework"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-14",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-23",
@@ -3367,7 +3457,11 @@ export const orionProgram: Program = {
       "tags": [
         "cost",
         "governance"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-11",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-24",
@@ -3469,7 +3563,11 @@ export const orionProgram: Program = {
       "tags": [
         "portfolio",
         "cross-programme"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-19",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-25",
@@ -3555,7 +3653,11 @@ export const orionProgram: Program = {
       "tags": [
         "support",
         "cutover"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-17",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-26",
@@ -3647,7 +3749,11 @@ export const orionProgram: Program = {
       "tags": [
         "invoice",
         "finance"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-23",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-27",
@@ -3740,7 +3846,11 @@ export const orionProgram: Program = {
         "benefit",
         "governance",
         "scenario-b"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-12",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-28",
@@ -3846,7 +3956,11 @@ export const orionProgram: Program = {
       "tags": [
         "cyber",
         "third-party"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-21",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-29",
@@ -3931,7 +4045,11 @@ export const orionProgram: Program = {
       "tags": [
         "customer-impact",
         "cutover"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-15",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-30",
@@ -4019,7 +4137,11 @@ export const orionProgram: Program = {
       "tags": [
         "ramp-up",
         "benefit"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-27",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-31",
@@ -4123,7 +4245,11 @@ export const orionProgram: Program = {
       "tags": [
         "vendor",
         "closed"
-      ]
+      ],
+      "lastAssessmentDate": "2026-07-18",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-32",
@@ -4225,6 +4351,12 @@ export const orionProgram: Program = {
       "tags": [
         "market",
         "accepted"
+      ],
+      "lastAssessmentDate": "2026-08-08",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": [
+        "acc-01"
       ]
     },
     {
@@ -4318,7 +4450,11 @@ export const orionProgram: Program = {
       "tags": [
         "automation",
         "availability"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-25",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-34",
@@ -4405,7 +4541,11 @@ export const orionProgram: Program = {
       "tags": [
         "testing",
         "data"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-13",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-35",
@@ -4481,7 +4621,11 @@ export const orionProgram: Program = {
       "tags": [
         "analytics",
         "governance"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-22",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-36",
@@ -4567,7 +4711,11 @@ export const orionProgram: Program = {
       "tags": [
         "adoption",
         "people"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-26",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-37",
@@ -4651,7 +4799,11 @@ export const orionProgram: Program = {
       "tags": [
         "contract",
         "closed"
-      ]
+      ],
+      "lastAssessmentDate": "2026-07-12",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-38",
@@ -4733,7 +4885,11 @@ export const orionProgram: Program = {
       "tags": [
         "reputation",
         "communications"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-18",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-39",
@@ -4826,7 +4982,11 @@ export const orionProgram: Program = {
       "tags": [
         "concentration",
         "accepted"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-09",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-40",
@@ -4921,7 +5081,11 @@ export const orionProgram: Program = {
       "tags": [
         "permit",
         "closed"
-      ]
+      ],
+      "lastAssessmentDate": "2026-07-06",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     },
     {
       "id": "rsk-41",
@@ -5006,7 +5170,11 @@ export const orionProgram: Program = {
       "tags": [
         "handover",
         "run"
-      ]
+      ],
+      "lastAssessmentDate": "2026-08-11",
+      "reassessmentFrequency": "monthly",
+      "treatmentIds": [],
+      "acceptanceIds": []
     }
   ],
   "causes": [
@@ -12135,6 +12303,77 @@ export const orionProgram: Program = {
         }
       ],
       "direction": "lower-is-better"
+    }
+  ],
+  "riskAppetite": {
+    "id": "appetite-orion",
+    "statement": "ORION escalates a risk once it alone could consume more than 3% of budget, slip a gate-relevant milestone by more than two working weeks, put more than 250K EUR of in-flight benefit at risk, or sit in the red band of the 5x5 matrix.",
+    "thresholds": [
+      {
+        "dimension": "financial",
+        "unit": "EUR",
+        "nearLimit": 168000,
+        "breachLimit": 252000
+      },
+      {
+        "dimension": "schedule",
+        "unit": "days",
+        "nearLimit": 7,
+        "breachLimit": 14
+      },
+      {
+        "dimension": "benefit",
+        "unit": "EUR",
+        "nearLimit": 150000,
+        "breachLimit": 250000
+      },
+      {
+        "dimension": "severity",
+        "unit": "score (5x5 matrix)",
+        "nearLimit": 8,
+        "breachLimit": 15
+      }
+    ]
+  },
+  "treatments": [
+    {
+      "id": "trt-01",
+      "ref": "TRT-01",
+      "riskId": "rsk-01",
+      "strategy": "reduce",
+      "title": "Interim invoice-schema adapter to remove dependency on vendor delivery",
+      "description": "Build and operate an internal adapter that translates the legacy invoice format, so the carrier integration milestone no longer depends on the vendor publishing the missing invoice message schema.",
+      "ownerId": "own-14",
+      "status": "in-progress",
+      "startDate": "2026-05-19",
+      "targetDate": "2026-07-18",
+      "expectedExposureReductionPct": 0.45,
+      "evidenceConfidence": "measured",
+      "linkedControlIds": [
+        "ctl-01",
+        "ctl-02"
+      ],
+      "linkedActionIds": [
+        "act-02"
+      ],
+      "notes": "Planned to remove roughly half of residual exposure by target date. Exposure history since the treatment started shows the risk continuing to accelerate toward its full inherent value rather than falling, so effectiveness should read as underperforming once measured against that plan."
+    }
+  ],
+  "acceptances": [
+    {
+      "id": "acc-01",
+      "ref": "ACC-01",
+      "riskId": "rsk-32",
+      "status": "accepted",
+      "rationale": "Thirty-four percent of linehaul volume sits on spot rates. A staged tender programme is the standing mitigation; the residual fuel/linehaul inflation exposure is accepted rather than run as a project action.",
+      "approverId": "own-03",
+      "approvalDate": "2026-04-19",
+      "expiryDate": "2026-08-27",
+      "reviewDate": "2026-08-07",
+      "conditions": [
+        "Re-tender at least 20% of spot-rate volume onto fixed contracts each quarter.",
+        "Escalate for re-approval if spot-rate share exceeds 40% of linehaul volume."
+      ]
     }
   ]
 };

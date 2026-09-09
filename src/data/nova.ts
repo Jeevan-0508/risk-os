@@ -2750,5 +2750,7 @@ export const novaProgram: Program = {
         }
       ]
     }
-  ]
+  ],
+  "treatments": [],
+  "acceptances": []
 };

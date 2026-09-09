@@ -1,4 +1,5 @@
 import type {
+  Acceptance,
   Action,
   Benefit,
   ChangeRequest,
@@ -11,6 +12,7 @@ import type {
   Portfolio,
   Program,
   Risk,
+  Treatment,
 } from '@/domain/types';
 
 /** Minimal builders so each test states only the fields it cares about. */
@@ -231,6 +233,43 @@ export function makeFmea(over: Partial<FMEAItem> = {}): FMEAItem {
   };
 }
 
+export function makeTreatment(over: Partial<Treatment> = {}): Treatment {
+  return {
+    id: 'trt-t1',
+    ref: 'TRT-T1',
+    riskId: 'rsk-t1',
+    strategy: 'reduce',
+    title: 'Test treatment',
+    description: 'Treatment used in unit tests.',
+    ownerId: 'own-1',
+    status: 'in-progress',
+    startDate: '2026-01-01',
+    targetDate: '2026-06-01',
+    expectedExposureReductionPct: 0.4,
+    evidenceConfidence: 'measured',
+    linkedControlIds: [],
+    linkedActionIds: [],
+    notes: '',
+    ...over,
+  };
+}
+
+export function makeAcceptance(over: Partial<Acceptance> = {}): Acceptance {
+  return {
+    id: 'acc-t1',
+    ref: 'ACC-T1',
+    riskId: 'rsk-t1',
+    status: 'accepted',
+    rationale: 'Acceptance used in unit tests.',
+    approverId: 'own-1',
+    approvalDate: '2026-01-01',
+    expiryDate: '2026-12-31',
+    reviewDate: '2026-11-01',
+    conditions: [],
+    ...over,
+  };
+}
+
 export function makeProgram(over: Partial<Program> = {}): Program {
   return {
     id: 'prog-t1',
@@ -264,6 +303,8 @@ export function makeProgram(over: Partial<Program> = {}): Program {
     fmea: [],
     dmaic: [],
     metrics: [],
+    treatments: [],
+    acceptances: [],
     ...over,
   };
 }

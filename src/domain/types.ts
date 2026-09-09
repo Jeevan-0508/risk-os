@@ -121,6 +121,10 @@ export interface Program {
   fmea: FMEAItem[];
   dmaic: DmaicProject[];
   metrics: Metric[];
+  /** Explicit management boundary. Optional so a pre-tolerance programme still imports; every reader defaults to DEFAULT_RISK_APPETITE. */
+  riskAppetite?: RiskAppetite;
+  treatments: Treatment[];
+  acceptances: Acceptance[];
 }
 
 export interface Workstream {
@@ -213,6 +217,12 @@ export interface Risk {
   vendor?: string;
   /** Set only when this risk is literally the same underlying risk manifesting in more than one programme (e.g. one shared vendor's capacity shortfall). Distinct from merely sharing a vendor or category. */
   sharedRiskGroupId?: string;
+  /** Optional so legacy risks import cleanly; every reader defaults with ??. */
+  treatmentIds?: string[];
+  acceptanceIds?: string[];
+  /** Last time this risk's assessment was actually revisited, distinct from reviewDate (next assessment due). Defaults to dateIdentified when absent. */
+  lastAssessmentDate?: ISODate;
+  reassessmentFrequency?: ReassessmentFrequency;
 }
 
 export interface Cause {
@@ -540,6 +550,86 @@ export interface Metric {
   series: { date: ISODate; value: number }[];
   direction: 'higher-is-better' | 'lower-is-better';
 }
+
+// ---------------------------------------------------------------- risk intelligence
+
+export type ToleranceDimension = 'financial' | 'schedule' | 'benefit' | 'severity';
+
+export interface ToleranceThreshold {
+  dimension: ToleranceDimension;
+  /** Display unit only; comparisons always use the raw number. */
+  unit: string;
+  /** Value at which this dimension moves from WITHIN to NEAR tolerance. */
+  nearLimit: number;
+  /** Value at which this dimension moves from NEAR to BREACH. */
+  breachLimit: number;
+}
+
+/**
+ * An explicit management boundary set once per programme, never derived from
+ * probability x impact. A risk's tolerance status compares its current
+ * residual position against these limits per dimension; the worst dimension
+ * decides the risk's overall status. See domain/engines/toleranceEngine.ts.
+ */
+export interface RiskAppetite {
+  id: string;
+  statement: string;
+  thresholds: ToleranceThreshold[];
+}
+
+export type TreatmentStrategy = 'avoid' | 'reduce' | 'transfer' | 'accept' | 'share' | 'exploit' | 'enhance';
+export type TreatmentStatus = 'proposed' | 'planned' | 'in-progress' | 'complete' | 'cancelled';
+
+/**
+ * A formal, resourced response plan for a risk. Distinct from Risk.strategy
+ * (a single-word summary kept for backward compatibility): a Treatment
+ * carries an owner, a plan, and expected vs observed exposure reduction so
+ * response effectiveness engine has something to measure against.
+ */
+export interface Treatment {
+  id: string;
+  ref: string;
+  riskId: string;
+  strategy: TreatmentStrategy;
+  title: string;
+  description: string;
+  ownerId: string;
+  status: TreatmentStatus;
+  startDate: ISODate;
+  targetDate: ISODate;
+  completedDate?: ISODate;
+  /** Asserted at plan time: 0..1 share of baseline residual exposure this treatment expects to remove. */
+  expectedExposureReductionPct: number;
+  /** Filled in only once there is enough post-start evidence to measure; see responseEffectivenessEngine. */
+  observedExposureReductionPct?: number;
+  evidenceConfidence: EvidenceConfidence;
+  linkedControlIds: string[];
+  linkedActionIds: string[];
+  notes: string;
+}
+
+export type AcceptanceStatus = 'proposed' | 'under-review' | 'accepted' | 'rejected' | 'expired' | 'revoked';
+
+/**
+ * Formal, time-boxed risk acceptance. status is the last recorded human
+ * decision; EXPIRED is computed at read time from expiryDate (see
+ * acceptanceEngine.effectiveAcceptanceStatus) so a stale acceptance can never
+ * silently stay valid forever.
+ */
+export interface Acceptance {
+  id: string;
+  ref: string;
+  riskId: string;
+  status: AcceptanceStatus;
+  rationale: string;
+  approverId: string;
+  approvalDate?: ISODate;
+  expiryDate?: ISODate;
+  reviewDate?: ISODate;
+  conditions: string[];
+}
+
+export type ReassessmentFrequency = 'weekly' | 'monthly' | 'quarterly' | 'event-based' | 'milestone-based' | 'change-based';
 
 // ---------------------------------------------------------------- simulation
 

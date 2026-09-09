@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { AlertTriangle, HelpCircle, ShieldAlert, Share2 } from 'lucide-react';
 import { useStore } from '@/state/store';
 import { ScreenHeader } from '@/ui/ScreenHeader';
@@ -9,7 +10,24 @@ import { useFocusParam } from '@/ui/useFocusParam';
 import { formatCurrency, formatNumber, titleCase } from '@/lib/format';
 import { formatDate } from '@/lib/dates';
 import { ROUTE_BY_PATH } from '@/nav';
-import type { Assumption, Dependency, Issue, Risk } from '@/domain/types';
+import { summariseSystemicRootCauses, correctiveActionsForCause } from '@/domain/engines/dmaicEngine';
+import type { Assumption, Dependency, Issue, Risk, FishboneCategory, AcceptanceStatus } from '@/domain/types';
+import type { ToleranceStatus } from '@/domain/engines/toleranceEngine';
+import type { EffectivenessStatus } from '@/domain/engines/treatmentEngine';
+import type { AgingClass } from '@/domain/engines/agingEngine';
+import type { DecisionSeverity } from '@/domain/engines/decisionQueueEngine';
+
+type ChipTone = 'neutral' | 'info' | 'strategic' | 'controlled' | 'attention' | 'threat';
+
+const CATEGORY_LABEL: Record<FishboneCategory, string> = {
+  people: 'People',
+  process: 'Process',
+  technology: 'Technology',
+  policy: 'Policy',
+  environment: 'Environment',
+  measurement: 'Measurement',
+  management: 'Management',
+};
 
 const meta = ROUTE_BY_PATH['/raid'];
 
@@ -80,7 +98,7 @@ export function RaidScreen() {
       {tab === 'issues' && <IssuesTable rows={program.issues} nameOf={nameOf} money={money} onOpen={setFocus} />}
       {tab === 'dependencies' && <DependenciesTable rows={program.dependencies} nameOf={nameOf} onOpen={setFocus} />}
 
-      <SlideOver open={Boolean(risk)} onClose={() => setFocus(null)} title={risk ? risk.ref + '  ' + risk.title : ''} badge={risk && <RagBadge status={program.risks.find((r) => r.id === risk.id) ? analytics.health.risk.byId[risk.id]?.residualSeverity ?? 'amber' : 'amber'} />}>
+      <SlideOver open={Boolean(risk)} onClose={() => setFocus(null)} title={risk ? risk.ref + '  ' + risk.title : ''} width="wider" badge={risk && <RagBadge status={program.risks.find((r) => r.id === risk.id) ? analytics.health.risk.byId[risk.id]?.residualSeverity ?? 'amber' : 'amber'} />}>
         {risk && <RiskDetail risk={risk} onNavigate={setFocus} />}
       </SlideOver>
 
@@ -329,10 +347,40 @@ function DependenciesTable({ rows, nameOf, onOpen }: { rows: Dependency[]; nameO
   );
 }
 
+function toneForTolerance(status: ToleranceStatus): ChipTone {
+  return status === 'breach' ? 'threat' : status === 'near' ? 'attention' : 'controlled';
+}
+
+function toneForEffectiveness(status: EffectivenessStatus): ChipTone {
+  if (status === 'effective') return 'controlled';
+  if (status === 'partially-effective' || status === 'underperforming') return 'attention';
+  if (status === 'failed') return 'threat';
+  return 'neutral';
+}
+
+function toneForAcceptance(status: AcceptanceStatus): ChipTone {
+  if (status === 'accepted') return 'controlled';
+  if (status === 'expired' || status === 'rejected') return 'threat';
+  if (status === 'under-review') return 'info';
+  return 'neutral';
+}
+
+function toneForAging(cls: AgingClass): ChipTone {
+  if (cls === 'fresh') return 'controlled';
+  if (cls === 'aging') return 'neutral';
+  if (cls === 'stale') return 'attention';
+  return 'threat';
+}
+
+function toneForSeverity(severity: DecisionSeverity): ChipTone {
+  return severity === 'critical' ? 'threat' : severity === 'high' ? 'attention' : severity === 'medium' ? 'info' : 'neutral';
+}
+
 function RiskDetail({ risk, onNavigate }: { risk: Risk; onNavigate: (id: string) => void }) {
   const program = useStore((s) => s.program);
   const analytics = useStore((s) => s.analytics);
-  const a = analytics.health.risk.byId[risk.id];
+  const h = analytics.health;
+  const a = h.risk.byId[risk.id];
   const nameOf = (id: string) => analytics.ownerById[id] ?? id;
   const money = (n: number) => formatCurrency(n, program.currency);
   const linkedIssues = program.issues.filter((i) => risk.issueIds.includes(i.id));
@@ -340,32 +388,186 @@ function RiskDetail({ risk, onNavigate }: { risk: Risk; onNavigate: (id: string)
   const linkedControls = program.controls.filter((c) => risk.controlIds.includes(c.id));
   const linkedActions = program.actions.filter((x) => risk.actionIds.includes(x.id));
   const linkedCauses = program.causes.filter((c) => risk.causeIds.includes(c.id));
+  const linkedTreatments = program.treatments.filter((t) => t.riskId === risk.id);
+  const linkedAcceptances = program.acceptances.filter((acc) => acc.riskId === risk.id);
+  const linkedBenefits = program.benefits.filter((b) => risk.affectedBenefitIds.includes(b.id));
+  const linkedDecisions = program.decisions.filter((d) => d.linkedRiskIds.includes(risk.id));
+
+  const tolerance = h.tolerance.byId[risk.id];
+  const effectiveness = h.treatments.byRiskId[risk.id] ?? [];
+  const acceptanceAssessments = h.acceptances.byRiskId[risk.id] ?? [];
+  const aging = h.aging.byId[risk.id];
+  const systemicByCauseId = useMemo(() => new Map(summariseSystemicRootCauses(program.causes).map((s) => [s.causeId, s])), [program.causes]);
+  const queueItem = h.decisionQueue.find((d) => d.riskId === risk.id);
 
   return (
     <div className="space-y-5">
       <p className="text-sm leading-relaxed text-ink-200">{risk.description}</p>
-      {a && (
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Inherent exposure">{money(a.inherentFinancialExposure)}</Field>
-          <Field label="Residual exposure">{money(a.residualFinancialExposure)}</Field>
-          <Field label="Control effectiveness">{Math.round(a.controlEffectiveness * 100)}%</Field>
-          <Field label="Trend">{titleCase(a.trend)} ({a.velocity.toFixed(2)} pts/fortnight)</Field>
-          <Field label="Owner">{nameOf(risk.ownerId)}</Field>
-          <Field label="Strategy">{titleCase(risk.strategy)}</Field>
+
+      {queueItem && (
+        <div className="rounded-md border border-threat/40 bg-threat/10 p-3">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-threat">Decision required</span>
+            <Chip tone={toneForSeverity(queueItem.severity)}>
+              {titleCase(queueItem.severity)} &middot; {titleCase(queueItem.urgency)}
+            </Chip>
+          </div>
+          <p className="mt-1.5 text-xs leading-relaxed text-ink-200">{queueItem.problem}</p>
+          <p className="mt-1 text-2xs text-ink-400">
+            Recommended: {queueItem.recommendedAction}
+            {queueItem.deadline ? ' by ' + formatDate(queueItem.deadline) : ''}
+          </p>
         </div>
       )}
-      {a && a.drivers.length > 0 && (
-        <Section title="Why this score">
-          <ul className="space-y-1.5">
-            {a.drivers.map((d) => (
-              <li key={d} className="text-xs text-ink-300">
-                &bull; {d}
-              </li>
+
+      <Section title="1. Exposure">
+        {a ? (
+          <>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Inherent exposure">{money(a.inherentFinancialExposure)}</Field>
+              <Field label="Residual exposure">{money(a.residualFinancialExposure)}</Field>
+              <Field label="Control effectiveness">{Math.round(a.controlEffectiveness * 100)}%</Field>
+              <Field label="Trend">
+                {titleCase(a.trend)} ({a.velocity.toFixed(2)} pts/fortnight)
+              </Field>
+              <Field label="Owner">{nameOf(risk.ownerId)}</Field>
+              <Field label="Strategy">{titleCase(risk.strategy)}</Field>
+            </div>
+            {a.drivers.length > 0 && (
+              <div className="mt-3">
+                <div className="label mb-1.5">Why this score</div>
+                <ul className="space-y-1.5">
+                  {a.drivers.map((d) => (
+                    <li key={d} className="text-xs text-ink-300">
+                      &bull; {d}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </>
+        ) : (
+          <EmptyState title="This risk has no current assessment." />
+        )}
+      </Section>
+
+      <Section title="2. Tolerance">
+        {tolerance ? (
+          <>
+            <div className="flex items-center gap-2">
+              <Chip tone={toneForTolerance(tolerance.status)}>{tolerance.status.toUpperCase()} TOLERANCE</Chip>
+              {tolerance.escalationRequired && <Chip tone="threat">Escalation required</Chip>}
+            </div>
+            <p className="mt-2 text-xs leading-relaxed text-ink-300">{tolerance.headline}</p>
+            <div className="mt-3 space-y-1.5">
+              {tolerance.dimensionResults.map((d) => (
+                <div key={d.dimension} className="flex items-center justify-between rounded border border-base-600 px-2.5 py-1.5 text-xs">
+                  <span className="text-ink-300">{titleCase(d.dimension)}</span>
+                  <span className="num text-ink-400">
+                    {d.unit === 'currency' ? money(d.value) : Math.round(d.value) + ' ' + d.unit}
+                    <span className="mx-1.5 text-ink-600">/</span>
+                    near {d.unit === 'currency' ? money(d.nearLimit) : Math.round(d.nearLimit)}, breach {d.unit === 'currency' ? money(d.breachLimit) : Math.round(d.breachLimit)}
+                  </span>
+                  <Chip tone={toneForTolerance(d.status)}>{titleCase(d.status)}</Chip>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <EmptyState title="Tolerance is not assessed for a closed risk." />
+        )}
+      </Section>
+
+      <Section title={'3. Cause / Root Cause (' + linkedCauses.length + ')'}>
+        {linkedCauses.length === 0 ? (
+          <EmptyState title="No cause is linked to this risk." />
+        ) : (
+          <div className="space-y-3">
+            {linkedCauses.map((c) => {
+              const systemic = systemicByCauseId.get(c.id);
+              const otherAffected = systemic ? systemic.affectedRiskIds.filter((id) => id !== risk.id) : [];
+              const correctiveActions = correctiveActionsForCause(c, program.risks, program.actions);
+              return (
+                <div key={c.id} className="rounded-md border border-base-500 p-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-medium text-ink-100">{c.title}</span>
+                    {c.isRootCause ? <Chip tone="threat">Root cause</Chip> : <Chip tone="neutral">Contributing factor</Chip>}
+                  </div>
+                  <p className="mt-1 text-2xs text-ink-500">{CATEGORY_LABEL[c.category]}</p>
+                  {systemic?.isSystemic && (
+                    <p className="mt-1.5 text-2xs text-threat">
+                      Systemic &mdash; also affects {otherAffected.length} other risk(s): {otherAffected.join(', ')}
+                    </p>
+                  )}
+                  {c.whyChain.length > 0 && (
+                    <ol className="mt-2 space-y-1 border-l border-base-500 pl-3">
+                      {c.whyChain.map((why, i) => (
+                        <li key={i} className="text-2xs text-ink-400">
+                          {i === c.whyChain.length - 1 && c.isRootCause ? <span className="text-threat">Root cause: </span> : i === 0 ? <span className="text-ink-500">Symptom: </span> : null}
+                          {why}
+                        </li>
+                      ))}
+                    </ol>
+                  )}
+                  {correctiveActions.length > 0 && (
+                    <div className="mt-2">
+                      <div className="label mb-1">Corrective actions</div>
+                      {correctiveActions.map((ca) => (
+                        <p key={ca.actionId} className="text-2xs text-ink-300">
+                          &bull; {ca.ref} {ca.title} &mdash; {titleCase(ca.status)}
+                          {ca.viaRiskIds.length > 1 ? ' (shared across ' + ca.viaRiskIds.length + ' risks)' : ''}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </Section>
+
+      <Section title="4. Impact">
+        <div className="grid grid-cols-2 gap-3">
+          <Field label="Category">{titleCase(risk.category)}</Field>
+          <Field label="Inherent probability">{Math.round(risk.inherentProbability * 100)}%</Field>
+          <Field label="Inherent impact">{risk.inherentImpact} / 5</Field>
+          <Field label="Inherent financial impact">{money(risk.inherentFinancialImpact)}</Field>
+          <Field label="Inherent schedule impact">{risk.inherentScheduleImpactDays} days</Field>
+          <Field label="Strategic impact">{risk.strategicImpact} / 5</Field>
+          <Field label="Reputation impact">{risk.reputationImpact} / 5</Field>
+          <Field label="Time horizon">{titleCase(risk.timeHorizon)}</Field>
+          <Field label="Evidence confidence">{titleCase(risk.evidenceConfidence)}</Field>
+        </div>
+      </Section>
+
+      <Section title={'5. Treatment (' + linkedTreatments.length + ')'}>
+        {linkedTreatments.length === 0 ? (
+          <EmptyState title="No formal treatment plan exists for this risk." />
+        ) : (
+          <div className="space-y-3">
+            {linkedTreatments.map((t) => (
+              <div key={t.id} className="rounded-md border border-base-500 p-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-medium text-ink-100">{t.title}</span>
+                  <Chip tone="strategic">{titleCase(t.strategy)}</Chip>
+                </div>
+                <div className="mt-2 grid grid-cols-2 gap-2 text-2xs text-ink-400">
+                  <span>Owner: {nameOf(t.ownerId)}</span>
+                  <span>Status: {titleCase(t.status)}</span>
+                  <span>Start: {formatDate(t.startDate)}</span>
+                  <span>Target: {formatDate(t.targetDate)}</span>
+                  <span>Expected reduction: {Math.round(t.expectedExposureReductionPct * 100)}%</span>
+                  <span>Confidence: {titleCase(t.evidenceConfidence)}</span>
+                </div>
+                {t.notes && <p className="mt-2 text-2xs text-ink-500">{t.notes}</p>}
+              </div>
             ))}
-          </ul>
-        </Section>
-      )}
-      <Section title={'Controls (' + linkedControls.length + ')'}>
+          </div>
+        )}
+      </Section>
+
+      <Section title={'6. Controls (' + linkedControls.length + ')'}>
         {linkedControls.length === 0 ? (
           <EmptyState title="No control assigned to this risk." />
         ) : (
@@ -379,20 +581,156 @@ function RiskDetail({ risk, onNavigate }: { risk: Risk; onNavigate: (id: string)
           </ul>
         )}
       </Section>
-      <Section title={'Root causes (' + linkedCauses.length + ')'}>
-        {linkedCauses.map((c) => (
-          <p key={c.id} className="text-xs text-ink-300">
-            &bull; {c.title}
-          </p>
-        ))}
+
+      <Section title={'7. Actions (' + linkedActions.length + ')'}>
+        {linkedActions.length === 0 ? (
+          <EmptyState title="No action is open against this risk." />
+        ) : (
+          linkedActions.map((act) => (
+            <p key={act.id} className="text-xs text-ink-300">
+              &bull; {act.title} &mdash; {titleCase(act.status)}, due {formatDate(act.dueDate)}
+            </p>
+          ))
+        )}
       </Section>
-      <Section title={'Actions (' + linkedActions.length + ')'}>
-        {linkedActions.map((act) => (
-          <p key={act.id} className="text-xs text-ink-300">
-            &bull; {act.title} &mdash; {titleCase(act.status)}, due {formatDate(act.dueDate)}
-          </p>
-        ))}
+
+      <Section title="8. Response Effectiveness">
+        {effectiveness.length === 0 ? (
+          <EmptyState title="No treatment has enough evidence to assess yet." />
+        ) : (
+          <div className="space-y-3">
+            {effectiveness.map((e) => (
+              <div key={e.treatmentId} className="rounded-md border border-base-500 p-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-medium text-ink-100">{titleCase(e.strategy)}</span>
+                  <Chip tone={toneForEffectiveness(e.status)}>{titleCase(e.status)}</Chip>
+                </div>
+                <p className="mt-1.5 text-2xs leading-relaxed text-ink-300">{e.headline}</p>
+                <div className="mt-2 grid grid-cols-2 gap-2 text-2xs text-ink-400">
+                  <span>Baseline: {money(e.baselineExposure)}</span>
+                  <span>Expected residual: {money(e.expectedResidual)}</span>
+                  <span>Observed residual: {e.observedResidual === null ? 'Not yet measurable' : money(e.observedResidual)}</span>
+                  <span>Variance: {e.variance === null ? '--' : (e.variance >= 0 ? '+' : '') + Math.round(e.variance * 100) + 'pp'}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </Section>
+
+      <Section title="9. Acceptance">
+        {linkedAcceptances.length === 0 ? (
+          <EmptyState title="This risk has no formal acceptance recorded." />
+        ) : (
+          <div className="space-y-3">
+            {linkedAcceptances.map((acc) => {
+              const assessment = acceptanceAssessments.find((x) => x.acceptanceId === acc.id);
+              return (
+                <div key={acc.id} className="rounded-md border border-base-500 p-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-medium text-ink-100">{acc.ref}</span>
+                    {assessment && <Chip tone={toneForAcceptance(assessment.effectiveStatus)}>{titleCase(assessment.effectiveStatus)}</Chip>}
+                  </div>
+                  {assessment && <p className="mt-1.5 text-2xs leading-relaxed text-ink-300">{assessment.headline}</p>}
+                  <div className="mt-2 grid grid-cols-2 gap-2 text-2xs text-ink-400">
+                    <span>Approver: {nameOf(acc.approverId)}</span>
+                    <span>Approved: {formatDate(acc.approvalDate)}</span>
+                    <span>Expires: {formatDate(acc.expiryDate)}</span>
+                    <span>Review: {formatDate(acc.reviewDate)}</span>
+                  </div>
+                  <p className="mt-2 text-2xs text-ink-500">{acc.rationale}</p>
+                  {acc.conditions.length > 0 && (
+                    <ul className="mt-1.5 space-y-0.5">
+                      {acc.conditions.map((cond, i) => (
+                        <li key={i} className="text-2xs text-ink-500">
+                          &bull; {cond}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </Section>
+
+      <Section title="10. Reassessment">
+        {aging ? (
+          <>
+            <div className="flex items-center gap-2">
+              <Chip tone={toneForAging(aging.agingClass)}>{titleCase(aging.agingClass)}</Chip>
+              {aging.reassessmentOverdue ? (
+                <Chip tone="threat">Reassessment overdue</Chip>
+              ) : aging.reassessmentDue ? (
+                <Chip tone="attention">Reassessment due</Chip>
+              ) : null}
+            </div>
+            <p className="mt-2 text-xs leading-relaxed text-ink-300">{aging.headline}</p>
+            <div className="mt-3 grid grid-cols-2 gap-3">
+              <Field label="Last assessed">{formatDate(aging.lastAssessmentDate)}</Field>
+              <Field label="Next due">{formatDate(aging.nextAssessmentDate)}</Field>
+              <Field label="Frequency">{titleCase(aging.reassessmentFrequency)}</Field>
+              <Field label="Days since last assessment">{aging.daysSinceLastAssessment}</Field>
+              <Field label="Last action">{aging.lastActionDate ? formatDate(aging.lastActionDate) : '--'}</Field>
+              <Field label="Last evidence">{aging.lastEvidenceDate ? formatDate(aging.lastEvidenceDate) : '--'}</Field>
+              {aging.treatmentAgeDays !== null && <Field label="Treatment age">{aging.treatmentAgeDays} days</Field>}
+            </div>
+          </>
+        ) : (
+          <EmptyState title="Aging is not tracked for a closed risk." />
+        )}
+      </Section>
+
+      <Section title={'11. Dependencies (' + linkedDeps.length + ')'}>
+        {linkedDeps.length === 0 ? (
+          <EmptyState title="No dependency is linked to this risk." />
+        ) : (
+          linkedDeps.map((d) => (
+            <button key={d.id} type="button" onClick={() => onNavigate(d.id)} className="block text-xs text-info hover:underline">
+              {d.ref} {d.name}
+            </button>
+          ))
+        )}
+      </Section>
+
+      <Section title={'12. Benefits (' + linkedBenefits.length + ')'}>
+        {linkedBenefits.length === 0 ? (
+          <EmptyState title="No benefit is threatened by this risk." />
+        ) : (
+          <div className="space-y-2">
+            {linkedBenefits.map((b) => {
+              const ba = h.benefits.byId[b.id];
+              return (
+                <Link key={b.id} to={'/benefits?focus=' + b.id} className="block rounded-md border border-base-500 p-2.5 hover:border-base-400">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-medium text-ink-100">{b.name}</span>
+                    {ba && <Chip tone={ba.valueAtRisk > 0 ? 'attention' : 'neutral'}>{money(ba.valueAtRisk)} at risk</Chip>}
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
+      </Section>
+
+      <Section title={'13. Decision History (' + linkedDecisions.length + ')'}>
+        {linkedDecisions.length === 0 ? (
+          <EmptyState title="No formal decision has been logged against this risk." />
+        ) : (
+          <div className="space-y-1.5">
+            {linkedDecisions.map((d) => (
+              <Link key={d.id} to={'/decisions?focus=' + d.id} className="flex items-center justify-between gap-2 rounded px-1.5 py-1 text-xs text-ink-200 hover:bg-base-700/60">
+                <span>
+                  {d.ref} {d.title}
+                </span>
+                <Chip tone={d.status === 'decided' ? 'controlled' : d.status === 'reversed' ? 'threat' : 'neutral'}>{titleCase(d.status)}</Chip>
+              </Link>
+            ))}
+          </div>
+        )}
+      </Section>
+
       {linkedIssues.length > 0 && (
         <Section title="Materialised as">
           {linkedIssues.map((i) => (
@@ -402,15 +740,7 @@ function RiskDetail({ risk, onNavigate }: { risk: Risk; onNavigate: (id: string)
           ))}
         </Section>
       )}
-      {linkedDeps.length > 0 && (
-        <Section title="Linked dependencies">
-          {linkedDeps.map((d) => (
-            <button key={d.id} type="button" onClick={() => onNavigate(d.id)} className="block text-xs text-info hover:underline">
-              {d.ref} {d.name}
-            </button>
-          ))}
-        </Section>
-      )}
+
       {risk.affectedMilestoneIds.length > 0 && (
         <Section title="Threatens">
           <div className="flex flex-wrap gap-1.5">

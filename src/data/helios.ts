@@ -2761,5 +2761,7 @@ export const heliosProgram: Program = {
         }
       ]
     }
-  ]
+  ],
+  "treatments": [],
+  "acceptances": []
 };

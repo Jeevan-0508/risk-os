@@ -32,6 +32,8 @@ const COLLECTIONS = [
   'dmaic',
   'metrics',
   'strategicObjectives',
+  'treatments',
+  'acceptances',
 ] as const;
 
 const REQUIRED_STRINGS = ['id', 'name', 'startDate', 'endDate', 'statusDate'] as const;
@@ -102,9 +104,12 @@ export function validateProgram(input: unknown): ValidationResult {
       draft[key] = [];
     } else {
       const before = (draft[key] as unknown[]).length;
-      const cleaned = (draft[key] as unknown[]).filter((item) => isRecord(item));
+      // strategicObjectives is a plain string[], not a collection of records; every
+      // other entry here is an array of objects with an id, so this is the one exception.
+      const isValidEntry = key === 'strategicObjectives' ? (item: unknown) => typeof item === 'string' : isRecord;
+      const cleaned = (draft[key] as unknown[]).filter(isValidEntry);
       if (cleaned.length !== before) {
-        warnings.push(before - cleaned.length + ' entry(ies) in "' + key + '" were not objects and were dropped.');
+        warnings.push(before - cleaned.length + ' entry(ies) in "' + key + '" were not valid and were dropped.');
       }
       draft[key] = cleaned;
     }

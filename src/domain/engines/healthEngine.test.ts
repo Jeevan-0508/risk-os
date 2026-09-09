@@ -164,4 +164,44 @@ describe('computeProgramHealth', () => {
     const health = computeProgramHealth(makeProgram());
     expect(Number.isFinite(health.overall.score)).toBe(true);
   });
+
+  it('a tolerance breach lowers the risk dimension score and feeds the decision queue, cascading to programme health', () => {
+    const clean = computeProgramHealth(makeProgram({ statusDate: '2026-03-01' }));
+    const breached = computeProgramHealth(
+      makeProgram({
+        statusDate: '2026-03-01',
+        risks: [
+          makeRisk({
+            id: 'r1',
+            inherentProbability: 0.95,
+            inherentImpact: 5,
+            inherentFinancialImpact: 900_000,
+            lastAssessmentDate: '2026-03-01',
+            reviewDate: '2026-12-01',
+          }),
+        ],
+      }),
+    );
+    expect(breached.tolerance.breachCount).toBe(1);
+    expect(breached.dimensions.risk.score).toBeLessThan(clean.dimensions.risk.score);
+    expect(breached.overall.score).toBeLessThan(clean.overall.score);
+    expect(breached.decisionQueue.length).toBeGreaterThan(0);
+    expect(breached.decisionQueue[0].reasons).toContain('tolerance-breach');
+  });
+
+  it('enriches every RiskAssessment with its own tolerance result, by reference, without a second computation', () => {
+    const health = computeProgramHealth(
+      makeProgram({
+        statusDate: '2026-03-01',
+        risks: [makeRisk({ id: 'r1', inherentProbability: 0.95, inherentImpact: 5, inherentFinancialImpact: 900_000 })],
+      }),
+    );
+    expect(health.risk.byId['r1'].tolerance?.status).toBe('breach');
+    expect(health.risk.assessments.find((a) => a.riskId === 'r1')?.tolerance).toBe(health.risk.byId['r1'].tolerance);
+  });
+
+  it('falls back to the conservative default appetite when a programme sets none', () => {
+    const health = computeProgramHealth(makeProgram({ riskAppetite: undefined }));
+    expect(health.tolerance.appetite.id).toBe('appetite-default');
+  });
 });

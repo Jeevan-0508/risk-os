@@ -112,3 +112,54 @@ describe('computePortfolioDerived over the real demo portfolio', () => {
     expect(layla!.programIds.sort()).toEqual(['prog-helios', 'prog-nova']);
   });
 });
+
+describe('portfolioDecisionQueue over the real demo portfolio', () => {
+  it('includes every programme-level decision item, by reference, unmutated', () => {
+    const derived = computePortfolioDerived(demoPortfolio);
+    const orion = derived.analyticsByProgramId['prog-orion'];
+    expect(orion.health.decisionQueue.length).toBeGreaterThan(0);
+    for (const item of orion.health.decisionQueue) {
+      expect(derived.portfolioDecisionQueue.find((i) => i.id === item.id)).toBe(item);
+    }
+  });
+
+  it('surfaces the ATLAS->ORION->NOVA slip as cross-program-propagation items with no fabricated exposure or owner', () => {
+    const derived = computePortfolioDerived(demoPortfolio);
+    const crossProgram = derived.portfolioDecisionQueue.filter((i) => i.primaryReason === 'cross-program-propagation');
+    expect(crossProgram.length).toBeGreaterThanOrEqual(2);
+    const atlasToOrion = crossProgram.find((i) => i.id === 'portfolio:cross-program-propagation:link-atlas-orion-api');
+    expect(atlasToOrion).toBeDefined();
+    expect(atlasToOrion!.programId).toBe('prog-orion');
+    expect(atlasToOrion!.riskId).toBeNull();
+    expect(atlasToOrion!.ownerId).toBeNull();
+    expect(atlasToOrion!.evidence[0]).toContain('effective day(s) of slip');
+  });
+
+  it('surfaces the Meridian Cloud Systems vendor and shared-risk concentration spanning ATLAS and HELIOS as material-concentration items', () => {
+    const derived = computePortfolioDerived(demoPortfolio);
+    const concentration = derived.portfolioDecisionQueue.filter((i) => i.primaryReason === 'material-concentration');
+    const vendorItem = concentration.find((i) => i.id === 'portfolio:material-concentration:vendor:Meridian Cloud Systems');
+    const sharedRiskItem = concentration.find((i) => i.id === 'portfolio:material-concentration:shared-risk:shared-meridian-capacity-01');
+    expect(vendorItem).toBeDefined();
+    expect(sharedRiskItem).toBeDefined();
+    expect(vendorItem!.exposure).toBe(1_340_000);
+    expect(sharedRiskItem!.exposure).toBe(1_340_000);
+    expect(sharedRiskItem!.evidence[0]).toContain('rsk-15');
+    expect(sharedRiskItem!.evidence[0]).toContain('rsk-09');
+  });
+
+  it('is sorted severity-first, then exposure-descending within a severity', () => {
+    const derived = computePortfolioDerived(demoPortfolio);
+    const rank = (s: string) => (s === 'critical' ? 3 : s === 'high' ? 2 : s === 'medium' ? 1 : 0);
+    for (let i = 1; i < derived.portfolioDecisionQueue.length; i++) {
+      const prev = derived.portfolioDecisionQueue[i - 1];
+      const curr = derived.portfolioDecisionQueue[i];
+      const prevRank = rank(prev.severity);
+      const currRank = rank(curr.severity);
+      expect(prevRank >= currRank).toBe(true);
+      if (prevRank === currRank) {
+        expect(prev.exposure >= curr.exposure).toBe(true);
+      }
+    }
+  });
+});

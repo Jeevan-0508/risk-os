@@ -453,8 +453,105 @@ def build_risks(controls, actions, causes, dependencies, issues, benefits):
             "evidence": evidence,
             "comments": comments,
             "tags": list(tags),
+            # Generic aging defaults: assessed a month before the next scheduled review,
+            # monthly cadence. rsk-01 is overridden below for the tolerance/treatment demo.
+            "lastAssessmentDate": day(max(identified, review - 30)),
+            "reassessmentFrequency": "monthly",
+            "treatmentIds": [],
+            "acceptanceIds": [],
         })
+
+    by_id = {r["id"]: r for r in out}
+    if "rsk-01" in by_id:
+        # Deliberately overdue: last assessed long before the treatment even started,
+        # so this risk demonstrates REASSESSMENT OVERDUE alongside the tolerance breach.
+        by_id["rsk-01"]["lastAssessmentDate"] = day(250)
+        by_id["rsk-01"]["treatmentIds"] = ["trt-01"]
+    if "rsk-32" in by_id:
+        by_id["rsk-32"]["acceptanceIds"] = ["acc-01"]
     return out
+
+
+def build_risk_appetite():
+    """Explicit management boundary, not derived from probability x impact.
+    Financial limits are stated as a share of programme budget so the number
+    is explainable from something a reader already knows."""
+    return {
+        "id": "appetite-orion",
+        "statement": (
+            "ORION escalates a risk once it alone could consume more than 3% of budget, "
+            "slip a gate-relevant milestone by more than two working weeks, put more than "
+            "250K EUR of in-flight benefit at risk, or sit in the red band of the 5x5 matrix."
+        ),
+        "thresholds": [
+            {"dimension": "financial", "unit": "EUR", "nearLimit": round(BUDGET * 0.02), "breachLimit": round(BUDGET * 0.03)},
+            {"dimension": "schedule", "unit": "days", "nearLimit": 7, "breachLimit": 14},
+            {"dimension": "benefit", "unit": "EUR", "nearLimit": 150_000, "breachLimit": 250_000},
+            {"dimension": "severity", "unit": "score (5x5 matrix)", "nearLimit": 8, "breachLimit": 15},
+        ],
+    }
+
+
+def build_treatments():
+    """One real treatment: the interim adapter action for RSK-01, formalised as a
+    Treatment so the response-effectiveness engine has expected vs observed to
+    compare. observedExposureReductionPct is deliberately left unset here - it is
+    computed live from the risk's own exposure history, never asserted in the data."""
+    return [
+        {
+            "id": "trt-01",
+            "ref": "TRT-01",
+            "riskId": "rsk-01",
+            "strategy": "reduce",
+            "title": "Interim invoice-schema adapter to remove dependency on vendor delivery",
+            "description": (
+                "Build and operate an internal adapter that translates the legacy invoice "
+                "format, so the carrier integration milestone no longer depends on the "
+                "vendor publishing the missing invoice message schema."
+            ),
+            "ownerId": "own-14",
+            "status": "in-progress",
+            "startDate": day(260),
+            "targetDate": day(320),
+            "expectedExposureReductionPct": 0.45,
+            "evidenceConfidence": "measured",
+            "linkedControlIds": ["ctl-01", "ctl-02"],
+            "linkedActionIds": ["act-02"],
+            "notes": (
+                "Planned to remove roughly half of residual exposure by target date. Exposure "
+                "history since the treatment started shows the risk continuing to accelerate "
+                "toward its full inherent value rather than falling, so effectiveness should "
+                "read as underperforming once measured against that plan."
+            ),
+        }
+    ]
+
+
+def build_acceptances():
+    """One real acceptance, deliberately already past its expiry date relative to
+    STATUS, to demonstrate the auto-expiry rule live rather than asserting a status
+    that would otherwise sit unexamined forever."""
+    return [
+        {
+            "id": "acc-01",
+            "ref": "ACC-01",
+            "riskId": "rsk-32",
+            "status": "accepted",
+            "rationale": (
+                "Thirty-four percent of linehaul volume sits on spot rates. A staged tender "
+                "programme is the standing mitigation; the residual fuel/linehaul inflation "
+                "exposure is accepted rather than run as a project action."
+            ),
+            "approverId": "own-03",
+            "approvalDate": day(230),
+            "expiryDate": day(360),
+            "reviewDate": day(340),
+            "conditions": [
+                "Re-tender at least 20% of spot-rate volume onto fixed contracts each quarter.",
+                "Escalate for re-approval if spot-rate share exceeds 40% of linehaul volume.",
+            ],
+        }
+    ]
 
 
 def assemble():
@@ -474,6 +571,9 @@ def assemble():
     fmea = build_fmea()
     dmaic = build_dmaic()
     metrics = build_metrics()
+    risk_appetite = build_risk_appetite()
+    treatments = build_treatments()
+    acceptances = build_acceptances()
     risks = build_risks(controls, actions, causes, dependencies, issues, benefits)
 
     # Actions declare their issue links; mirror them onto the issues.
@@ -526,6 +626,9 @@ def assemble():
         "fmea": fmea,
         "dmaic": dmaic,
         "metrics": metrics,
+        "riskAppetite": risk_appetite,
+        "treatments": treatments,
+        "acceptances": acceptances,
     }
 
 
@@ -535,7 +638,7 @@ def check(program):
     ids = {k: {x["id"] for x in program[k]} for k in
            ["owners", "workstreams", "milestones", "deliverables", "risks", "causes", "controls",
             "actions", "issues", "assumptions", "dependencies", "changes", "decisions", "benefits",
-            "fmea", "dmaic", "metrics"]}
+            "fmea", "dmaic", "metrics", "treatments", "acceptances"]}
 
     def ref(where, kind, value):
         if value is None:
@@ -637,6 +740,23 @@ def check(program):
             ref("dmaic countermeasure " + cm["id"], "owners", cm["ownerId"])
     for m in program["metrics"]:
         ref("metric " + m["id"], "workstreams", m.get("workstreamId"))
+    for t in program["treatments"]:
+        ref("treatment " + t["id"], "risks", t["riskId"])
+        ref("treatment " + t["id"], "owners", t["ownerId"])
+        refs("treatment " + t["id"] + " controls", "controls", t["linkedControlIds"])
+        refs("treatment " + t["id"] + " actions", "actions", t["linkedActionIds"])
+    for a in program["acceptances"]:
+        ref("acceptance " + a["id"], "risks", a["riskId"])
+        ref("acceptance " + a["id"], "owners", a["approverId"])
+    treatment_owners = {t["riskId"] for t in program["treatments"]}
+    acceptance_owners = {a["riskId"] for a in program["acceptances"]}
+    for r in program["risks"]:
+        for tid in r.get("treatmentIds", []):
+            if tid not in ids["treatments"]:
+                problems.append("risk " + r["id"] + " treatmentIds -> missing treatment " + repr(tid))
+        for aid in r.get("acceptanceIds", []):
+            if aid not in ids["acceptances"]:
+                problems.append("risk " + r["id"] + " acceptanceIds -> missing acceptance " + repr(aid))
 
     # Every risk must connect to something, otherwise it is decoration.
     for r in program["risks"]:

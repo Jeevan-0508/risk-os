@@ -1,4 +1,4 @@
-import type { Cause, DmaicProject, FMEAItem } from '@/domain/types';
+import type { Action, Cause, DmaicProject, FMEAItem, Risk } from '@/domain/types';
 import { clamp, ratio } from '@/lib/format';
 
 export interface ParetoSlice {
@@ -197,4 +197,66 @@ export function groupFishbone(causes: Cause[]): FishboneGroup[] {
       rootCauseCount: group.filter((c) => c.isRootCause).length,
     };
   });
+}
+
+
+/**
+ * The model already distinguishes four things without needing new fields:
+ * an Issue is the symptom (the materialised event), a Cause with
+ * isRootCause=false is a contributing factor, a Cause with isRootCause=true
+ * is a root cause, and a Risk is the exposure a root cause creates. This
+ * function only ever calls something a root cause because an analyst set
+ * isRootCause explicitly; frequency never promotes a cause on its own,
+ * however often it recurs.
+ */
+export interface SystemicRootCause {
+  causeId: string;
+  ref: string;
+  title: string;
+  category: Cause['category'];
+  affectedRiskIds: string[];
+  affectedRiskCount: number;
+  /** True once a root cause demonstrably reaches more than one risk, never because it merely recurs often. */
+  isSystemic: boolean;
+}
+
+/** Root causes ordered by how many risks they reach, worst (most systemic) first. */
+export function summariseSystemicRootCauses(causes: Cause[]): SystemicRootCause[] {
+  return causes
+    .filter((c) => c.isRootCause)
+    .map((c) => ({
+      causeId: c.id,
+      ref: c.ref,
+      title: c.title,
+      category: c.category,
+      affectedRiskIds: c.linkedRiskIds,
+      affectedRiskCount: c.linkedRiskIds.length,
+      isSystemic: c.linkedRiskIds.length >= 2,
+    }))
+    .sort((a, b) => b.affectedRiskCount - a.affectedRiskCount);
+}
+
+export interface RootCauseCorrectiveAction {
+  actionId: string;
+  ref: string;
+  title: string;
+  status: Action['status'];
+  /** Risks this same action was raised against, when a corrective action serves more than one risk under this cause. */
+  viaRiskIds: string[];
+}
+
+/** Completes the Risk -> Cause -> Root Cause -> Corrective Action chain for one cause, via the risks it is linked to. */
+export function correctiveActionsForCause(cause: Cause, risks: Risk[], actions: Action[]): RootCauseCorrectiveAction[] {
+  const affectedRisks = risks.filter((r) => cause.linkedRiskIds.includes(r.id));
+  const byActionId = new Map<string, RootCauseCorrectiveAction>();
+  for (const r of affectedRisks) {
+    for (const actionId of r.actionIds) {
+      const action = actions.find((a) => a.id === actionId);
+      if (!action) continue;
+      const existing = byActionId.get(actionId);
+      if (existing) existing.viaRiskIds.push(r.id);
+      else byActionId.set(actionId, { actionId, ref: action.ref, title: action.title, status: action.status, viaRiskIds: [r.id] });
+    }
+  }
+  return [...byActionId.values()];
 }
