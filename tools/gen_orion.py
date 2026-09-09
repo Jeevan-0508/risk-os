@@ -500,6 +500,9 @@ def assemble():
         "spendToDate": SPEND_TO_DATE,
         "forecastSpend": FORECAST_SPEND,
         "currency": CURRENCY,
+        "businessUnit": "European Logistics",
+        "strategicPriority": "critical",
+        "programStatus": "active",
         "strategicObjectives": [
             "Reduce European freight cost per consolidated load from 412 to 318",
             "Operate a single transport platform and a single operational control tower",

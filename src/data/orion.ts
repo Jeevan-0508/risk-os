@@ -18,6 +18,9 @@ export const orionProgram: Program = {
   "spendToDate": 5940000,
   "forecastSpend": 8915000,
   "currency": "EUR",
+  "businessUnit": "European Logistics",
+  "strategicPriority": "critical",
+  "programStatus": "active",
   "strategicObjectives": [
     "Reduce European freight cost per consolidated load from 412 to 318",
     "Operate a single transport platform and a single operational control tower",
