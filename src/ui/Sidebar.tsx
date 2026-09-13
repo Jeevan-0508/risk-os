@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import jkLogo from '@/assets/jk-logo.png';
 import { Command } from 'lucide-react';
 import { ROUTES } from '@/nav';
 import { ICONS } from '@/ui/icons';
@@ -16,6 +17,7 @@ export function Sidebar({ onOpenPalette }: { onOpenPalette: () => void }) {
         <span className="num text-sm font-bold tracking-tight text-ink-100">
           RISK<span className="text-threat">//</span>OS
         </span>
+        <a href="https://github.com/Jeevan-0508" target="_blank" rel="noopener" title="Jeevan Siddhabhaktula" className="ml-auto shrink-0"><img src={jkLogo} alt="JK" className="h-[26px] w-[26px] rounded-full object-cover opacity-90" /></a>
       </div>
 
       <div className="flex-1 overflow-y-auto py-2">
