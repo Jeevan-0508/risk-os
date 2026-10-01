@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import type { ChangeDecision, Portfolio, Program, RiskIntakeRecord } from '@/domain/types';
-import { parseRiskIntake, toRiskIntakeRecord } from '@/domain/riskIntake';
+import type { ChangeDecision, Portfolio, Program, RiskIntakePromotion, RiskIntakeRecord } from '@/domain/types';
+import { createRiskFromIntake, parseRiskIntake, toRiskIntakeRecord, validateRiskIntakePromotion } from '@/domain/riskIntake';
 import { demoPortfolio } from '@/data/portfolio';
 import { validatePortfolio, validateProgram } from '@/domain/validate';
 import {
@@ -44,6 +44,12 @@ interface StoreState extends PortfolioDerived {
   replaceProgram: (program: Program, source: ProgramSource) => void;
   ingestRiskIntake: (input: unknown) =>
     | { ok: true; status: 'created' | 'updated'; record: RiskIntakeRecord }
+    | { ok: false; error: string };
+  reviewRiskIntake: (intakeId: string, decision: 'operator_review' | 'rejected', operatorId: string, note: string) =>
+    | { ok: true; record: RiskIntakeRecord }
+    | { ok: false; error: string };
+  promoteRiskIntake: (intakeId: string, assessment: RiskIntakePromotion) =>
+    | { ok: true; record: RiskIntakeRecord; riskId: string }
     | { ok: false; error: string };
   resetToDemo: () => void;
   /** Records a change-control decision in place. The only in-app mutation the product needs, so it stays a single generic action rather than one per screen. */
@@ -188,6 +194,62 @@ export const useStore = create<StoreState>((set, get) => ({
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       get().notify({ kind: 'error', message: 'Risk intake rejected.', detail: [message] });
+      return { ok: false, error: message };
+    }
+  },
+
+  reviewRiskIntake: (intakeId, decision, operatorId, note) => {
+    const { program } = get();
+    try {
+      if (!operatorId.trim() || !note.trim()) throw new Error('Operator id and review note are required.');
+      const current = (program.riskIntakes ?? []).find((record) => record.intakeId === intakeId);
+      if (!current) throw new Error('Risk intake was not found.');
+      if (current.lifecycle === 'accepted') throw new Error('An accepted intake cannot be moved back to review.');
+      const reviewedAt = new Date().toISOString();
+      const record: RiskIntakeRecord = {
+        ...current,
+        lifecycle: decision,
+        operatorReview: { operatorId: operatorId.trim(), reviewedAt, note: note.trim() },
+        history: [...current.history, { at: reviewedAt, lifecycle: decision, sourceRevision: current.sourceRevision, note: note.trim() }],
+      };
+      const nextProgram: Program = { ...program, riskIntakes: (program.riskIntakes ?? []).map((item) => (item.intakeId === intakeId ? record : item)) };
+      get().replaceProgram(nextProgram, 'edited');
+      get().notify({ kind: 'success', message: 'Risk intake marked ' + decision.replace('_', ' ') + '.' });
+      return { ok: true, record };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      get().notify({ kind: 'error', message: 'Risk intake review rejected.', detail: [message] });
+      return { ok: false, error: message };
+    }
+  },
+
+  promoteRiskIntake: (intakeId, assessment) => {
+    const { program } = get();
+    try {
+      const current = (program.riskIntakes ?? []).find((record) => record.intakeId === intakeId);
+      if (!current) throw new Error('Risk intake was not found.');
+      validateRiskIntakePromotion(current, assessment);
+      const risk = createRiskFromIntake(current, assessment, program.risks.map((item) => item.id));
+      const reviewedAt = new Date().toISOString();
+      const record: RiskIntakeRecord = {
+        ...current,
+        lifecycle: 'accepted',
+        authority: 'operator_validated',
+        operatorReview: { operatorId: assessment.operatorId.trim(), reviewedAt, note: assessment.note.trim() },
+        promotedRiskId: risk.id,
+        history: [...current.history, { at: reviewedAt, lifecycle: 'accepted', sourceRevision: current.sourceRevision, note: assessment.note.trim() }],
+      };
+      const nextProgram: Program = {
+        ...program,
+        risks: [...program.risks, risk],
+        riskIntakes: (program.riskIntakes ?? []).map((item) => (item.intakeId === intakeId ? record : item)),
+      };
+      get().replaceProgram(nextProgram, 'edited');
+      get().notify({ kind: 'success', message: 'Risk intake promoted to scored Risk[] record ' + risk.ref + '.', detail: ['The record retains its intake and source evidence identifiers.'] });
+      return { ok: true, record, riskId: risk.id };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      get().notify({ kind: 'error', message: 'Risk intake promotion rejected.', detail: [message] });
       return { ok: false, error: message };
     }
   },

@@ -1,4 +1,4 @@
-import type { Likert5, RiskIntakeAuthority, RiskIntakeLifecycle, RiskIntakeRecord } from './types';
+import type { Likert5, Risk, RiskCategory, RiskIntakeAuthority, RiskIntakeLifecycle, RiskIntakePromotion, RiskIntakeRecord, RiskResponseStrategy, RiskStatus, TimeHorizon } from './types';
 
 export interface RiskIntakeInput {
   schema_version: 'risk-intake.v1';
@@ -37,6 +37,11 @@ const AUTHORITIES = ['synthetic', 'model_output', 'external_unverified', 'operat
 const ISO_DATE_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;
 const SHA40 = /^[a-f0-9]{40}$/;
 const SHA64 = /^[a-f0-9]{64}$/;
+const RISK_CATEGORIES: RiskCategory[] = ['delivery', 'technology', 'vendor', 'regulatory', 'financial', 'operational', 'people', 'security', 'data', 'reputational'];
+const RISK_STATUSES: RiskStatus[] = ['open', 'monitoring', 'escalated', 'closed', 'accepted', 'materialised'];
+const RISK_STRATEGIES: RiskResponseStrategy[] = ['mitigate', 'transfer', 'avoid', 'accept'];
+const TIME_HORIZONS: TimeHorizon[] = ['immediate', 'near', 'mid', 'far'];
+const EVIDENCE_CONFIDENCE = ['anecdotal', 'indicative', 'measured', 'verified'] as const;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -179,4 +184,91 @@ export function toRiskIntakeRecord(input: RiskIntakeInput, previous?: RiskIntake
     next.history.push({ at: next.capturedAt, lifecycle: next.lifecycle, sourceRevision: next.sourceRevision, note: previous ? 'Intake updated from a newer or changed source.' : 'Intake created from a validated handoff.' });
   }
   return next;
+}
+
+function dateOnly(value: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value));
+}
+
+function operatorText(value: unknown, label: string, max: number): string {
+  if (typeof value !== 'string' || value.trim().length === 0 || value.length > max) throw new Error(label + ' is required.');
+  return value.trim();
+}
+
+function operatorNumber(value: unknown, label: string, min: number, max: number): number {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < min || value > max) throw new Error(label + ' must be a finite number from ' + min + ' to ' + max + '.');
+  return value;
+}
+
+function operatorLikert(value: unknown, label: string): Likert5 {
+  if (!Number.isInteger(value) || (value as number) < 1 || (value as number) > 5) throw new Error(label + ' must be an integer from 1 to 5.');
+  return value as Likert5;
+}
+
+/** Validates the explicit human assessment required before a handoff can become a scored Risk. */
+export function validateRiskIntakePromotion(record: RiskIntakeRecord, assessment: RiskIntakePromotion): void {
+  if (record.dataClass === 'synthetic_simulation' || record.dataClass === 'model_output' || record.authority === 'synthetic' || record.authority === 'model_output') {
+    throw new Error('Synthetic and model-produced context cannot be promoted into scored Risk[] data.');
+  }
+  if (record.evidenceIds.length === 0) throw new Error('Promotion requires at least one source-bound evidence id.');
+  if (record.contradictingEvidenceIds.length > 0) throw new Error('Promotion is blocked while contradicting evidence is unresolved.');
+  operatorText(assessment.operatorId, 'operatorId', 256);
+  operatorText(assessment.note, 'note', 4000);
+  if (!dateOnly(assessment.dateIdentified) || !dateOnly(assessment.reviewDate)) throw new Error('Risk dates must be valid YYYY-MM-DD dates.');
+  if (!RISK_CATEGORIES.includes(assessment.category)) throw new Error('Risk category is invalid.');
+  if (!RISK_STATUSES.includes(assessment.status)) throw new Error('Risk status is invalid.');
+  if (!RISK_STRATEGIES.includes(assessment.strategy)) throw new Error('Risk response strategy is invalid.');
+  if (!TIME_HORIZONS.includes(assessment.timeHorizon)) throw new Error('Risk time horizon is invalid.');
+  if (!EVIDENCE_CONFIDENCE.includes(assessment.evidenceConfidence)) throw new Error('Evidence confidence is invalid.');
+  operatorText(assessment.ownerId, 'ownerId', 256);
+  operatorText(assessment.workstreamId, 'workstreamId', 256);
+  operatorNumber(assessment.inherentProbability, 'inherentProbability', 0, 1);
+  operatorLikert(assessment.inherentImpact, 'inherentImpact');
+  operatorNumber(assessment.inherentFinancialImpact, 'inherentFinancialImpact', 0, Number.MAX_SAFE_INTEGER);
+  operatorNumber(assessment.inherentScheduleImpactDays, 'inherentScheduleImpactDays', 0, Number.MAX_SAFE_INTEGER);
+  operatorLikert(assessment.strategicImpact, 'strategicImpact');
+  operatorLikert(assessment.reputationImpact, 'reputationImpact');
+}
+
+export function createRiskFromIntake(record: RiskIntakeRecord, assessment: RiskIntakePromotion, existingRiskIds: string[]): Risk {
+  validateRiskIntakePromotion(record, assessment);
+  const suffix = record.intakeId.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 64) || 'record';
+  const id = 'rsk-intake-' + suffix;
+  if (existingRiskIds.includes(id)) throw new Error('This intake already has a scored Risk[] record.');
+  const ref = 'INT-' + suffix.toUpperCase().slice(0, 20);
+  return {
+    id,
+    ref,
+    title: record.statement.slice(0, 160),
+    description: record.statement,
+    category: assessment.category,
+    ownerId: assessment.ownerId,
+    workstreamId: assessment.workstreamId,
+    status: assessment.status,
+    dateIdentified: assessment.dateIdentified,
+    reviewDate: assessment.reviewDate,
+    strategy: assessment.strategy,
+    inherentProbability: assessment.inherentProbability,
+    inherentImpact: assessment.inherentImpact,
+    inherentFinancialImpact: assessment.inherentFinancialImpact,
+    inherentScheduleImpactDays: assessment.inherentScheduleImpactDays,
+    strategicImpact: assessment.strategicImpact,
+    reputationImpact: assessment.reputationImpact,
+    timeHorizon: assessment.timeHorizon,
+    evidenceConfidence: assessment.evidenceConfidence,
+    controlIds: [],
+    causeIds: [],
+    actionIds: [],
+    affectedMilestoneIds: [],
+    affectedBenefitIds: [],
+    dependencyIds: [],
+    issueIds: [],
+    history: [{ date: assessment.dateIdentified, probability: assessment.inherentProbability, impactScore: assessment.inherentImpact, financialExposure: assessment.inherentFinancialImpact, note: 'Operator assessment from Risk OS intake ' + record.intakeId + '.' }],
+    evidence: [],
+    comments: [{ id: 'cmt-' + id, authorId: assessment.operatorId, date: assessment.dateIdentified, body: assessment.note + ' Source intake: ' + record.intakeId + '; evidence ids: ' + record.evidenceIds.join(', ') + '.' }],
+    tags: ['source:mesh-intake', 'canonical:' + record.canonicalRiskId],
+    lastAssessmentDate: assessment.dateIdentified,
+    sourceIntakeId: record.intakeId,
+    sourceEvidenceIds: [...record.evidenceIds],
+  };
 }

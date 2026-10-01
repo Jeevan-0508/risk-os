@@ -116,6 +116,28 @@ describe('resolveInitialSeed', () => {
     const updated = useStore.getState().ingestRiskIntake({ ...input, statement: 'The same handoff was refreshed.' });
     expect(updated.ok).toBe(true);
     expect(useStore.getState().program.riskIntakes).toHaveLength(1);
+    const promoted = useStore.getState().promoteRiskIntake('store-intake-001', {
+      operatorId: 'operator-1',
+      note: 'Reviewed the source-bound handoff and recorded the explicit assessment.',
+      dateIdentified: '2026-10-01',
+      reviewDate: '2026-11-01',
+      category: 'operational',
+      ownerId: 'own-1',
+      workstreamId: 'ws-1',
+      status: 'open',
+      strategy: 'mitigate',
+      inherentProbability: 0.4,
+      inherentImpact: 3,
+      inherentFinancialImpact: 100000,
+      inherentScheduleImpactDays: 5,
+      strategicImpact: 2,
+      reputationImpact: 2,
+      timeHorizon: 'near',
+      evidenceConfidence: 'indicative',
+    });
+    expect(promoted.ok).toBe(true);
+    expect(useStore.getState().program.risks).toHaveLength(beforeRiskCount + 1);
+    expect(useStore.getState().program.riskIntakes?.[0].promotedRiskId).toBeDefined();
     store.resetToDemo();
   });
 });

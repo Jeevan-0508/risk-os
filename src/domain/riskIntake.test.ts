@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseRiskIntake, toRiskIntakeRecord } from './riskIntake';
+import { createRiskFromIntake, parseRiskIntake, toRiskIntakeRecord } from './riskIntake';
 
 const base = (): any => ({
   schema_version: 'risk-intake.v1',
@@ -81,5 +81,39 @@ describe('risk-intake.v1', () => {
     changed.source.captured_at = '2026-10-02T12:00:00Z';
     const updated = toRiskIntakeRecord(parseRiskIntake(changed), same);
     expect(updated.history).toHaveLength(2);
+  });
+
+  it('creates a scored risk only from explicit operator fields and keeps intake provenance', () => {
+    const record = toRiskIntakeRecord(parseRiskIntake(base()));
+    const risk = createRiskFromIntake(record, {
+      operatorId: 'operator-1',
+      note: 'Reviewed the cited source and recorded an operational assessment.',
+      dateIdentified: '2026-10-01',
+      reviewDate: '2026-11-01',
+      category: 'operational',
+      ownerId: 'owner-1',
+      workstreamId: 'workstream-1',
+      status: 'open',
+      strategy: 'mitigate',
+      inherentProbability: 0.4,
+      inherentImpact: 3,
+      inherentFinancialImpact: 100000,
+      inherentScheduleImpactDays: 5,
+      strategicImpact: 2,
+      reputationImpact: 2,
+      timeHorizon: 'near',
+      evidenceConfidence: 'indicative',
+    }, []);
+    expect(risk.sourceIntakeId).toBe(record.intakeId);
+    expect(risk.sourceEvidenceIds).toEqual(['ev-1']);
+    expect(risk.inherentProbability).toBe(0.4);
+  });
+
+  it('blocks promotion when contradictions remain unresolved', () => {
+    const input = base();
+    input.claim.contradicting_evidence_ids = ['ev-2'];
+    expect(() => createRiskFromIntake(toRiskIntakeRecord(parseRiskIntake(input)), {
+      operatorId: 'operator-1', note: 'Review', dateIdentified: '2026-10-01', reviewDate: '2026-11-01', category: 'operational', ownerId: 'owner-1', workstreamId: 'workstream-1', status: 'open', strategy: 'mitigate', inherentProbability: 0.4, inherentImpact: 3, inherentFinancialImpact: 100000, inherentScheduleImpactDays: 5, strategicImpact: 2, reputationImpact: 2, timeHorizon: 'near', evidenceConfidence: 'indicative',
+    }, [])).toThrow(/contradicting/);
   });
 });

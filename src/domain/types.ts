@@ -163,6 +163,28 @@ export interface RiskIntakeRecord {
   confidence: number | null;
   idempotencyKey: string;
   history: { at: ISODate; lifecycle: RiskIntakeLifecycle; sourceRevision: string | null; note: string }[];
+  operatorReview?: { operatorId: string; reviewedAt: ISODate; note: string };
+  promotedRiskId?: string;
+}
+
+export interface RiskIntakePromotion {
+  operatorId: string;
+  note: string;
+  dateIdentified: ISODate;
+  reviewDate: ISODate;
+  category: RiskCategory;
+  ownerId: string;
+  workstreamId: string;
+  status: RiskStatus;
+  strategy: RiskResponseStrategy;
+  inherentProbability: number;
+  inherentImpact: Likert5;
+  inherentFinancialImpact: number;
+  inherentScheduleImpactDays: number;
+  strategicImpact: Likert5;
+  reputationImpact: Likert5;
+  timeHorizon: TimeHorizon;
+  evidenceConfidence: EvidenceConfidence;
 }
 
 export interface Workstream {
@@ -261,6 +283,9 @@ export interface Risk {
   /** Last time this risk's assessment was actually revisited, distinct from reviewDate (next assessment due). Defaults to dateIdentified when absent. */
   lastAssessmentDate?: ISODate;
   reassessmentFrequency?: ReassessmentFrequency;
+  /** Provenance link when the risk was created from a reviewed MESH intake. */
+  sourceIntakeId?: string;
+  sourceEvidenceIds?: string[];
 }
 
 export interface Cause {
