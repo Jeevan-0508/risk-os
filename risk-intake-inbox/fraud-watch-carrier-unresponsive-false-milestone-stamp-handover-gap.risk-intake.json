@@ -1,23 +1,23 @@
 {
   "schema_version": "risk-intake.v1",
   "kind": "risk-intake",
-  "intake_id": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+FALSE_MILESTONE_STAMP+HANDOVER_GAP+MANIFEST_CHANGED",
-  "canonical_risk_id": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+FALSE_MILESTONE_STAMP+HANDOVER_GAP+MANIFEST_CHANGED",
-  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:EQUIPMENT_CARRIER_MISMATCH+FALSE_MILESTONE_STAMP+HANDOVER_GAP+MANIFEST_CHANGED (EQUIPMENT_CARRIER_MISMATCH, FALSE_MILESTONE_STAMP, HANDOVER_GAP, MANIFEST_CHANGED).",
+  "intake_id": "fraud-watch:CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
+  "canonical_risk_id": "fraud-watch:CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP (CARRIER_UNRESPONSIVE, FALSE_MILESTONE_STAMP, HANDOVER_GAP).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
-    "identity": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+FALSE_MILESTONE_STAMP+HANDOVER_GAP+MANIFEST_CHANGED",
+    "identity": "fraud-watch:CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
     "captured_at": "2026-10-01T19:34:33.560Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "0404eeac8b978fe09abc2d2024db43e5c248a8d17d7cd0018e69d7c45a060c33",
-    "mode_of_operation_id": null,
+    "hypothesis_context_sha256": "f54673159ba02f4c169fbd2b52a4dee29c4dc81d15c32ef3486105705413a264",
+    "mode_of_operation_id": "FFT-002",
     "likelihood": null,
     "impact": null,
     "financial_impact": null,
@@ -29,37 +29,36 @@
     "state": "hypothesis",
     "authority": "synthetic"
   },
-  "idempotency_key": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+FALSE_MILESTONE_STAMP+HANDOVER_GAP+MANIFEST_CHANGED",
+  "idempotency_key": "fraud-watch:CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
   "synthetic_context": {
     "kind": "fraud-watch-candidate.v1",
     "disclaimer": "Synthetic simulation context only. This candidate groups simulator observations; it is not real-world evidence, a probability, a finding, or an accepted risk.",
     "status": null,
     "classification": null,
     "title": null,
-    "signature": "EQUIPMENT_CARRIER_MISMATCH+FALSE_MILESTONE_STAMP+HANDOVER_GAP+MANIFEST_CHANGED",
+    "signature": "CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
     "correlationIndex": null,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
     "confidenceBand": null,
     "recurrenceCount": null,
-    "firstObservedAt": 45300,
-    "openedAt": 638100,
+    "firstObservedAt": 232500,
+    "openedAt": 819900,
     "lastObservedAt": null,
     "relatedPatternId": null,
     "signalTypes": [
-      "EQUIPMENT_CARRIER_MISMATCH",
+      "CARRIER_UNRESPONSIVE",
       "FALSE_MILESTONE_STAMP",
-      "HANDOVER_GAP",
-      "MANIFEST_CHANGED"
+      "HANDOVER_GAP"
     ],
     "entityIds": {},
     "timeline": [
       {
-        "at": 638100,
-        "signalType": "EQUIPMENT_CARRIER_MISMATCH + FALSE_MILESTONE_STAMP + HANDOVER_GAP + MANIFEST_CHANGED"
+        "at": 819900,
+        "signalType": "CARRIER_UNRESPONSIVE + FALSE_MILESTONE_STAMP + HANDOVER_GAP"
       },
       {
-        "at": 638100,
-        "signalType": "EQUIPMENT_CARRIER_MISMATCH + FALSE_MILESTONE_STAMP + HANDOVER_GAP + MANIFEST_CHANGED"
+        "at": 819900,
+        "signalType": "CARRIER_UNRESPONSIVE + FALSE_MILESTONE_STAMP + HANDOVER_GAP"
       }
     ],
     "signals": [],

@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0008",
-    "captured_at": "2026-10-01T13:27:09.032Z",
+    "captured_at": "2026-10-01T19:34:33.560Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "97da3d1d66fbdbae2e4059d8b84e1e231fcc9ac25a76900e666c156d59e7b4b0",
+    "hypothesis_context_sha256": "145f98b317e4a5cc00245e25ae0f7721e729705622af3bee5fa0c29da5855aff",
     "mode_of_operation_id": null,
     "likelihood": null,
     "impact": null,
@@ -29,5 +29,103 @@
     "state": "hypothesis",
     "authority": "synthetic"
   },
-  "idempotency_key": "fraud-watch:mo:MO-0008"
+  "idempotency_key": "fraud-watch:mo:MO-0008",
+  "synthetic_context": {
+    "kind": "fraud-watch-mo.v1",
+    "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
+    "status": "DISMISSED",
+    "classification": "EMERGING_BEHAVIOR",
+    "title": "Unclassified correlated anomaly",
+    "signature": "FALSE_MILESTONE_STAMP+HANDOVER_GAP+STAGED_BREAKDOWN+UNEXPECTED_STOP",
+    "correlationIndex": 13,
+    "correlationIndexSemantics": "synthetic_signal_index_not_probability",
+    "confidenceBand": "MINIMAL",
+    "recurrenceCount": 1,
+    "firstObservedAt": 332401,
+    "openedAt": 333900,
+    "lastObservedAt": 340800,
+    "relatedPatternId": null,
+    "signalTypes": [
+      "FALSE_MILESTONE_STAMP",
+      "HANDOVER_GAP",
+      "STAGED_BREAKDOWN",
+      "UNEXPECTED_STOP"
+    ],
+    "entityIds": {
+      "truck_id": "TRU-009",
+      "driver_id": "DRI-022",
+      "trailer_id": "TRA-008",
+      "carrier_id": "CAR-007",
+      "facility_id": null
+    },
+    "timeline": [
+      {
+        "at": 332401,
+        "signalType": "UNEXPECTED_STOP"
+      },
+      {
+        "at": 332700,
+        "signalType": "STAGED_BREAKDOWN"
+      },
+      {
+        "at": 333835,
+        "signalType": "HANDOVER_GAP"
+      },
+      {
+        "at": 333900,
+        "signalType": "FALSE_MILESTONE_STAMP"
+      }
+    ],
+    "signals": [
+      {
+        "signalType": "UNEXPECTED_STOP",
+        "contribution": 0.6,
+        "reliability": 0.6,
+        "at": 332401,
+        "facilityId": "FAC-001",
+        "facilityName": "North Gate"
+      },
+      {
+        "signalType": "STAGED_BREAKDOWN",
+        "contribution": 1,
+        "reliability": 0.5,
+        "at": 332700,
+        "facilityId": "FAC-001",
+        "facilityName": "North Gate"
+      },
+      {
+        "signalType": "HANDOVER_GAP",
+        "contribution": 1.1,
+        "reliability": 0.55,
+        "at": 333835,
+        "facilityId": null,
+        "facilityName": null
+      },
+      {
+        "signalType": "FALSE_MILESTONE_STAMP",
+        "contribution": 1.7,
+        "reliability": 0.55,
+        "at": 333900,
+        "facilityId": null,
+        "facilityName": null
+      }
+    ],
+    "sites": [
+      {
+        "facilityId": "FAC-001",
+        "facilityName": "North Gate",
+        "signalCount": 2
+      }
+    ],
+    "unsitedSignalCount": 2,
+    "siteSpread": "PARTLY_UNSITED",
+    "classificationReason": "NO_RESEMBLANCE",
+    "classificationReasonNote": "no documented pattern shares a single keyword with any of this case’s signal types.",
+    "relatedPatterns": [],
+    "resemblanceNotes": [
+      "No documented pattern shares a keyword with this signal combination — zero votes, which is a gap in what the taxonomy's vocabulary covers, not a finding that the behaviour is new. Nothing here compares the case's signal types against the pattern's documented indicators. Resemblance is a keyword vote over the pattern's name, category and aliases, and a vote count cannot produce a difference. A section headed \"What makes this different\" listing resemblance sentences stated a comparison nobody made."
+    ],
+    "legitimateExplanations": [],
+    "countermeasures": []
+  }
 }
