@@ -1,0 +1,165 @@
+{
+  "schema_version": "risk-intake.v1",
+  "kind": "risk-intake",
+  "intake_id": "fraud-watch:mo:MO-0014",
+  "canonical_risk_id": "fraud-watch:mo:MO-0014",
+  "statement": "Synthetic Fraud Watch potential MO MO-0014: Possible Carrier Identity Takeover (ACCOUNT_TAKEOVER, DUPLICATE_ASSET_ID).",
+  "source": {
+    "system": "Fraud Watch",
+    "repository": "Jeevan-0508/fraud-watch",
+    "revision": null,
+    "uri": "https://github.com/Jeevan-0508/fraud-watch",
+    "identity": "MO-0014",
+    "captured_at": "2026-10-01T19:58:06.575Z",
+    "data_class": "synthetic_simulation"
+  },
+  "claim": {
+    "evidence_ids": [],
+    "contradicting_evidence_ids": [],
+    "hypothesis_context_sha256": "e8a71b560d63586c2e60d7330f7f3666079e12c6b261c32b93bc3e4a9384883b",
+    "mode_of_operation_id": "FFT-003",
+    "likelihood": null,
+    "impact": null,
+    "financial_impact": null,
+    "owner_id": null,
+    "control_effectiveness": null,
+    "confidence": null
+  },
+  "lifecycle": {
+    "state": "hypothesis",
+    "authority": "synthetic"
+  },
+  "idempotency_key": "fraud-watch:mo:MO-0014",
+  "synthetic_context": {
+    "kind": "fraud-watch-mo.v1",
+    "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
+    "status": "NEW",
+    "classification": "MO_VARIANT",
+    "title": "Possible Carrier Identity Takeover",
+    "signature": "ACCOUNT_TAKEOVER+DUPLICATE_ASSET_ID",
+    "correlationIndex": 22,
+    "correlationIndexSemantics": "synthetic_signal_index_not_probability",
+    "confidenceBand": "WATCH",
+    "recurrenceCount": 1,
+    "firstObservedAt": 825300,
+    "openedAt": 828600,
+    "lastObservedAt": 835500,
+    "relatedPatternId": "FFT-003",
+    "signalTypes": [
+      "ACCOUNT_TAKEOVER",
+      "DUPLICATE_ASSET_ID"
+    ],
+    "entityIds": {
+      "truck_id": "TRU-004",
+      "driver_id": "DRI-028",
+      "trailer_id": "TRA-004",
+      "carrier_id": "CAR-007",
+      "facility_id": null
+    },
+    "timeline": [
+      {
+        "at": 825300,
+        "signalType": "DUPLICATE_ASSET_ID"
+      },
+      {
+        "at": 828600,
+        "signalType": "ACCOUNT_TAKEOVER"
+      }
+    ],
+    "signals": [
+      {
+        "signalType": "DUPLICATE_ASSET_ID",
+        "contribution": 2,
+        "reliability": 0.65,
+        "at": 825300,
+        "facilityId": "FAC-001",
+        "facilityName": "North Gate"
+      },
+      {
+        "signalType": "ACCOUNT_TAKEOVER",
+        "contribution": 1.8,
+        "reliability": 0.6,
+        "at": 828600,
+        "facilityId": null,
+        "facilityName": null
+      }
+    ],
+    "sites": [
+      {
+        "facilityId": "FAC-001",
+        "facilityName": "North Gate",
+        "signalCount": 1
+      }
+    ],
+    "unsitedSignalCount": 1,
+    "siteSpread": "PARTLY_UNSITED",
+    "classificationReason": "VOCABULARY_SHARED_AT_FIRST_SIGHTING",
+    "classificationReasonNote": "first sighting of this combination, and its vocabulary overlap with the top-ranked pattern is at or above the declared floor.",
+    "relatedPatterns": [
+      {
+        "id": "FFT-003",
+        "name": "Carrier Identity Takeover",
+        "votes": 5,
+        "keywords": [
+          "hijack",
+          "identity",
+          "impersonation",
+          "operator",
+          "takeover"
+        ]
+      },
+      {
+        "id": "FFT-008",
+        "name": "GPS Spoofing and Telematics Manipulation",
+        "votes": 5,
+        "keywords": [
+          "gnss",
+          "position",
+          "spoof",
+          "telemat",
+          "tracker"
+        ]
+      },
+      {
+        "id": "FFT-002",
+        "name": "Phantom Carrier",
+        "votes": 1,
+        "keywords": [
+          "identity"
+        ]
+      }
+    ],
+    "resemblanceNotes": [
+      "Shares most vocabulary with Carrier Identity Takeover (5 shared keywords). This exact combination of signal types has not recurred in this simulation.",
+      "Shares some vocabulary with: GPS Spoofing and Telematics Manipulation, Phantom Carrier.",
+      "Nothing here compares the case's signal types against the pattern's documented indicators. Resemblance is a keyword vote over the pattern's name, category and aliases, and a vote count cannot produce a difference. A section headed \"What makes this different\" listing resemblance sentences stated a comparison nobody made."
+    ],
+    "legitimateExplanations": [
+      {
+        "title": "Contact details for an existing carrier have changed.",
+        "actually": "Genuine rebranding, domain migration, office relocation, or acquisition.",
+        "ruleOut": "Confirm the change through the pre-existing channel, not the new one, and require confirmation from a known contact. A genuine change survives verification through the old channel; a takeover does not."
+      },
+      {
+        "title": "Bank account name differs from the operator name.",
+        "actually": "Legitimate use of a factoring company or a group treasury account, which is common in road freight.",
+        "ruleOut": "Require a written assignment or factoring agreement, and verify it with the factor directly. Legitimate factoring is documented and verifiable."
+      },
+      {
+        "title": "A primary administrator or account owner changes shortly before a movement.",
+        "actually": "A genuine ownership transfer, staff change, leave cover or managed-service transition.",
+        "ruleOut": "Verify the change through the previously known operator channel, record the effective date and preserve the old-to-new administrator audit trail."
+      }
+    ],
+    "countermeasures": [
+      {
+        "bucket": "detective",
+        "text": "Run automated lookalike-domain detection against the domains of onboarded carriers."
+      },
+      {
+        "bucket": "responsive",
+        "text": "Notify the impersonated operator, which is a victim and will usually cooperate, and which may already hold evidence."
+      }
+    ]
+  }
+}
