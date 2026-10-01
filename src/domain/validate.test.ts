@@ -38,4 +38,12 @@ describe('validateProgram backward compatibility', () => {
     expect(Number.isFinite(health.overall.score)).toBe(true);
     expect(health.tolerance.appetite.id).toBe('appetite-default');
   });
+
+  it('drops malformed imported risk intake records instead of exposing them to the intake screen', () => {
+    const raw = { ...makeProgram(), riskIntakes: [{ intakeId: 'broken' }] } as Record<string, unknown>;
+    const result = validateProgram(raw);
+    expect(result.ok).toBe(true);
+    expect(result.program?.riskIntakes).toEqual([]);
+    expect(result.warnings.some((w) => w.includes('riskIntakes'))).toBe(true);
+  });
 });
