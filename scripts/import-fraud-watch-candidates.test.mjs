@@ -37,4 +37,22 @@ fs.writeFileSync(path.join(directoryInput, 'manifest.json'), JSON.stringify({
 const directoryRun = spawnSync(process.execPath, [path.join(import.meta.dirname, 'import-fraud-watch-candidates.mjs'), directoryInput, directoryOutput], { encoding: 'utf8' });
 assert.equal(directoryRun.status, 0, directoryRun.stderr);
 assert.deepEqual(fs.readdirSync(directoryOutput), ['fraud-watch-seal-mismatch-seal-replaced.risk-intake.json']);
+
+const moInput = path.join(temp, 'mo-observation.json');
+const moOutput = path.join(temp, 'mo-out');
+fs.writeFileSync(moInput, JSON.stringify({
+  schema_version: 'mo-observation.v1', kind: 'mo_observation', data_class: 'synthetic_simulation', exported_at: '2026-10-01T12:00:00.000Z',
+  source: { repository: 'Jeevan-0508/fraud-watch', repository_url: 'https://github.com/Jeevan-0508/fraud-watch', revision: null, authenticity: 'unverified_export' },
+  observation: {
+    id: 'MO-0018', classification: 'POTENTIAL_NEW_MO', title: 'Possible Phantom Carrier',
+    correlation_index_semantics: 'synthetic_signal_index_not_probability', signal_types: ['CARRIER_UNRESPONSIVE', 'HANDOVER_GAP'], related_pattern_id: 'FFT-001',
+  },
+}));
+const moRun = spawnSync(process.execPath, [path.join(import.meta.dirname, 'import-fraud-watch-candidates.mjs'), moInput, moOutput], { encoding: 'utf8' });
+assert.equal(moRun.status, 0, moRun.stderr);
+const moIntake = JSON.parse(fs.readFileSync(path.join(moOutput, 'fraud-watch-mo-mo-0018.risk-intake.json'), 'utf8'));
+assert.equal(moIntake.intake_id, 'fraud-watch:mo:MO-0018');
+assert.match(moIntake.statement, /Possible Phantom Carrier/);
+assert.deepEqual(moIntake.claim.evidence_ids, []);
+assert.equal(moIntake.lifecycle.authority, 'synthetic');
 console.log('Fraud Watch synthetic intake bridge passed.');

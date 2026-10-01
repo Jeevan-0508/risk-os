@@ -57,38 +57,31 @@ function safeName(value) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 120) || 'candidate';
 }
 
-function convert(payload) {
-  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) fail('candidate export must be an object');
-  if (payload.schema_version !== 'candidate-mo.v1' || payload.kind !== 'candidate_mo') fail('unsupported candidate export schema');
-  if (payload.data_class !== 'synthetic_simulation') fail('candidate export is not synthetic_simulation');
-  if (!payload.source || payload.source.authenticity !== 'unverified_export') fail('candidate export authenticity is not unverified_export');
-  const candidate = payload.candidate;
-  if (!candidate || typeof candidate.id !== 'string' || candidate.id.length === 0) fail('candidate id is missing');
-  if (!Array.isArray(candidate.supporting_cases)) fail('candidate supporting cases are missing');
-  const signalTypes = [...new Set(candidate.supporting_cases.flatMap((item) => Array.isArray(item?.signal_types) ? item.signal_types : []))].sort();
-  const patternId = candidate.supporting_cases.map((item) => item?.related_pattern_id).find((value) => typeof value === 'string') ?? null;
-  const digest = crypto.createHash('sha256').update(stableJson(payload)).digest('hex');
-  const exportedAt = typeof payload.exported_at === 'string' ? payload.exported_at : new Date(0).toISOString();
+function baseSource(payload, candidateId, exportedAt) {
   const repository = typeof payload.source.repository === 'string' ? payload.source.repository : 'Jeevan-0508/fraud-watch';
+  return {
+    system: 'Fraud Watch',
+    repository,
+    revision: typeof payload.source.revision === 'string' && /^[a-f0-9]{40}$/.test(payload.source.revision) ? payload.source.revision : null,
+    uri: typeof payload.source.repository_url === 'string' ? payload.source.repository_url : 'https://github.com/Jeevan-0508/fraud-watch',
+    identity: candidateId,
+    captured_at: exportedAt,
+    data_class: 'synthetic_simulation',
+  };
+}
+
+function intake({ id, statement, source, patternId, payload }) {
   return {
     schema_version: 'risk-intake.v1',
     kind: 'risk-intake',
-    intake_id: candidate.id,
-    canonical_risk_id: candidate.id,
-    statement: 'Synthetic Fraud Watch candidate hypothesis ' + candidate.id + (signalTypes.length ? ' (' + signalTypes.join(', ') + ')' : '') + '.',
-    source: {
-      system: 'Fraud Watch',
-      repository,
-      revision: typeof payload.source.revision === 'string' && /^[a-f0-9]{40}$/.test(payload.source.revision) ? payload.source.revision : null,
-      uri: typeof payload.source.repository_url === 'string' ? payload.source.repository_url : 'https://github.com/Jeevan-0508/fraud-watch',
-      identity: candidate.id,
-      captured_at: exportedAt,
-      data_class: 'synthetic_simulation',
-    },
+    intake_id: id,
+    canonical_risk_id: id,
+    statement,
+    source,
     claim: {
       evidence_ids: [],
       contradicting_evidence_ids: [],
-      hypothesis_context_sha256: digest,
+      hypothesis_context_sha256: crypto.createHash('sha256').update(stableJson(payload)).digest('hex'),
       mode_of_operation_id: patternId,
       likelihood: null,
       impact: null,
@@ -98,8 +91,54 @@ function convert(payload) {
       confidence: null,
     },
     lifecycle: { state: 'hypothesis', authority: 'synthetic' },
-    idempotency_key: 'fraud-watch:' + candidate.id,
+    idempotency_key: 'fraud-watch:' + id,
   };
+}
+
+function assertSyntheticSource(payload) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) fail('Fraud Watch export must be an object');
+  if (payload.data_class !== 'synthetic_simulation') fail('Fraud Watch export is not synthetic_simulation');
+  if (!payload.source || payload.source.authenticity !== 'unverified_export') fail('Fraud Watch export authenticity is not unverified_export');
+}
+
+function convert(payload) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) fail('candidate export must be an object');
+  assertSyntheticSource(payload);
+  if (payload.schema_version === 'mo-observation.v1' && payload.kind === 'mo_observation') return convertMOObservation(payload);
+  if (payload.schema_version !== 'candidate-mo.v1' || payload.kind !== 'candidate_mo') fail('unsupported candidate export schema');
+  const candidate = payload.candidate;
+  if (!candidate || typeof candidate.id !== 'string' || candidate.id.length === 0) fail('candidate id is missing');
+  if (!Array.isArray(candidate.supporting_cases)) fail('candidate supporting cases are missing');
+  const signalTypes = [...new Set(candidate.supporting_cases.flatMap((item) => Array.isArray(item?.signal_types) ? item.signal_types : []))].sort();
+  const patternId = candidate.supporting_cases.map((item) => item?.related_pattern_id).find((value) => typeof value === 'string') ?? null;
+  const exportedAt = typeof payload.exported_at === 'string' ? payload.exported_at : new Date(0).toISOString();
+  return intake({
+    id: candidate.id,
+    statement: 'Synthetic Fraud Watch candidate hypothesis ' + candidate.id + (signalTypes.length ? ' (' + signalTypes.join(', ') + ')' : '') + '.',
+    source: baseSource(payload, candidate.id, exportedAt),
+    patternId,
+    payload,
+  });
+}
+
+function convertMOObservation(payload) {
+  const observation = payload.observation;
+  if (!observation || typeof observation !== 'object' || Array.isArray(observation)) fail('MO observation is missing');
+  if (typeof observation.id !== 'string' || !/^MO-[0-9]+$/.test(observation.id)) fail('MO observation id is missing or malformed');
+  if (observation.classification !== 'POTENTIAL_NEW_MO') fail('only POTENTIAL_NEW_MO observations may be onboarded');
+  if (!Array.isArray(observation.signal_types) || observation.signal_types.length === 0 || observation.signal_types.some((value) => typeof value !== 'string' || value.length === 0)) fail('MO observation signal types are missing');
+  if (observation.correlation_index_semantics !== 'synthetic_signal_index_not_probability') fail('MO correlation index semantics are not synthetic');
+  const exportedAt = typeof payload.exported_at === 'string' ? payload.exported_at : new Date(0).toISOString();
+  const title = typeof observation.title === 'string' && observation.title.length > 0 ? observation.title : 'Potential MO ' + observation.id;
+  const signals = [...new Set(observation.signal_types)].sort();
+  const statement = 'Synthetic Fraud Watch potential MO ' + observation.id + ': ' + title + (signals.length ? ' (' + signals.join(', ') + ').' : '.');
+  return intake({
+    id: 'fraud-watch:mo:' + observation.id,
+    statement,
+    source: baseSource(payload, observation.id, exportedAt),
+    patternId: typeof observation.related_pattern_id === 'string' ? observation.related_pattern_id : null,
+    payload,
+  });
 }
 
 fs.mkdirSync(outputDir, { recursive: true });
