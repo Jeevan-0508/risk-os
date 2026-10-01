@@ -132,6 +132,36 @@ export interface Program {
 export type RiskIntakeLifecycle = 'hypothesis' | 'unverified_external' | 'operator_review' | 'accepted' | 'rejected';
 export type RiskIntakeAuthority = 'synthetic' | 'model_output' | 'external_unverified' | 'operator_validated';
 
+export interface RiskIntakeSyntheticContext {
+  kind: 'fraud-watch-mo.v1' | 'fraud-watch-candidate.v1';
+  disclaimer: string;
+  status: string | null;
+  classification: string | null;
+  title: string | null;
+  signature: string | null;
+  correlationIndex: number | null;
+  correlationIndexSemantics: string | null;
+  confidenceBand: string | null;
+  recurrenceCount: number | null;
+  firstObservedAt: number | null;
+  openedAt: number | null;
+  lastObservedAt: number | null;
+  relatedPatternId: string | null;
+  signalTypes: string[];
+  entityIds: Record<string, string | null>;
+  timeline: { at: number; signalType: string }[];
+  signals: { signalType: string; contribution: number | null; reliability: number | null; at: number | null; facilityId: string | null; facilityName: string | null }[];
+  sites: { facilityId: string; facilityName: string; signalCount: number }[];
+  unsitedSignalCount: number | null;
+  siteSpread: string | null;
+  classificationReason: string | null;
+  classificationReasonNote: string | null;
+  relatedPatterns: { id: string; name: string; votes: number; keywords: string[] }[];
+  resemblanceNotes: string[];
+  legitimateExplanations: { title: string; actually: string; ruleOut: string }[];
+  countermeasures: { bucket: string; text: string }[];
+}
+
 /**
  * A provenance-bound handoff from the controlled MESH feedback boundary into Risk OS.
  * It is deliberately not a Risk: unknown likelihood, impact, owner, effectiveness and
@@ -163,6 +193,7 @@ export interface RiskIntakeRecord {
   confidence: number | null;
   idempotencyKey: string;
   history: { at: ISODate; lifecycle: RiskIntakeLifecycle; sourceRevision: string | null; note: string }[];
+  syntheticContext?: RiskIntakeSyntheticContext;
   operatorReview?: { operatorId: string; reviewedAt: ISODate; note: string };
   promotedRiskId?: string;
 }

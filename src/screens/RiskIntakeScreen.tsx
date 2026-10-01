@@ -124,6 +124,33 @@ export function RiskIntakeScreen() {
                   <div><span className="text-ink-500">Evidence:</span> {record.evidenceIds.length} supporting, {record.contradictingEvidenceIds.length} contradicting</div>
                   <div><span className="text-ink-500">Assessment:</span> likelihood {record.likelihood ?? 'Unknown'} · impact {record.impact ?? 'Unknown'} · confidence {record.confidence ?? 'Unknown'}</div>
                 </div>
+                {record.syntheticContext && (
+                  <details className="mt-3 border-t border-base-600 pt-3">
+                    <summary className="cursor-pointer text-xs text-attention">Synthetic context · {record.syntheticContext.signalTypes.length} signal types</summary>
+                    <div className="mt-3 space-y-3 text-2xs text-ink-300">
+                      <p className="border border-attention/30 bg-attention/5 p-2 leading-relaxed">{record.syntheticContext.disclaimer}</p>
+                      <div className="grid gap-2 sm:grid-cols-3">
+                        <div><span className="text-ink-500">Simulator status:</span> {record.syntheticContext.status ?? 'Unknown'}</div>
+                        <div><span className="text-ink-500">Classification:</span> {record.syntheticContext.classification ?? 'Unknown'}</div>
+                        <div><span className="text-ink-500">Correlation index:</span> {record.syntheticContext.correlationIndex ?? 'Unknown'}{record.syntheticContext.correlationIndexSemantics ? ` (${record.syntheticContext.correlationIndexSemantics})` : ''}</div>
+                        <div><span className="text-ink-500">Confidence band:</span> {record.syntheticContext.confidenceBand ?? 'Unknown'}</div>
+                        <div><span className="text-ink-500">Recurrence count:</span> {record.syntheticContext.recurrenceCount ?? 'Unknown'}</div>
+                        <div><span className="text-ink-500">Site spread:</span> {record.syntheticContext.siteSpread ?? 'Unknown'}</div>
+                      </div>
+                      <div><span className="text-ink-500">Entities:</span> {Object.entries(record.syntheticContext.entityIds).filter(([, value]) => value).map(([key, value]) => `${label(key)} ${value}`).join(' · ') || 'Unknown'}</div>
+                      <div><span className="text-ink-500">Signals:</span> {record.syntheticContext.signalTypes.map(label).join(' · ') || 'Unknown'}</div>
+                      {record.syntheticContext.signals.length > 0 && (
+                        <div className="overflow-x-auto border border-base-600">
+                          <table className="w-full text-left text-2xs"><thead className="text-ink-500"><tr><th className="p-2">Signal</th><th className="p-2">Contribution</th><th className="p-2">Reliability</th><th className="p-2">Observed at</th><th className="p-2">Site</th></tr></thead><tbody>{record.syntheticContext.signals.map((signal, index) => <tr key={`${signal.signalType}-${signal.at ?? index}`} className="border-t border-base-600"><td className="p-2">{label(signal.signalType)}</td><td className="p-2">{signal.contribution ?? 'Unknown'}</td><td className="p-2">{signal.reliability ?? 'Unknown'}</td><td className="p-2">{signal.at ?? 'Unknown'}</td><td className="p-2">{signal.facilityName ?? signal.facilityId ?? 'Open road / unknown'}</td></tr>)}</tbody></table>
+                        </div>
+                      )}
+                      {record.syntheticContext.relatedPatterns.length > 0 && <div><div className="mb-1 text-ink-500">Related taxonomy patterns</div><ul className="list-disc space-y-1 pl-4">{record.syntheticContext.relatedPatterns.map((pattern) => <li key={pattern.id}>{pattern.name} · {pattern.votes} shared keywords ({pattern.keywords.join(', ')})</li>)}</ul></div>}
+                      {record.syntheticContext.resemblanceNotes.length > 0 && <div><div className="mb-1 text-ink-500">Interpretation notes</div><ul className="list-disc space-y-1 pl-4">{record.syntheticContext.resemblanceNotes.map((note, index) => <li key={`${index}-${note.slice(0, 20)}`}>{note}</li>)}</ul></div>}
+                      {record.syntheticContext.legitimateExplanations.length > 0 && <div><div className="mb-1 text-ink-500">Documented legitimate explanations</div><ul className="list-disc space-y-1 pl-4">{record.syntheticContext.legitimateExplanations.map((item) => <li key={item.title}><b>{item.title}</b> — {item.actually} <span className="text-info">Rule out: {item.ruleOut}</span></li>)}</ul></div>}
+                      {record.syntheticContext.countermeasures.length > 0 && <div><div className="mb-1 text-ink-500">Taxonomy countermeasures (context only)</div><ul className="list-disc space-y-1 pl-4">{record.syntheticContext.countermeasures.map((item, index) => <li key={`${item.bucket}-${index}`}><span className="text-ink-500">{label(item.bucket)}:</span> {item.text}</li>)}</ul></div>}
+                    </div>
+                  </details>
+                )}
                 {record.lifecycle !== 'accepted' && (
                   <details className="mt-3 border-t border-base-600 pt-3" open={reviewing === record.intakeId} onToggle={(event) => setReviewing(event.currentTarget.open ? record.intakeId : null)}>
                     <summary className="cursor-pointer text-xs text-info">Operator review</summary>

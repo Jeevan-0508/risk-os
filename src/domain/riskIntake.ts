@@ -1,4 +1,4 @@
-import type { Likert5, Risk, RiskCategory, RiskIntakeAuthority, RiskIntakeLifecycle, RiskIntakePromotion, RiskIntakeRecord, RiskResponseStrategy, RiskStatus, TimeHorizon } from './types';
+import type { Likert5, Risk, RiskCategory, RiskIntakeAuthority, RiskIntakeLifecycle, RiskIntakePromotion, RiskIntakeRecord, RiskIntakeSyntheticContext, RiskResponseStrategy, RiskStatus, TimeHorizon } from './types';
 
 export interface RiskIntakeInput {
   schema_version: 'risk-intake.v1';
@@ -29,6 +29,7 @@ export interface RiskIntakeInput {
   };
   lifecycle: { state: RiskIntakeLifecycle; authority: RiskIntakeAuthority };
   idempotency_key: string;
+  synthetic_context?: RiskIntakeSyntheticContext;
 }
 
 const DATA_CLASSES = ['synthetic_simulation', 'model_output', 'external_source_content', 'operator_observation'] as const;
@@ -47,11 +48,11 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-function exactKeys(value: Record<string, unknown>, keys: readonly string[], label: string): void {
+function exactKeys(value: Record<string, unknown>, keys: readonly string[], label: string, optional: readonly string[] = []): void {
   const expected = new Set(keys);
   const unknown = Object.keys(value).filter((key) => !expected.has(key));
   if (unknown.length > 0) throw new Error(label + ' contains unknown field(s): ' + unknown.join(', ') + '.');
-  const missing = keys.filter((key) => !(key in value));
+  const missing = keys.filter((key) => !optional.includes(key) && !(key in value));
   if (missing.length > 0) throw new Error(label + ' is missing field(s): ' + missing.join(', ') + '.');
 }
 
@@ -80,9 +81,70 @@ function stringArray(value: unknown, label: string): string[] {
   return [...value];
 }
 
+function nullableFinite(value: unknown, label: string): number | null {
+  if (value === null) return null;
+  if (typeof value !== 'number' || !Number.isFinite(value)) throw new Error(label + ' must be null or a finite number.');
+  return value;
+}
+
+function parseSyntheticContext(value: unknown): RiskIntakeSyntheticContext {
+  if (!isRecord(value)) throw new Error('synthetic_context must be an object.');
+  const kind = value.kind;
+  if (kind !== 'fraud-watch-mo.v1' && kind !== 'fraud-watch-candidate.v1') throw new Error('synthetic_context.kind is invalid.');
+  const disclaimer = text(value.disclaimer, 'synthetic_context.disclaimer', 1000);
+  const nullable = (key: string, max = 512) => nullableText(value[key], 'synthetic_context.' + key, max);
+  const signalTypes = stringArray(value.signalTypes ?? [], 'synthetic_context.signalTypes');
+  const entityIdsValue = value.entityIds;
+  if (!isRecord(entityIdsValue)) throw new Error('synthetic_context.entityIds must be an object.');
+  const entityIds: Record<string, string | null> = {};
+  for (const [key, item] of Object.entries(entityIdsValue)) {
+    if (typeof item !== 'string' && item !== null) throw new Error('synthetic_context.entityIds values must be strings or null.');
+    if (key.length > 128 || (typeof item === 'string' && item.length > 256)) throw new Error('synthetic_context.entityIds is too large.');
+    entityIds[key] = item;
+  }
+  const timeline = Array.isArray(value.timeline) ? value.timeline.map((item, index) => {
+    if (!isRecord(item) || typeof item.signalType !== 'string') throw new Error('synthetic_context.timeline[' + index + '] is invalid.');
+    return { at: nullableFinite(item.at, 'synthetic_context.timeline[' + index + '].at') ?? 0, signalType: text(item.signalType, 'synthetic_context.timeline[' + index + '].signalType', 256) };
+  }) : [];
+  const signals = Array.isArray(value.signals) ? value.signals.map((item, index) => {
+    if (!isRecord(item)) throw new Error('synthetic_context.signals[' + index + '] is invalid.');
+    return {
+      signalType: text(item.signalType, 'synthetic_context.signals[' + index + '].signalType', 256),
+      contribution: nullableFinite(item.contribution, 'synthetic_context.signals[' + index + '].contribution'),
+      reliability: nullableFinite(item.reliability, 'synthetic_context.signals[' + index + '].reliability'),
+      at: nullableFinite(item.at, 'synthetic_context.signals[' + index + '].at'),
+      facilityId: item.facilityId === null ? null : text(item.facilityId, 'synthetic_context.signals[' + index + '].facilityId', 256),
+      facilityName: item.facilityName === null ? null : text(item.facilityName, 'synthetic_context.signals[' + index + '].facilityName', 256),
+    };
+  }) : [];
+  const sites = Array.isArray(value.sites) ? value.sites.map((item, index) => {
+    if (!isRecord(item)) throw new Error('synthetic_context.sites[' + index + '] is invalid.');
+    return { facilityId: text(item.facilityId, 'synthetic_context.sites[' + index + '].facilityId', 256), facilityName: text(item.facilityName, 'synthetic_context.sites[' + index + '].facilityName', 256), signalCount: nullableFinite(item.signalCount, 'synthetic_context.sites[' + index + '].signalCount') ?? 0 };
+  }) : [];
+  const relatedPatterns = Array.isArray(value.relatedPatterns) ? value.relatedPatterns.map((item, index) => {
+    if (!isRecord(item)) throw new Error('synthetic_context.relatedPatterns[' + index + '] is invalid.');
+    return { id: text(item.id, 'synthetic_context.relatedPatterns[' + index + '].id', 256), name: text(item.name, 'synthetic_context.relatedPatterns[' + index + '].name', 512), votes: nullableFinite(item.votes, 'synthetic_context.relatedPatterns[' + index + '].votes') ?? 0, keywords: stringArray(item.keywords ?? [], 'synthetic_context.relatedPatterns[' + index + '].keywords') };
+  }) : [];
+  const textList = (key: string) => Array.isArray(value[key]) ? value[key].map((item, index) => text(item, 'synthetic_context.' + key + '[' + index + ']', 4000)) : [];
+  const legitimateExplanations = Array.isArray(value.legitimateExplanations) ? value.legitimateExplanations.map((item, index) => {
+    if (!isRecord(item)) throw new Error('synthetic_context.legitimateExplanations[' + index + '] is invalid.');
+    return { title: text(item.title, 'synthetic_context.legitimateExplanations[' + index + '].title', 1000), actually: text(item.actually, 'synthetic_context.legitimateExplanations[' + index + '].actually', 4000), ruleOut: text(item.ruleOut, 'synthetic_context.legitimateExplanations[' + index + '].ruleOut', 4000) };
+  }) : [];
+  const countermeasures = Array.isArray(value.countermeasures) ? value.countermeasures.map((item, index) => {
+    if (!isRecord(item)) throw new Error('synthetic_context.countermeasures[' + index + '] is invalid.');
+    return { bucket: text(item.bucket, 'synthetic_context.countermeasures[' + index + '].bucket', 128), text: text(item.text, 'synthetic_context.countermeasures[' + index + '].text', 4000) };
+  }) : [];
+  return {
+    kind, disclaimer, status: nullable('status'), classification: nullable('classification'), title: nullable('title', 1000), signature: nullable('signature', 2048),
+    correlationIndex: nullableFinite(value.correlationIndex, 'synthetic_context.correlationIndex'), correlationIndexSemantics: nullable('correlationIndexSemantics', 1000), confidenceBand: nullable('confidenceBand'), recurrenceCount: nullableFinite(value.recurrenceCount, 'synthetic_context.recurrenceCount'),
+    firstObservedAt: nullableFinite(value.firstObservedAt, 'synthetic_context.firstObservedAt'), openedAt: nullableFinite(value.openedAt, 'synthetic_context.openedAt'), lastObservedAt: nullableFinite(value.lastObservedAt, 'synthetic_context.lastObservedAt'), relatedPatternId: nullable('relatedPatternId'), signalTypes, entityIds, timeline, signals, sites,
+    unsitedSignalCount: nullableFinite(value.unsitedSignalCount, 'synthetic_context.unsitedSignalCount'), siteSpread: nullable('siteSpread'), classificationReason: nullable('classificationReason'), classificationReasonNote: nullable('classificationReasonNote', 4000), relatedPatterns, resemblanceNotes: textList('resemblanceNotes'), legitimateExplanations, countermeasures,
+  };
+}
+
 export function parseRiskIntake(input: unknown): RiskIntakeInput {
   if (!isRecord(input)) throw new Error('Risk intake must be a JSON object.');
-  exactKeys(input, ['schema_version', 'kind', 'intake_id', 'canonical_risk_id', 'statement', 'source', 'claim', 'lifecycle', 'idempotency_key'], 'risk-intake');
+  exactKeys(input, ['schema_version', 'kind', 'intake_id', 'canonical_risk_id', 'statement', 'source', 'claim', 'lifecycle', 'idempotency_key', 'synthetic_context'], 'risk-intake', ['synthetic_context']);
   if (input.schema_version !== 'risk-intake.v1' || input.kind !== 'risk-intake') throw new Error('Risk intake schema_version and kind are invalid.');
 
   const source = input.source;
@@ -109,6 +171,7 @@ export function parseRiskIntake(input: unknown): RiskIntakeInput {
   if (dataClass === 'model_output' && authority !== 'model_output') throw new Error('Model output cannot claim operator or external authority.');
   if (state === 'accepted' && authority !== 'operator_validated') throw new Error('Only operator-validated input may be accepted.');
   if (authority === 'operator_validated' && dataClass !== 'operator_observation') throw new Error('Operator validation requires operator-observation data.');
+  const syntheticContext = input.synthetic_context === undefined ? undefined : parseSyntheticContext(input.synthetic_context);
 
   const hypothesisContextHash = claim.hypothesis_context_sha256 === null ? null : text(claim.hypothesis_context_sha256, 'claim.hypothesis_context_sha256', 64);
   if (hypothesisContextHash !== null && !SHA64.test(hypothesisContextHash)) throw new Error('claim.hypothesis_context_sha256 must be a lowercase 64-character SHA-256 or null.');
@@ -149,6 +212,7 @@ export function parseRiskIntake(input: unknown): RiskIntakeInput {
     },
     lifecycle: { state, authority },
     idempotency_key: text(input.idempotency_key, 'idempotency_key', 256),
+    ...(syntheticContext ? { synthetic_context: syntheticContext } : {}),
   };
 }
 
@@ -179,8 +243,9 @@ export function toRiskIntakeRecord(input: RiskIntakeInput, previous?: RiskIntake
     confidence: input.claim.confidence,
     idempotencyKey: input.idempotency_key,
     history: previous?.history ? [...previous.history] : [],
+    ...(input.synthetic_context ? { syntheticContext: input.synthetic_context } : {}),
   };
-  if (!previous || previous.lifecycle !== next.lifecycle || previous.sourceRevision !== next.sourceRevision || previous.statement !== next.statement) {
+  if (!previous || previous.lifecycle !== next.lifecycle || previous.sourceRevision !== next.sourceRevision || previous.statement !== next.statement || JSON.stringify(previous.syntheticContext) !== JSON.stringify(next.syntheticContext)) {
     next.history.push({ at: next.capturedAt, lifecycle: next.lifecycle, sourceRevision: next.sourceRevision, note: previous ? 'Intake updated from a newer or changed source.' : 'Intake created from a validated handoff.' });
   }
   return next;
