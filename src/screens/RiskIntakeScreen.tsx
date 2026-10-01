@@ -11,6 +11,21 @@ function label(value: string): string {
   return value.replaceAll('_', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
+function shortName(record: RiskIntakeRecord): string {
+  const identity = record.sourceIdentity;
+  const mo = /^MO-\d+$/i.exec(identity);
+  if (mo) {
+    const afterColon = record.statement.split(': ', 2)[1] ?? record.statement;
+    const title = afterColon.split(' (', 1)[0].trim();
+    return `${mo[0].toUpperCase()} · ${title}`.slice(0, 120);
+  }
+  if (identity.startsWith('fraud-watch:')) {
+    const signature = identity.replace(/^fraud-watch:/, '').replaceAll('+', ' / ').replaceAll('_', ' ');
+    return `Candidate · ${signature}`.slice(0, 120);
+  }
+  return record.canonicalRiskId;
+}
+
 function statusTone(record: RiskIntakeRecord): 'neutral' | 'info' | 'attention' | 'controlled' | 'threat' {
   if (record.authority === 'synthetic') return 'attention';
   if (record.lifecycle === 'accepted') return 'controlled';
@@ -98,7 +113,8 @@ export function RiskIntakeScreen() {
               <article key={record.intakeId} className="border border-base-500 bg-base-800/50 p-3">
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <div className="text-sm font-medium text-ink-100">{record.statement}</div>
+                    <div className="text-sm font-semibold text-ink-100">{shortName(record)}</div>
+                    <div className="mt-1 max-w-5xl text-xs leading-relaxed text-ink-300">{record.statement}</div>
                     <div className="mt-1 text-2xs text-ink-500">{record.canonicalRiskId} · {record.sourceRepository} · {record.sourceRevision ? record.sourceRevision.slice(0, 12) : 'revision unknown'}</div>
                   </div>
                   <div className="flex gap-2"><Chip tone={statusTone(record)}>{label(record.lifecycle)}</Chip><Chip>{label(record.authority)}</Chip></div>
