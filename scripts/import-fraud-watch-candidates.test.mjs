@@ -44,7 +44,7 @@ fs.writeFileSync(moInput, JSON.stringify({
   schema_version: 'mo-observation.v1', kind: 'mo_observation', data_class: 'synthetic_simulation', exported_at: '2026-10-01T12:00:00.000Z',
   source: { repository: 'Jeevan-0508/fraud-watch', repository_url: 'https://github.com/Jeevan-0508/fraud-watch', revision: null, authenticity: 'unverified_export' },
   observation: {
-    id: 'MO-0018', classification: 'POTENTIAL_NEW_MO', title: 'Possible Phantom Carrier',
+    id: 'MO-0018', classification: 'MO_VARIANT', title: 'Possible Phantom Carrier',
     correlation_index_semantics: 'synthetic_signal_index_not_probability', signal_types: ['CARRIER_UNRESPONSIVE', 'HANDOVER_GAP'], related_pattern_id: 'FFT-001',
   },
 }));

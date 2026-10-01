@@ -125,7 +125,7 @@ function convertMOObservation(payload) {
   const observation = payload.observation;
   if (!observation || typeof observation !== 'object' || Array.isArray(observation)) fail('MO observation is missing');
   if (typeof observation.id !== 'string' || !/^MO-[0-9]+$/.test(observation.id)) fail('MO observation id is missing or malformed');
-  if (observation.classification !== 'POTENTIAL_NEW_MO') fail('only POTENTIAL_NEW_MO observations may be onboarded');
+  if (!['KNOWN_MO', 'MO_VARIANT', 'POTENTIAL_NEW_MO', 'EMERGING_BEHAVIOR'].includes(observation.classification)) fail('MO observation classification is unknown');
   if (!Array.isArray(observation.signal_types) || observation.signal_types.length === 0 || observation.signal_types.some((value) => typeof value !== 'string' || value.length === 0)) fail('MO observation signal types are missing');
   if (observation.correlation_index_semantics !== 'synthetic_signal_index_not_probability') fail('MO correlation index semantics are not synthetic');
   const exportedAt = typeof payload.exported_at === 'string' ? payload.exported_at : new Date(0).toISOString();

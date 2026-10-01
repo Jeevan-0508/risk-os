@@ -6,7 +6,7 @@ Fraud Watch candidate and potential-MO exports can be converted automatically in
 node scripts/import-fraud-watch-candidates.mjs <fraud-watch-export-dir> risk-intake-inbox
 ```
 
-The bridge accepts `candidate-mo.v1` and `mo-observation.v1` with `data_class: synthetic_simulation` and `source.authenticity: unverified_export`. For MO observations, only `classification: POTENTIAL_NEW_MO` is accepted. Every output is forced to `risk-intake.v1` with:
+The bridge accepts `candidate-mo.v1` and `mo-observation.v1` with `data_class: synthetic_simulation` and `source.authenticity: unverified_export`. Every recognized Fraud Watch MO classification is retained as context, while every output is forced to a Risk OS potential hypothesis with:
 
 - lifecycle `hypothesis` and authority `synthetic`
 - empty supporting and contradicting evidence arrays
