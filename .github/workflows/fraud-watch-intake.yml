@@ -1,0 +1,67 @@
+name: Import Fraud Watch hypotheses
+
+# This job copies only the synthetic candidate export contract into Risk OS.
+# The importer forces hypothesis/synthetic lifecycle, empty evidence and null
+# scoring fields; no workflow step promotes an intake into a scored risk.
+on:
+  schedule:
+    - cron: '37 */6 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fraud-watch-risk-intake
+  cancel-in-progress: false
+
+env:
+  FRAUD_WATCH_REPOSITORY: Jeevan-0508/fraud-watch
+  FRAUD_WATCH_REF: main
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.FRAUD_WATCH_REPOSITORY }}
+          ref: ${{ env.FRAUD_WATCH_REF }}
+          path: .fraud-watch-export
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Convert candidate exports to Risk OS hypothesis intakes
+        run: |
+          set -euo pipefail
+          source_dir=".fraud-watch-export/data/candidate-exports"
+          if [ ! -d "$source_dir" ]; then
+            echo "No Fraud Watch candidate export directory at $source_dir; nothing to import."
+            exit 0
+          fi
+          node scripts/import-fraud-watch-candidates.mjs "$source_dir" risk-intake-inbox || {
+            status=$?
+            if [ "$status" -eq 1 ]; then
+              echo "No valid candidate exports were available; leaving the inbox unchanged."
+              exit 0
+            fi
+            exit "$status"
+          }
+
+      - name: Commit new hypothesis intakes
+        run: |
+          set -euo pipefail
+          git config user.name "risk-os-fraud-watch-import"
+          git config user.email "actions@users.noreply.github.com"
+          git add risk-intake-inbox
+          if git diff --cached --quiet; then
+            echo "No new synthetic hypothesis intakes."
+          else
+            git commit -m "Import Fraud Watch candidate hypotheses"
+            git push
+          fi

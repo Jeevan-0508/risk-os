@@ -24,4 +24,17 @@ assert.deepEqual(intake.claim.evidence_ids, []);
 assert.equal(intake.claim.likelihood, null);
 assert.equal(intake.claim.confidence, null);
 assert.match(intake.claim.hypothesis_context_sha256, /^[a-f0-9]{64}$/);
+
+const directoryInput = path.join(temp, 'exports');
+const directoryOutput = path.join(temp, 'directory-out');
+fs.mkdirSync(directoryInput);
+fs.writeFileSync(path.join(directoryInput, 'current.json'), JSON.stringify(payload));
+fs.writeFileSync(path.join(directoryInput, 'stale.json'), '{"schema_version":"not-a-candidate"}');
+fs.writeFileSync(path.join(directoryInput, 'manifest.json'), JSON.stringify({
+  schema_version: 'candidate-export-manifest.v1',
+  candidates: [{ file: 'current.json', id: payload.candidate.id }],
+}));
+const directoryRun = spawnSync(process.execPath, [path.join(import.meta.dirname, 'import-fraud-watch-candidates.mjs'), directoryInput, directoryOutput], { encoding: 'utf8' });
+assert.equal(directoryRun.status, 0, directoryRun.stderr);
+assert.deepEqual(fs.readdirSync(directoryOutput), ['fraud-watch-seal-mismatch-seal-replaced.risk-intake.json']);
 console.log('Fraud Watch synthetic intake bridge passed.');

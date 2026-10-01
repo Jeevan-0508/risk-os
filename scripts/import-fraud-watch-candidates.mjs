@@ -27,7 +27,23 @@ function fail(message) {
 function readInputs(location) {
   const absolute = path.resolve(location);
   const stat = fs.statSync(absolute);
-  if (stat.isDirectory()) return fs.readdirSync(absolute).filter((name) => name.toLowerCase().endsWith('.json')).map((name) => path.join(absolute, name));
+  if (stat.isDirectory()) {
+    const files = fs.readdirSync(absolute).filter((name) => name.toLowerCase().endsWith('.json') && name !== 'manifest.json');
+    const manifestPath = path.join(absolute, 'manifest.json');
+    if (!fs.existsSync(manifestPath)) return files.map((name) => path.join(absolute, name));
+    try {
+      const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+      if (manifest.schema_version !== 'candidate-export-manifest.v1' || !Array.isArray(manifest.candidates)) {
+        return files.map((name) => path.join(absolute, name));
+      }
+      const current = new Set(manifest.candidates
+        .filter((item) => item && item.refused !== true && typeof item.file === 'string')
+        .map((item) => item.file));
+      return files.filter((name) => current.has(name)).map((name) => path.join(absolute, name));
+    } catch {
+      return files.map((name) => path.join(absolute, name));
+    }
+  }
   return [absolute];
 }
 
