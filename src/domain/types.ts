@@ -109,6 +109,8 @@ export interface Program {
   milestones: Milestone[];
   deliverables: Deliverable[];
   risks: Risk[];
+  /** MESH-originated intake records remain separate until an operator supplies the fields required by Risk[]. */
+  riskIntakes?: RiskIntakeRecord[];
   causes: Cause[];
   controls: Control[];
   actions: Action[];
@@ -125,6 +127,42 @@ export interface Program {
   riskAppetite?: RiskAppetite;
   treatments: Treatment[];
   acceptances: Acceptance[];
+}
+
+export type RiskIntakeLifecycle = 'hypothesis' | 'unverified_external' | 'operator_review' | 'accepted' | 'rejected';
+export type RiskIntakeAuthority = 'synthetic' | 'model_output' | 'external_unverified' | 'operator_validated';
+
+/**
+ * A provenance-bound handoff from the controlled MESH feedback boundary into Risk OS.
+ * It is deliberately not a Risk: unknown likelihood, impact, owner, effectiveness and
+ * confidence stay null until a human review supplies them.
+ */
+export interface RiskIntakeRecord {
+  intakeId: string;
+  canonicalRiskId: string;
+  schemaVersion: 'risk-intake.v1';
+  statement: string;
+  sourceSystem: string;
+  sourceRepository: string;
+  sourceRevision: string | null;
+  sourceUri: string | null;
+  sourceIdentity: string;
+  capturedAt: ISODate;
+  dataClass: 'synthetic_simulation' | 'model_output' | 'external_source_content' | 'operator_observation';
+  authority: RiskIntakeAuthority;
+  lifecycle: RiskIntakeLifecycle;
+  evidenceIds: string[];
+  contradictingEvidenceIds: string[];
+  hypothesisContextHash: string | null;
+  modeOfOperationId: string | null;
+  likelihood: number | null;
+  impact: Likert5 | null;
+  financialImpact: number | null;
+  ownerId: string | null;
+  controlEffectiveness: number | null;
+  confidence: number | null;
+  idempotencyKey: string;
+  history: { at: ISODate; lifecycle: RiskIntakeLifecycle; sourceRevision: string | null; note: string }[];
 }
 
 export interface Workstream {

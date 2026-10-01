@@ -131,6 +131,14 @@ export const ROUTES: RouteMeta[] = [
     group: 'Output',
     purpose: 'Import, export, create a programme and manage local persistence',
   },
+  {
+    code: '15',
+    path: '/risk-intake',
+    label: 'Risk Intake',
+    icon: 'list-tree',
+    group: 'Registers',
+    purpose: 'Review provenance-bound MESH handoffs before any operator creates a scored risk',
+  },
 ];
 
 export const ROUTE_BY_PATH: Record<string, RouteMeta> = Object.fromEntries(ROUTES.map((r) => [r.path, r]));

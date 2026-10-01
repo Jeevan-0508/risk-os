@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import type { ChangeDecision, Portfolio, Program } from '@/domain/types';
+import type { ChangeDecision, Portfolio, Program, RiskIntakeRecord } from '@/domain/types';
+import { parseRiskIntake, toRiskIntakeRecord } from '@/domain/riskIntake';
 import { demoPortfolio } from '@/data/portfolio';
 import { validatePortfolio, validateProgram } from '@/domain/validate';
 import {
@@ -41,6 +42,9 @@ interface StoreState extends PortfolioDerived {
   importJson: (text: string) => boolean;
   createBlank: (seed: { name: string; codename: string; startDate: string; endDate: string; budget: number }) => void;
   replaceProgram: (program: Program, source: ProgramSource) => void;
+  ingestRiskIntake: (input: unknown) =>
+    | { ok: true; status: 'created' | 'updated'; record: RiskIntakeRecord }
+    | { ok: false; error: string };
   resetToDemo: () => void;
   /** Records a change-control decision in place. The only in-app mutation the product needs, so it stays a single generic action rather than one per screen. */
   decideChange: (changeId: string, decision: ChangeDecision, decisionMakerId: string, rationale: string) => void;
@@ -147,6 +151,45 @@ export const useStore = create<StoreState>((set, get) => ({
       savedAt: saved ? new Date().toISOString() : null,
       persistenceAvailable: saved,
     });
+  },
+
+  ingestRiskIntake: (input) => {
+    const { portfolio, program, activeProgramId } = get();
+    try {
+      const parsed = parseRiskIntake(input);
+      const existing = (program.riskIntakes ?? []).find(
+        (record) => record.idempotencyKey === parsed.idempotency_key || record.canonicalRiskId === parsed.canonical_risk_id,
+      );
+      const record = toRiskIntakeRecord(parsed, existing);
+      const riskIntakes = existing
+        ? (program.riskIntakes ?? []).map((item) => (item === existing ? record : item))
+        : [...(program.riskIntakes ?? []), record];
+      const nextProgram: Program = { ...program, riskIntakes };
+      const nextPortfolio: Portfolio = {
+        ...portfolio,
+        programs: portfolio.programs.map((item) => (item.id === program.id ? nextProgram : item)),
+      };
+      const saved = savePersistedPortfolio(nextPortfolio, activeProgramId, 'edited');
+      set({
+        portfolio: nextPortfolio,
+        activeProgramId,
+        ...deriveState(nextPortfolio, activeProgramId),
+        source: 'edited',
+        savedAt: saved ? new Date().toISOString() : null,
+        persistenceAvailable: saved,
+      });
+      const status = existing ? 'updated' : 'created';
+      get().notify({
+        kind: 'success',
+        message: 'Risk intake ' + status + ': ' + record.canonicalRiskId + '.',
+        detail: ['The record remains separate from scored Risk[] data until operator review supplies missing fields.'],
+      });
+      return { ok: true, status, record };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      get().notify({ kind: 'error', message: 'Risk intake rejected.', detail: [message] });
+      return { ok: false, error: message };
+    }
   },
 
   decideChange: (changeId, decision, decisionMakerId, rationale) => {

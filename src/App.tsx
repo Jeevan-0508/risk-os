@@ -22,6 +22,7 @@ import { BenefitScreen } from '@/screens/BenefitScreen';
 import { SimulationScreen } from '@/screens/SimulationScreen';
 import { BriefScreen } from '@/screens/BriefScreen';
 import { SettingsScreen } from '@/screens/SettingsScreen';
+import { RiskIntakeScreen } from '@/screens/RiskIntakeScreen';
 
 const ELEMENTS: Record<string, () => JSX.Element> = {
   '/portfolio': PortfolioCommandCenter,
@@ -39,6 +40,7 @@ const ELEMENTS: Record<string, () => JSX.Element> = {
   '/simulation': SimulationScreen,
   '/brief': BriefScreen,
   '/settings': SettingsScreen,
+  '/risk-intake': RiskIntakeScreen,
 };
 
 export default function App() {

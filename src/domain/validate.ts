@@ -19,6 +19,7 @@ const COLLECTIONS = [
   'milestones',
   'deliverables',
   'risks',
+  'riskIntakes',
   'causes',
   'controls',
   'actions',
