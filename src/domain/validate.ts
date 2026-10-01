@@ -19,6 +19,7 @@ const COLLECTIONS = [
   'milestones',
   'deliverables',
   'risks',
+  'riskIntakes',
   'causes',
   'controls',
   'actions',
@@ -41,6 +42,32 @@ const REQUIRED_NUMBERS = ['budget', 'spendToDate', 'forecastSpend'] as const;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function isRiskIntakeRecord(value: unknown): boolean {
+  if (!isRecord(value)) return false;
+  const lifecycle = ['hypothesis', 'unverified_external', 'operator_review', 'accepted', 'rejected'];
+  const authority = ['synthetic', 'model_output', 'external_unverified', 'operator_validated'];
+  const dataClass = ['synthetic_simulation', 'model_output', 'external_source_content', 'operator_observation'];
+  return (
+    value.schemaVersion === 'risk-intake.v1' &&
+    typeof value.intakeId === 'string' &&
+    typeof value.canonicalRiskId === 'string' &&
+    typeof value.statement === 'string' &&
+    typeof value.sourceSystem === 'string' &&
+    typeof value.sourceRepository === 'string' &&
+    (value.sourceRevision === null || typeof value.sourceRevision === 'string') &&
+    (value.sourceUri === null || typeof value.sourceUri === 'string') &&
+    typeof value.sourceIdentity === 'string' &&
+    typeof value.capturedAt === 'string' &&
+    dataClass.includes(value.dataClass as string) &&
+    authority.includes(value.authority as string) &&
+    lifecycle.includes(value.lifecycle as string) &&
+    Array.isArray(value.evidenceIds) &&
+    Array.isArray(value.contradictingEvidenceIds) &&
+    Array.isArray(value.history) &&
+    typeof value.idempotencyKey === 'string'
+  );
 }
 
 function isIsoDate(value: unknown): boolean {
@@ -106,7 +133,11 @@ export function validateProgram(input: unknown): ValidationResult {
       const before = (draft[key] as unknown[]).length;
       // strategicObjectives is a plain string[], not a collection of records; every
       // other entry here is an array of objects with an id, so this is the one exception.
-      const isValidEntry = key === 'strategicObjectives' ? (item: unknown) => typeof item === 'string' : isRecord;
+      const isValidEntry = key === 'strategicObjectives'
+        ? (item: unknown) => typeof item === 'string'
+        : key === 'riskIntakes'
+          ? isRiskIntakeRecord
+          : isRecord;
       const cleaned = (draft[key] as unknown[]).filter(isValidEntry);
       if (cleaned.length !== before) {
         warnings.push(before - cleaned.length + ' entry(ies) in "' + key + '" were not valid and were dropped.');

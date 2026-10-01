@@ -1,0 +1,33 @@
+{
+  "schema_version": "risk-intake.v1",
+  "kind": "risk-intake",
+  "intake_id": "fraud-watch:mo:MO-0008",
+  "canonical_risk_id": "fraud-watch:mo:MO-0008",
+  "statement": "Synthetic Fraud Watch potential MO MO-0008: Unclassified correlated anomaly (FALSE_MILESTONE_STAMP, HANDOVER_GAP, STAGED_BREAKDOWN, UNEXPECTED_STOP).",
+  "source": {
+    "system": "Fraud Watch",
+    "repository": "Jeevan-0508/fraud-watch",
+    "revision": null,
+    "uri": "https://github.com/Jeevan-0508/fraud-watch",
+    "identity": "MO-0008",
+    "captured_at": "2026-10-01T10:04:41.000Z",
+    "data_class": "synthetic_simulation"
+  },
+  "claim": {
+    "evidence_ids": [],
+    "contradicting_evidence_ids": [],
+    "hypothesis_context_sha256": "8157436bc0fa6398a437997e135cffb9d1d05ac11c29bc77c2ae89efc0c9fd97",
+    "mode_of_operation_id": null,
+    "likelihood": null,
+    "impact": null,
+    "financial_impact": null,
+    "owner_id": null,
+    "control_effectiveness": null,
+    "confidence": null
+  },
+  "lifecycle": {
+    "state": "hypothesis",
+    "authority": "synthetic"
+  },
+  "idempotency_key": "fraud-watch:mo:MO-0008"
+}

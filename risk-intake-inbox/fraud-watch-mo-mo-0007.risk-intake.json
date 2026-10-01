@@ -1,0 +1,33 @@
+{
+  "schema_version": "risk-intake.v1",
+  "kind": "risk-intake",
+  "intake_id": "fraud-watch:mo:MO-0007",
+  "canonical_risk_id": "fraud-watch:mo:MO-0007",
+  "statement": "Synthetic Fraud Watch potential MO MO-0007: Unclassified correlated anomaly (CARRIER_UNRESPONSIVE, FALSE_MILESTONE_STAMP, HANDOVER_GAP).",
+  "source": {
+    "system": "Fraud Watch",
+    "repository": "Jeevan-0508/fraud-watch",
+    "revision": null,
+    "uri": "https://github.com/Jeevan-0508/fraud-watch",
+    "identity": "MO-0007",
+    "captured_at": "2026-10-01T10:04:41.000Z",
+    "data_class": "synthetic_simulation"
+  },
+  "claim": {
+    "evidence_ids": [],
+    "contradicting_evidence_ids": [],
+    "hypothesis_context_sha256": "2111266b8ce69087c52426e37d031ba35e7070704a44416e048501e65b197da7",
+    "mode_of_operation_id": null,
+    "likelihood": null,
+    "impact": null,
+    "financial_impact": null,
+    "owner_id": null,
+    "control_effectiveness": null,
+    "confidence": null
+  },
+  "lifecycle": {
+    "state": "hypothesis",
+    "authority": "synthetic"
+  },
+  "idempotency_key": "fraud-watch:mo:MO-0007"
+}
