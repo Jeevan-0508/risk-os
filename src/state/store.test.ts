@@ -75,6 +75,14 @@ describe('resolveInitialSeed', () => {
     expect(seed.source).toBe('demo');
   });
 
+  it('bundles the committed Fraud Watch hypothesis inbox into the active programme', () => {
+    const records = useStore.getState().program.riskIntakes ?? [];
+    expect(records.length).toBeGreaterThanOrEqual(10);
+    expect(records.every((record) => record.lifecycle === 'hypothesis' && record.authority === 'synthetic')).toBe(true);
+    expect(records.every((record) => record.evidenceIds.length === 0 && record.confidence === null)).toBe(true);
+    expect(records.some((record) => record.intakeId === 'fraud-watch:mo:MO-0001')).toBe(true);
+  });
+
   it('ingests a MESH handoff without adding an unreviewed record to scored risks', () => {
     const store = useStore.getState();
     store.resetToDemo();

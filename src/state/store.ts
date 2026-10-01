@@ -13,6 +13,14 @@ import {
 import { computeAnalytics, type Analytics } from './analytics';
 import { computePortfolioDerived, findActiveProgram, type PortfolioDerived } from './selectors';
 
+// The scheduled Fraud Watch workflow commits validated risk-intake.v1 files to
+// this inbox. Bundle them at build time so the Risk Intake screen shows the
+// automatic handoff without requiring a second manual file picker action.
+const bundledRiskIntakeFiles = import.meta.glob('../../risk-intake-inbox/*.risk-intake.json', {
+  eager: true,
+  import: 'default',
+}) as Record<string, unknown>;
+
 export type ProgramSource = 'demo' | 'imported' | 'created' | 'edited';
 
 export interface Notice {
@@ -112,7 +120,29 @@ export function resolveInitialSeed(
 }
 
 function initial(): Seed {
-  return resolveInitialSeed(loadPersistedPortfolio(), loadPersisted());
+  const seed = resolveInitialSeed(loadPersistedPortfolio(), loadPersisted());
+  const targetId = seed.activeProgramId;
+  const target = seed.portfolio.programs.find((program) => program.id === targetId);
+  if (!target) return seed;
+  const existing = target.riskIntakes ?? [];
+  const byKey = new Map(existing.map((record) => [record.idempotencyKey, record]));
+  for (const raw of Object.values(bundledRiskIntakeFiles)) {
+    try {
+      const parsed = parseRiskIntake(raw);
+      const previous = byKey.get(parsed.idempotency_key) ?? existing.find((record) => record.canonicalRiskId === parsed.canonical_risk_id);
+      byKey.set(parsed.idempotency_key, toRiskIntakeRecord(parsed, previous));
+    } catch {
+      // A malformed inbox file remains visible to CI/import diagnostics; the
+      // application refuses it rather than manufacturing a partial record.
+    }
+  }
+  if (Object.keys(bundledRiskIntakeFiles).length === 0) return seed;
+  const riskIntakes = [...byKey.values()];
+  const portfolio = {
+    ...seed.portfolio,
+    programs: seed.portfolio.programs.map((program) => (program.id === targetId ? { ...program, riskIntakes } : program)),
+  };
+  return { ...seed, portfolio };
 }
 
 const seed = initial();
