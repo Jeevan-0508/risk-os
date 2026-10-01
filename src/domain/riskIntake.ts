@@ -207,6 +207,7 @@ function operatorLikert(value: unknown, label: string): Likert5 {
 
 /** Validates the explicit human assessment required before a handoff can become a scored Risk. */
 export function validateRiskIntakePromotion(record: RiskIntakeRecord, assessment: RiskIntakePromotion): void {
+  if (record.lifecycle === 'rejected') throw new Error('A rejected intake must be re-imported as a new reviewed handoff before promotion.');
   if (record.dataClass === 'synthetic_simulation' || record.dataClass === 'model_output' || record.authority === 'synthetic' || record.authority === 'model_output') {
     throw new Error('Synthetic and model-produced context cannot be promoted into scored Risk[] data.');
   }
