@@ -74,7 +74,7 @@ function baseSource(payload, candidateId, exportedAt) {
   };
 }
 
-function intake({ id, statement, source, patternId, payload }) {
+function intake({ id, statement, source, patternId, payload, context }) {
   return {
     schema_version: 'risk-intake.v1',
     kind: 'risk-intake',
@@ -96,6 +96,7 @@ function intake({ id, statement, source, patternId, payload }) {
     },
     lifecycle: { state: 'hypothesis', authority: 'synthetic' },
     idempotency_key: idempotencyKey(id),
+    ...(context ? { synthetic_context: context } : {}),
   };
 }
 
@@ -122,6 +123,7 @@ function convert(payload) {
     source: baseSource(payload, candidate.id, exportedAt),
     patternId,
     payload,
+    context: candidate.context,
   });
 }
 
@@ -142,6 +144,7 @@ function convertMOObservation(payload) {
     source: baseSource(payload, observation.id, exportedAt),
     patternId: typeof observation.related_pattern_id === 'string' ? observation.related_pattern_id : null,
     payload,
+    context: observation.context,
   });
 }
 
