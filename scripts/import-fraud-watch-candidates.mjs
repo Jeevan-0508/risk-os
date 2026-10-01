@@ -57,6 +57,10 @@ function safeName(value) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 120) || 'candidate';
 }
 
+function idempotencyKey(id) {
+  return id.startsWith('fraud-watch:') ? id : 'fraud-watch:' + id;
+}
+
 function baseSource(payload, candidateId, exportedAt) {
   const repository = typeof payload.source.repository === 'string' ? payload.source.repository : 'Jeevan-0508/fraud-watch';
   return {
@@ -91,7 +95,7 @@ function intake({ id, statement, source, patternId, payload }) {
       confidence: null,
     },
     lifecycle: { state: 'hypothesis', authority: 'synthetic' },
-    idempotency_key: 'fraud-watch:' + id,
+    idempotency_key: idempotencyKey(id),
   };
 }
 

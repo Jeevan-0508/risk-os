@@ -1,0 +1,33 @@
+{
+  "schema_version": "risk-intake.v1",
+  "kind": "risk-intake",
+  "intake_id": "fraud-watch:mo:MO-0004",
+  "canonical_risk_id": "fraud-watch:mo:MO-0004",
+  "statement": "Synthetic Fraud Watch potential MO MO-0004: Unclassified correlated anomaly (ACCOUNT_TAKEOVER, DRIVER_CHANGED, DUPLICATE_ASSET_ID, GPS_SIGNAL_LOST, HANDOVER_GAP, MANIFEST_CHANGED, SEAL_MISMATCH, STAGED_BREAKDOWN, TRAILER_SWAPPED, UNEXPECTED_STOP).",
+  "source": {
+    "system": "Fraud Watch",
+    "repository": "Jeevan-0508/fraud-watch",
+    "revision": null,
+    "uri": "https://github.com/Jeevan-0508/fraud-watch",
+    "identity": "MO-0004",
+    "captured_at": "2026-10-01T10:04:41.000Z",
+    "data_class": "synthetic_simulation"
+  },
+  "claim": {
+    "evidence_ids": [],
+    "contradicting_evidence_ids": [],
+    "hypothesis_context_sha256": "4ddaf8614c8ebdfda5c68a0d482bf45accbbf057e4661d2c8753e523b5756f04",
+    "mode_of_operation_id": null,
+    "likelihood": null,
+    "impact": null,
+    "financial_impact": null,
+    "owner_id": null,
+    "control_effectiveness": null,
+    "confidence": null
+  },
+  "lifecycle": {
+    "state": "hypothesis",
+    "authority": "synthetic"
+  },
+  "idempotency_key": "fraud-watch:mo:MO-0004"
+}

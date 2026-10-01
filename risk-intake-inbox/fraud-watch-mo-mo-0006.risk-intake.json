@@ -1,0 +1,33 @@
+{
+  "schema_version": "risk-intake.v1",
+  "kind": "risk-intake",
+  "intake_id": "fraud-watch:mo:MO-0006",
+  "canonical_risk_id": "fraud-watch:mo:MO-0006",
+  "statement": "Synthetic Fraud Watch potential MO MO-0006: Unclassified correlated anomaly (DUPLICATE_ASSET_ID, EQUIPMENT_CARRIER_MISMATCH, MANIFEST_CHANGED, ROUTE_DEVIATION).",
+  "source": {
+    "system": "Fraud Watch",
+    "repository": "Jeevan-0508/fraud-watch",
+    "revision": null,
+    "uri": "https://github.com/Jeevan-0508/fraud-watch",
+    "identity": "MO-0006",
+    "captured_at": "2026-10-01T10:04:41.000Z",
+    "data_class": "synthetic_simulation"
+  },
+  "claim": {
+    "evidence_ids": [],
+    "contradicting_evidence_ids": [],
+    "hypothesis_context_sha256": "3b7150424b4e62ac98b2702fd04c9fe6153f997bdc790212d0a02fbc1bc908f2",
+    "mode_of_operation_id": null,
+    "likelihood": null,
+    "impact": null,
+    "financial_impact": null,
+    "owner_id": null,
+    "control_effectiveness": null,
+    "confidence": null
+  },
+  "lifecycle": {
+    "state": "hypothesis",
+    "authority": "synthetic"
+  },
+  "idempotency_key": "fraud-watch:mo:MO-0006"
+}
