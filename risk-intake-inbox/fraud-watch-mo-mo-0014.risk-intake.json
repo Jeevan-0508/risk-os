@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0014",
   "canonical_risk_id": "fraud-watch:mo:MO-0014",
-  "statement": "Synthetic Fraud Watch potential MO MO-0014: Possible Carrier Identity Takeover (ACCOUNT_TAKEOVER, DUPLICATE_ASSET_ID).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0014: Possible Carrier Identity Takeover (ACCOUNT_TAKEOVER, DUPLICATE_ASSET_ID, TRAILER_SWAPPED).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0014",
-    "captured_at": "2026-10-01T19:58:06.575Z",
+    "captured_at": "2026-10-02T05:47:37.532Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "e8a71b560d63586c2e60d7330f7f3666079e12c6b261c32b93bc3e4a9384883b",
+    "hypothesis_context_sha256": "ad3fa37e9a2ee1681f9753f505b8d7e739cbb400f2a2107ccf6615d93c857aa4",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
@@ -37,17 +37,18 @@
     "classification": "MO_VARIANT",
     "title": "Possible Carrier Identity Takeover",
     "signature": "ACCOUNT_TAKEOVER+DUPLICATE_ASSET_ID",
-    "correlationIndex": 22,
+    "correlationIndex": 6,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
-    "confidenceBand": "WATCH",
+    "confidenceBand": "MINIMAL",
     "recurrenceCount": 1,
     "firstObservedAt": 825300,
     "openedAt": 828600,
-    "lastObservedAt": 835500,
+    "lastObservedAt": 870300,
     "relatedPatternId": "FFT-003",
     "signalTypes": [
       "ACCOUNT_TAKEOVER",
-      "DUPLICATE_ASSET_ID"
+      "DUPLICATE_ASSET_ID",
+      "TRAILER_SWAPPED"
     ],
     "entityIds": {
       "truck_id": "TRU-004",
@@ -64,6 +65,10 @@
       {
         "at": 828600,
         "signalType": "ACCOUNT_TAKEOVER"
+      },
+      {
+        "at": 863400,
+        "signalType": "TRAILER_SWAPPED"
       }
     ],
     "signals": [
@@ -82,13 +87,21 @@
         "at": 828600,
         "facilityId": null,
         "facilityName": null
+      },
+      {
+        "signalType": "TRAILER_SWAPPED",
+        "contribution": 0.5,
+        "reliability": 0.5,
+        "at": 863400,
+        "facilityId": "FAC-001",
+        "facilityName": "North Gate"
       }
     ],
     "sites": [
       {
         "facilityId": "FAC-001",
         "facilityName": "North Gate",
-        "signalCount": 1
+        "signalCount": 2
       }
     ],
     "unsitedSignalCount": 1,
