@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0018",
   "canonical_risk_id": "fraud-watch:mo:MO-0018",
-  "statement": "Synthetic Fraud Watch potential MO MO-0018: Possible Transport Document Fraud (DRIVER_CHANGED, FALSE_MILESTONE_STAMP, GPS_SIGNAL_LOST, HANDOVER_GAP).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0018: Possible Transport Document Fraud (DRIVER_CHANGED, FALSE_MILESTONE_STAMP, GPS_SIGNAL_LOST, HANDOVER_GAP, MANIFEST_CHANGED).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0018",
-    "captured_at": "2026-10-03T05:24:29.442Z",
+    "captured_at": "2026-10-03T11:46:36.260Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "4cd521d92f7856ddd43843fd27cd5d6019de249dc1384e2545e1e16ad916348e",
+    "hypothesis_context_sha256": "7cd1608a96c41b443ec371ce32b0a9f261ba5266e483ec8261c7eee210995f82",
     "mode_of_operation_id": "FFT-010",
     "likelihood": null,
     "impact": null,
@@ -37,19 +37,20 @@
     "classification": "MO_VARIANT",
     "title": "Possible Transport Document Fraud",
     "signature": "DRIVER_CHANGED+FALSE_MILESTONE_STAMP+GPS_SIGNAL_LOST+HANDOVER_GAP",
-    "correlationIndex": 13,
+    "correlationIndex": 16,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
     "confidenceBand": "MINIMAL",
     "recurrenceCount": 1,
     "firstObservedAt": 947400,
     "openedAt": 953400,
-    "lastObservedAt": 956700,
+    "lastObservedAt": 993000,
     "relatedPatternId": "FFT-010",
     "signalTypes": [
       "DRIVER_CHANGED",
       "FALSE_MILESTONE_STAMP",
       "GPS_SIGNAL_LOST",
-      "HANDOVER_GAP"
+      "HANDOVER_GAP",
+      "MANIFEST_CHANGED"
     ],
     "entityIds": {
       "truck_id": "TRU-009",
@@ -74,6 +75,14 @@
       {
         "at": 953400,
         "signalType": "GPS_SIGNAL_LOST"
+      },
+      {
+        "at": 983400,
+        "signalType": "DRIVER_CHANGED"
+      },
+      {
+        "at": 989700,
+        "signalType": "MANIFEST_CHANGED"
       }
     ],
     "signals": [
@@ -108,11 +117,33 @@
         "at": 953400,
         "facilityId": null,
         "facilityName": null
+      },
+      {
+        "signalType": "DRIVER_CHANGED",
+        "contribution": 0.5,
+        "reliability": 0.5,
+        "at": 983400,
+        "facilityId": "FAC-015",
+        "facilityName": "Inland Depot Nord"
+      },
+      {
+        "signalType": "MANIFEST_CHANGED",
+        "contribution": 1.3,
+        "reliability": 0.65,
+        "at": 989700,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
-    "sites": [],
-    "unsitedSignalCount": 4,
-    "siteSpread": "UNSITED",
+    "sites": [
+      {
+        "facilityId": "FAC-015",
+        "facilityName": "Inland Depot Nord",
+        "signalCount": 1
+      }
+    ],
+    "unsitedSignalCount": 5,
+    "siteSpread": "PARTLY_UNSITED",
     "classificationReason": "VOCABULARY_SHARED_AT_FIRST_SIGHTING",
     "classificationReasonNote": "first sighting of this combination, and its vocabulary overlap with the top-ranked pattern is at or above the declared floor.",
     "relatedPatterns": [
