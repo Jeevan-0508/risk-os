@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0020",
-    "captured_at": "2026-10-03T21:23:24.415Z",
+    "captured_at": "2026-10-04T06:00:15.961Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "0506114936b80ee806bdd5a885ea32f6fd3bb4e2fa3e43ab0c238f3ac68aaa61",
+    "hypothesis_context_sha256": "440abf69714b5a78c4e922860bcb2f4e84471a2c01484a2de3ecfe02d69cb784",
     "mode_of_operation_id": "FFT-006",
     "likelihood": null,
     "impact": null,
@@ -33,7 +33,7 @@
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "NEW",
+    "status": "DISMISSED",
     "classification": "MO_VARIANT",
     "title": "Possible Unsecured Parking Theft",
     "signature": "SEAL_MISMATCH+STAGED_BREAKDOWN+UNEXPECTED_STOP",

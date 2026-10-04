@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0018",
-    "captured_at": "2026-10-03T21:23:24.415Z",
+    "captured_at": "2026-10-04T06:00:15.961Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "52aa7d6c0243a240a6662b5b9a49867396303eac45a8d4fae81463c4e49b9e86",
+    "hypothesis_context_sha256": "519b9112a2ca85b24e34566b55ad9d61c3fb6c3f45baf2c4f7d07adda7992e52",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
@@ -43,7 +43,7 @@
     "recurrenceCount": 1,
     "firstObservedAt": 947400,
     "openedAt": 953400,
-    "lastObservedAt": 1017900,
+    "lastObservedAt": 1046100,
     "relatedPatternId": "FFT-003",
     "signalTypes": [
       "DRIVER_CHANGED",
@@ -101,6 +101,14 @@
       },
       {
         "at": 1012800,
+        "signalType": "STAGED_BREAKDOWN"
+      },
+      {
+        "at": 1040777,
+        "signalType": "UNEXPECTED_STOP"
+      },
+      {
+        "at": 1041000,
         "signalType": "STAGED_BREAKDOWN"
       }
     ],
@@ -184,6 +192,22 @@
         "at": 1012800,
         "facilityId": "FAC-009",
         "facilityName": "Inland Depot Sud"
+      },
+      {
+        "signalType": "UNEXPECTED_STOP",
+        "contribution": 0.6,
+        "reliability": 0.6,
+        "at": 1040777,
+        "facilityId": null,
+        "facilityName": null
+      },
+      {
+        "signalType": "STAGED_BREAKDOWN",
+        "contribution": 1,
+        "reliability": 0.5,
+        "at": 1041000,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
     "sites": [
@@ -198,7 +222,7 @@
         "signalCount": 1
       }
     ],
-    "unsitedSignalCount": 7,
+    "unsitedSignalCount": 9,
     "siteSpread": "MULTI_SITE_PARTLY_UNSITED",
     "classificationReason": "VOCABULARY_SHARED_AT_FIRST_SIGHTING",
     "classificationReasonNote": "first sighting of this combination, and its vocabulary overlap with the top-ranked pattern is at or above the declared floor.",
