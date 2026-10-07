@@ -1,23 +1,23 @@
 {
   "schema_version": "risk-intake.v1",
   "kind": "risk-intake",
-  "intake_id": "fraud-watch:CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
-  "canonical_risk_id": "fraud-watch:CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
-  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP (CARRIER_UNRESPONSIVE, FALSE_MILESTONE_STAMP, HANDOVER_GAP).",
+  "intake_id": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
+  "canonical_risk_id": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED (EQUIPMENT_CARRIER_MISMATCH, MANIFEST_CHANGED).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
-    "identity": "fraud-watch:CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
+    "identity": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
     "captured_at": "2026-10-07T06:07:52.088Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "658596b47f36365ce2c3456bb0d70d5fa35416448a738e162494028bb958e01c",
-    "mode_of_operation_id": "FFT-002",
+    "hypothesis_context_sha256": "e65daf6acd3fba12b694b00e6f80d0aab3f981356813055b124123938469150a",
+    "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
     "financial_impact": null,
@@ -29,36 +29,35 @@
     "state": "hypothesis",
     "authority": "synthetic"
   },
-  "idempotency_key": "fraud-watch:CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
+  "idempotency_key": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
   "synthetic_context": {
     "kind": "fraud-watch-candidate.v1",
     "disclaimer": "Synthetic simulation context only. This candidate groups simulator observations; it is not real-world evidence, a probability, a finding, or an accepted risk.",
     "status": null,
     "classification": null,
     "title": null,
-    "signature": "CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
+    "signature": "EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
     "correlationIndex": null,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
     "confidenceBand": null,
     "recurrenceCount": null,
-    "firstObservedAt": 232500,
-    "openedAt": 819900,
+    "firstObservedAt": 493500,
+    "openedAt": 1327200,
     "lastObservedAt": null,
     "relatedPatternId": null,
     "signalTypes": [
-      "CARRIER_UNRESPONSIVE",
-      "FALSE_MILESTONE_STAMP",
-      "HANDOVER_GAP"
+      "EQUIPMENT_CARRIER_MISMATCH",
+      "MANIFEST_CHANGED"
     ],
     "entityIds": {},
     "timeline": [
       {
-        "at": 819900,
-        "signalType": "CARRIER_UNRESPONSIVE + FALSE_MILESTONE_STAMP + HANDOVER_GAP"
+        "at": 1327200,
+        "signalType": "EQUIPMENT_CARRIER_MISMATCH + MANIFEST_CHANGED"
       },
       {
-        "at": 819900,
-        "signalType": "CARRIER_UNRESPONSIVE + FALSE_MILESTONE_STAMP + HANDOVER_GAP"
+        "at": 1327200,
+        "signalType": "EQUIPMENT_CARRIER_MISMATCH + MANIFEST_CHANGED"
       }
     ],
     "signals": [],

@@ -1,22 +1,22 @@
 {
   "schema_version": "risk-intake.v1",
   "kind": "risk-intake",
-  "intake_id": "fraud-watch:mo:MO-0015",
-  "canonical_risk_id": "fraud-watch:mo:MO-0015",
-  "statement": "Synthetic Fraud Watch potential MO MO-0015: Possible Carrier Identity Takeover (EQUIPMENT_CARRIER_MISMATCH, MANIFEST_CHANGED, SEAL_MISMATCH).",
+  "intake_id": "fraud-watch:mo:MO-0023",
+  "canonical_risk_id": "fraud-watch:mo:MO-0023",
+  "statement": "Synthetic Fraud Watch potential MO MO-0023: Possible Carrier Identity Takeover (EQUIPMENT_CARRIER_MISMATCH, MANIFEST_CHANGED).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
-    "identity": "MO-0015",
+    "identity": "MO-0023",
     "captured_at": "2026-10-07T06:07:52.088Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "a1c41d3bba8968d2ad36759c3c5747e890b583f4e15365d9b9f2bfc7c5503166",
+    "hypothesis_context_sha256": "9739f3970a6fdcf077d75f240f61e96ec30e44a94045e14af9c26ff6c50d44f5",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
@@ -29,54 +29,53 @@
     "state": "hypothesis",
     "authority": "synthetic"
   },
-  "idempotency_key": "fraud-watch:mo:MO-0015",
+  "idempotency_key": "fraud-watch:mo:MO-0023",
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "DISMISSED",
-    "classification": "MO_VARIANT",
+    "status": "NEW",
+    "classification": "POTENTIAL_NEW_MO",
     "title": "Possible Carrier Identity Takeover",
-    "signature": "EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED+SEAL_MISMATCH",
-    "correlationIndex": 27,
+    "signature": "EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
+    "correlationIndex": 41,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
-    "confidenceBand": "WATCH",
-    "recurrenceCount": 1,
-    "firstObservedAt": 841200,
-    "openedAt": 842100,
-    "lastObservedAt": 848100,
+    "confidenceBand": "ELEVATED",
+    "recurrenceCount": 2,
+    "firstObservedAt": 1325700,
+    "openedAt": 1327200,
+    "lastObservedAt": 1330500,
     "relatedPatternId": "FFT-003",
     "signalTypes": [
       "EQUIPMENT_CARRIER_MISMATCH",
-      "MANIFEST_CHANGED",
-      "SEAL_MISMATCH"
+      "MANIFEST_CHANGED"
     ],
     "entityIds": {
-      "truck_id": "TRU-013",
-      "driver_id": "DRI-002",
-      "trailer_id": "TRA-006",
-      "carrier_id": "CAR-008",
+      "truck_id": "TRU-016",
+      "driver_id": "DRI-023",
+      "trailer_id": "TRA-024",
+      "carrier_id": "CAR-007",
       "facility_id": null
     },
     "timeline": [
       {
-        "at": 841200,
-        "signalType": "SEAL_MISMATCH"
-      },
-      {
-        "at": 841980,
+        "at": 1325700,
         "signalType": "MANIFEST_CHANGED"
       },
       {
-        "at": 842100,
+        "at": 1327152,
+        "signalType": "MANIFEST_CHANGED"
+      },
+      {
+        "at": 1327200,
         "signalType": "EQUIPMENT_CARRIER_MISMATCH"
       }
     ],
     "signals": [
       {
-        "signalType": "SEAL_MISMATCH",
-        "contribution": 2.3,
-        "reliability": 0.75,
-        "at": 841200,
+        "signalType": "MANIFEST_CHANGED",
+        "contribution": 1.3,
+        "reliability": 0.65,
+        "at": 1325700,
         "facilityId": null,
         "facilityName": null
       },
@@ -84,7 +83,7 @@
         "signalType": "MANIFEST_CHANGED",
         "contribution": 1.3,
         "reliability": 0.65,
-        "at": 841980,
+        "at": 1327152,
         "facilityId": null,
         "facilityName": null
       },
@@ -92,7 +91,7 @@
         "signalType": "EQUIPMENT_CARRIER_MISMATCH",
         "contribution": 2.1,
         "reliability": 0.7,
-        "at": 842100,
+        "at": 1327200,
         "facilityId": null,
         "facilityName": null
       }
@@ -100,8 +99,8 @@
     "sites": [],
     "unsitedSignalCount": 3,
     "siteSpread": "UNSITED",
-    "classificationReason": "VOCABULARY_SHARED_AT_FIRST_SIGHTING",
-    "classificationReasonNote": "first sighting of this combination, and its vocabulary overlap with the top-ranked pattern is at or above the declared floor.",
+    "classificationReason": "TOO_FEW_SIGHTINGS",
+    "classificationReasonNote": "seen before but fewer times than the familiarity floor, so the sighting count says nothing either way. Its vocabulary overlap may be wide; on this branch it was not consulted.",
     "relatedPatterns": [
       {
         "id": "FFT-003",
@@ -125,18 +124,17 @@
         ]
       },
       {
-        "id": "FFT-005",
-        "name": "Systematic Pilferage",
-        "votes": 2,
+        "id": "FFT-001",
+        "name": "Double Brokering",
+        "votes": 1,
         "keywords": [
-          "cargo",
-          "pilferage"
+          "broker"
         ]
       }
     ],
     "resemblanceNotes": [
       "Shares most vocabulary with Carrier Identity Takeover (5 shared keywords). This exact combination of signal types has not recurred in this simulation.",
-      "Shares some vocabulary with: Phantom Carrier, Systematic Pilferage.",
+      "Shares some vocabulary with: Phantom Carrier, Double Brokering.",
       "Nothing here compares the case's signal types against the pattern's documented indicators. Resemblance is a keyword vote over the pattern's name, category and aliases, and a vote count cannot produce a difference. A section headed \"What makes this different\" listing resemblance sentences stated a comparison nobody made."
     ],
     "legitimateExplanations": [
