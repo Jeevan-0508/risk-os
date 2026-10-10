@@ -3,21 +3,21 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:DUPLICATE_ASSET_ID+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
   "canonical_risk_id": "fraud-watch:DUPLICATE_ASSET_ID+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
-  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:DUPLICATE_ASSET_ID+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED (DUPLICATE_ASSET_ID, EQUIPMENT_CARRIER_MISMATCH, MANIFEST_CHANGED, ROUTE_DEVIATION).",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:DUPLICATE_ASSET_ID+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED (CARRIER_UNRESPONSIVE, DUPLICATE_ASSET_ID, EQUIPMENT_CARRIER_MISMATCH, MANIFEST_CHANGED, ROUTE_DEVIATION).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:DUPLICATE_ASSET_ID+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
-    "captured_at": "2026-10-10T05:59:36.730Z",
+    "captured_at": "2026-10-10T12:40:02.974Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "b1d0e1b06e16521cb18a7cf5ddb33f48fa54e1e3526eb88afa09912855a66107",
-    "mode_of_operation_id": "FFT-003",
+    "hypothesis_context_sha256": "c134163c63a1102582e054b6b499097fabc604500d7c143f83aca24edc9058a0",
+    "mode_of_operation_id": "FFT-002",
     "likelihood": null,
     "impact": null,
     "financial_impact": null,
@@ -46,6 +46,7 @@
     "lastObservedAt": null,
     "relatedPatternId": null,
     "signalTypes": [
+      "CARRIER_UNRESPONSIVE",
       "DUPLICATE_ASSET_ID",
       "EQUIPMENT_CARRIER_MISMATCH",
       "MANIFEST_CHANGED",
@@ -59,7 +60,7 @@
       },
       {
         "at": 1597500,
-        "signalType": "DUPLICATE_ASSET_ID + EQUIPMENT_CARRIER_MISMATCH + MANIFEST_CHANGED"
+        "signalType": "CARRIER_UNRESPONSIVE + DUPLICATE_ASSET_ID + EQUIPMENT_CARRIER_MISMATCH + MANIFEST_CHANGED"
       }
     ],
     "signals": [],
