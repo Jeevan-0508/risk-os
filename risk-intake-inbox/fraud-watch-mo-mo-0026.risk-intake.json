@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0026",
   "canonical_risk_id": "fraud-watch:mo:MO-0026",
-  "statement": "Synthetic Fraud Watch potential MO MO-0026: Possible Phantom Carrier (CARRIER_UNRESPONSIVE, DUPLICATE_ASSET_ID, EQUIPMENT_CARRIER_MISMATCH, MANIFEST_CHANGED, SEAL_MISMATCH).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0026: Possible Phantom Carrier (CARRIER_UNRESPONSIVE, DUPLICATE_ASSET_ID, EQUIPMENT_CARRIER_MISMATCH, MANIFEST_CHANGED, ROUTE_DEVIATION, SEAL_MISMATCH).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0026",
-    "captured_at": "2026-10-10T21:49:44.777Z",
+    "captured_at": "2026-10-11T05:55:57.297Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "3f3195c06d3782a3f3b11dd81c599fb0d604f6c9b4cf02fb09c42eda9c88b6a7",
+    "hypothesis_context_sha256": "6c56f1cc98a6a65ed0df6712b61ff420108079645d3104310528a21de4ad86a4",
     "mode_of_operation_id": "FFT-002",
     "likelihood": null,
     "impact": null,
@@ -43,13 +43,14 @@
     "recurrenceCount": 2,
     "firstObservedAt": 1596900,
     "openedAt": 1597500,
-    "lastObservedAt": 1647600,
+    "lastObservedAt": 1684800,
     "relatedPatternId": "FFT-002",
     "signalTypes": [
       "CARRIER_UNRESPONSIVE",
       "DUPLICATE_ASSET_ID",
       "EQUIPMENT_CARRIER_MISMATCH",
       "MANIFEST_CHANGED",
+      "ROUTE_DEVIATION",
       "SEAL_MISMATCH"
     ],
     "entityIds": {
@@ -82,6 +83,14 @@
       },
       {
         "at": 1637100,
+        "signalType": "CARRIER_UNRESPONSIVE"
+      },
+      {
+        "at": 1669800,
+        "signalType": "ROUTE_DEVIATION"
+      },
+      {
+        "at": 1676700,
         "signalType": "CARRIER_UNRESPONSIVE"
       }
     ],
@@ -133,6 +142,22 @@
         "at": 1637100,
         "facilityId": null,
         "facilityName": null
+      },
+      {
+        "signalType": "ROUTE_DEVIATION",
+        "contribution": 1.4,
+        "reliability": 0.7,
+        "at": 1669800,
+        "facilityId": null,
+        "facilityName": null
+      },
+      {
+        "signalType": "CARRIER_UNRESPONSIVE",
+        "contribution": 1,
+        "reliability": 0.5,
+        "at": 1676700,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
     "sites": [
@@ -142,7 +167,7 @@
         "signalCount": 3
       }
     ],
-    "unsitedSignalCount": 3,
+    "unsitedSignalCount": 5,
     "siteSpread": "PARTLY_UNSITED",
     "classificationReason": "TOO_FEW_SIGHTINGS",
     "classificationReasonNote": "seen before but fewer times than the familiarity floor, so the sighting count says nothing either way. Its vocabulary overlap may be wide; on this branch it was not consulted.",
@@ -176,9 +201,10 @@
       {
         "id": "FFT-008",
         "name": "GPS Spoofing and Telematics Manipulation",
-        "votes": 5,
+        "votes": 6,
         "keywords": [
           "gnss",
+          "gps",
           "position",
           "spoof",
           "telemat",
