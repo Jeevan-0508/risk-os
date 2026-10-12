@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0032",
-    "captured_at": "2026-10-12T06:06:48.429Z",
+    "captured_at": "2026-10-12T15:38:09.392Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "d57c1d0ff5211162c35a8277d4dcf338b59cdafae00aabd66c278e5ec5158bbd",
+    "hypothesis_context_sha256": "3f0b4159e591a7a6b06d135ee8b91830f5ecfdf7e4c565d72cb5e6da46654aec",
     "mode_of_operation_id": "FFT-010",
     "likelihood": null,
     "impact": null,
@@ -33,7 +33,7 @@
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "NEW",
+    "status": "DISMISSED",
     "classification": "MO_VARIANT",
     "title": "Possible Transport Document Fraud",
     "signature": "FALSE_MILESTONE_STAMP+HANDOVER_GAP+STAGED_BREAKDOWN",
@@ -43,7 +43,7 @@
     "recurrenceCount": 1,
     "firstObservedAt": 1761300,
     "openedAt": 1764900,
-    "lastObservedAt": 1771200,
+    "lastObservedAt": 1771800,
     "relatedPatternId": "FFT-010",
     "signalTypes": [
       "FALSE_MILESTONE_STAMP",

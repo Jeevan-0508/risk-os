@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0031",
   "canonical_risk_id": "fraud-watch:mo:MO-0031",
-  "statement": "Synthetic Fraud Watch potential MO MO-0031: Possible GPS Spoofing and Telematics Manipulation (DUPLICATE_ASSET_ID, EQUIPMENT_CARRIER_MISMATCH, FALSE_MILESTONE_STAMP, HANDOVER_GAP, MANIFEST_CHANGED).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0031: Possible GPS Spoofing and Telematics Manipulation (ACCOUNT_TAKEOVER, DUPLICATE_ASSET_ID, EQUIPMENT_CARRIER_MISMATCH, FALSE_MILESTONE_STAMP, HANDOVER_GAP, MANIFEST_CHANGED).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0031",
-    "captured_at": "2026-10-12T06:06:48.429Z",
+    "captured_at": "2026-10-12T15:38:09.392Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "356a438d2a3e875638287ab5771a20abb3defa5a41efe1873e8ecf90303a8c7b",
+    "hypothesis_context_sha256": "cc3a999646e4197ddb4ed834de965692b17d293aa0fb6c42f014264a55d67e68",
     "mode_of_operation_id": "FFT-008",
     "likelihood": null,
     "impact": null,
@@ -37,15 +37,16 @@
     "classification": "KNOWN_MO",
     "title": "Possible GPS Spoofing and Telematics Manipulation",
     "signature": "EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
-    "correlationIndex": 33,
+    "correlationIndex": 22,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
     "confidenceBand": "WATCH",
     "recurrenceCount": 4,
     "firstObservedAt": 1750776,
     "openedAt": 1751700,
-    "lastObservedAt": 1771200,
+    "lastObservedAt": 1810800,
     "relatedPatternId": "FFT-008",
     "signalTypes": [
+      "ACCOUNT_TAKEOVER",
       "DUPLICATE_ASSET_ID",
       "EQUIPMENT_CARRIER_MISMATCH",
       "FALSE_MILESTONE_STAMP",
@@ -83,6 +84,18 @@
       {
         "at": 1769100,
         "signalType": "FALSE_MILESTONE_STAMP"
+      },
+      {
+        "at": 1793535,
+        "signalType": "HANDOVER_GAP"
+      },
+      {
+        "at": 1793700,
+        "signalType": "FALSE_MILESTONE_STAMP"
+      },
+      {
+        "at": 1803900,
+        "signalType": "ACCOUNT_TAKEOVER"
       }
     ],
     "signals": [
@@ -133,6 +146,30 @@
         "at": 1769100,
         "facilityId": null,
         "facilityName": null
+      },
+      {
+        "signalType": "HANDOVER_GAP",
+        "contribution": 1.1,
+        "reliability": 0.55,
+        "at": 1793535,
+        "facilityId": null,
+        "facilityName": null
+      },
+      {
+        "signalType": "FALSE_MILESTONE_STAMP",
+        "contribution": 1.7,
+        "reliability": 0.55,
+        "at": 1793700,
+        "facilityId": null,
+        "facilityName": null
+      },
+      {
+        "signalType": "ACCOUNT_TAKEOVER",
+        "contribution": 1.8,
+        "reliability": 0.6,
+        "at": 1803900,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
     "sites": [
@@ -147,7 +184,7 @@
         "signalCount": 1
       }
     ],
-    "unsitedSignalCount": 4,
+    "unsitedSignalCount": 7,
     "siteSpread": "MULTI_SITE_PARTLY_UNSITED",
     "classificationReason": "SIGHTINGS_AT_OR_ABOVE_FLOOR",
     "classificationReasonNote": "this combination has recurred at or above the familiarity floor in this run. Familiar, which is not the same as understood.",
