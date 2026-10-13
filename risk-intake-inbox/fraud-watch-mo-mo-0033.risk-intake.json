@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0033",
-    "captured_at": "2026-10-12T15:38:09.392Z",
+    "captured_at": "2026-10-13T00:47:26.630Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "649b58c64898e6a1d0a8cd5e630b0c7558983bddbfd3566eb0c648fdd69bb05d",
+    "hypothesis_context_sha256": "1e2c41c67d47b90b59b685f0dd01296027bf3172e7db8222d182de3ed5c84013",
     "mode_of_operation_id": "FFT-004",
     "likelihood": null,
     "impact": null,
@@ -33,7 +33,7 @@
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "NEW",
+    "status": "DISMISSED",
     "classification": "MO_VARIANT",
     "title": "Possible Fictitious Pickup",
     "signature": "FALSE_MILESTONE_STAMP+HANDOVER_GAP+SEAL_MISMATCH",

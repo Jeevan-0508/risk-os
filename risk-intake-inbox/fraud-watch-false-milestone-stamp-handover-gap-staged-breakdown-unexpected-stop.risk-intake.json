@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:FALSE_MILESTONE_STAMP+HANDOVER_GAP+STAGED_BREAKDOWN+UNEXPECTED_STOP",
   "canonical_risk_id": "fraud-watch:FALSE_MILESTONE_STAMP+HANDOVER_GAP+STAGED_BREAKDOWN+UNEXPECTED_STOP",
-  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:FALSE_MILESTONE_STAMP+HANDOVER_GAP+STAGED_BREAKDOWN+UNEXPECTED_STOP (FALSE_MILESTONE_STAMP, HANDOVER_GAP, MANIFEST_CHANGED, STAGED_BREAKDOWN, UNEXPECTED_STOP).",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:FALSE_MILESTONE_STAMP+HANDOVER_GAP+STAGED_BREAKDOWN+UNEXPECTED_STOP (DUPLICATE_ASSET_ID, FALSE_MILESTONE_STAMP, HANDOVER_GAP, MANIFEST_CHANGED, STAGED_BREAKDOWN, UNEXPECTED_STOP).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:FALSE_MILESTONE_STAMP+HANDOVER_GAP+STAGED_BREAKDOWN+UNEXPECTED_STOP",
-    "captured_at": "2026-10-12T15:38:09.392Z",
+    "captured_at": "2026-10-13T00:47:26.630Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "82f435bb278336d00e2c07bff4b4891cb89796939feba11956bdb6fc0c75d3cb",
+    "hypothesis_context_sha256": "cd8768f6e085a78419fa0d2971f0a67eb16cc644c0c267bd14593adce5865879",
     "mode_of_operation_id": "FFT-010",
     "likelihood": null,
     "impact": null,
@@ -46,6 +46,7 @@
     "lastObservedAt": null,
     "relatedPatternId": null,
     "signalTypes": [
+      "DUPLICATE_ASSET_ID",
       "FALSE_MILESTONE_STAMP",
       "HANDOVER_GAP",
       "MANIFEST_CHANGED",
@@ -61,6 +62,10 @@
       {
         "at": 810600,
         "signalType": "FALSE_MILESTONE_STAMP + HANDOVER_GAP + MANIFEST_CHANGED + STAGED_BREAKDOWN + UNEXPECTED_STOP"
+      },
+      {
+        "at": 1838100,
+        "signalType": "DUPLICATE_ASSET_ID + FALSE_MILESTONE_STAMP + HANDOVER_GAP + STAGED_BREAKDOWN + UNEXPECTED_STOP"
       }
     ],
     "signals": [],
