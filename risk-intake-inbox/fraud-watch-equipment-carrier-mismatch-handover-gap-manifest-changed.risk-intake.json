@@ -3,21 +3,21 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+HANDOVER_GAP+MANIFEST_CHANGED",
   "canonical_risk_id": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+HANDOVER_GAP+MANIFEST_CHANGED",
-  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:EQUIPMENT_CARRIER_MISMATCH+HANDOVER_GAP+MANIFEST_CHANGED (DRIVER_CHANGED, EQUIPMENT_CARRIER_MISMATCH, FALSE_MILESTONE_STAMP, HANDOVER_GAP, MANIFEST_CHANGED, ROUTE_DEVIATION, SEAL_MISMATCH, STAGED_BREAKDOWN, UNEXPECTED_STOP).",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:EQUIPMENT_CARRIER_MISMATCH+HANDOVER_GAP+MANIFEST_CHANGED (CARRIER_UNRESPONSIVE, DRIVER_CHANGED, EQUIPMENT_CARRIER_MISMATCH, FALSE_MILESTONE_STAMP, HANDOVER_GAP, MANIFEST_CHANGED, ROUTE_DEVIATION, SEAL_MISMATCH, STAGED_BREAKDOWN, UNEXPECTED_STOP).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+HANDOVER_GAP+MANIFEST_CHANGED",
-    "captured_at": "2026-10-14T12:01:23.556Z",
+    "captured_at": "2026-10-14T17:17:56.418Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "94accc5169c57d24f13bbe2b78bdb67ac1ad826e3998fdb0f5914b5a719bb934",
-    "mode_of_operation_id": "FFT-003",
+    "hypothesis_context_sha256": "460542b0ef3c6cc62278b1235e7a0a734422400938d2af57e5c77890815f06cb",
+    "mode_of_operation_id": "FFT-002",
     "likelihood": null,
     "impact": null,
     "financial_impact": null,
@@ -46,6 +46,7 @@
     "lastObservedAt": null,
     "relatedPatternId": null,
     "signalTypes": [
+      "CARRIER_UNRESPONSIVE",
       "DRIVER_CHANGED",
       "EQUIPMENT_CARRIER_MISMATCH",
       "FALSE_MILESTONE_STAMP",
@@ -64,7 +65,7 @@
       },
       {
         "at": 1952400,
-        "signalType": "EQUIPMENT_CARRIER_MISMATCH + HANDOVER_GAP + MANIFEST_CHANGED"
+        "signalType": "CARRIER_UNRESPONSIVE + EQUIPMENT_CARRIER_MISMATCH + HANDOVER_GAP + MANIFEST_CHANGED"
       }
     ],
     "signals": [],
