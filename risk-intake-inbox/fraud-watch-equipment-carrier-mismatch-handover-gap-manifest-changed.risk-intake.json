@@ -1,0 +1,81 @@
+{
+  "schema_version": "risk-intake.v1",
+  "kind": "risk-intake",
+  "intake_id": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+HANDOVER_GAP+MANIFEST_CHANGED",
+  "canonical_risk_id": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+HANDOVER_GAP+MANIFEST_CHANGED",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:EQUIPMENT_CARRIER_MISMATCH+HANDOVER_GAP+MANIFEST_CHANGED (DRIVER_CHANGED, EQUIPMENT_CARRIER_MISMATCH, FALSE_MILESTONE_STAMP, HANDOVER_GAP, MANIFEST_CHANGED, ROUTE_DEVIATION, SEAL_MISMATCH, STAGED_BREAKDOWN, UNEXPECTED_STOP).",
+  "source": {
+    "system": "Fraud Watch",
+    "repository": "Jeevan-0508/fraud-watch",
+    "revision": null,
+    "uri": "https://github.com/Jeevan-0508/fraud-watch",
+    "identity": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+HANDOVER_GAP+MANIFEST_CHANGED",
+    "captured_at": "2026-10-14T12:01:23.556Z",
+    "data_class": "synthetic_simulation"
+  },
+  "claim": {
+    "evidence_ids": [],
+    "contradicting_evidence_ids": [],
+    "hypothesis_context_sha256": "94accc5169c57d24f13bbe2b78bdb67ac1ad826e3998fdb0f5914b5a719bb934",
+    "mode_of_operation_id": "FFT-003",
+    "likelihood": null,
+    "impact": null,
+    "financial_impact": null,
+    "owner_id": null,
+    "control_effectiveness": null,
+    "confidence": null
+  },
+  "lifecycle": {
+    "state": "hypothesis",
+    "authority": "synthetic"
+  },
+  "idempotency_key": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+HANDOVER_GAP+MANIFEST_CHANGED",
+  "synthetic_context": {
+    "kind": "fraud-watch-candidate.v1",
+    "disclaimer": "Synthetic simulation context only. This candidate groups simulator observations; it is not real-world evidence, a probability, a finding, or an accepted risk.",
+    "status": null,
+    "classification": null,
+    "title": null,
+    "signature": "EQUIPMENT_CARRIER_MISMATCH+HANDOVER_GAP+MANIFEST_CHANGED",
+    "correlationIndex": null,
+    "correlationIndexSemantics": "synthetic_signal_index_not_probability",
+    "confidenceBand": null,
+    "recurrenceCount": null,
+    "firstObservedAt": 187800,
+    "openedAt": 1952400,
+    "lastObservedAt": null,
+    "relatedPatternId": null,
+    "signalTypes": [
+      "DRIVER_CHANGED",
+      "EQUIPMENT_CARRIER_MISMATCH",
+      "FALSE_MILESTONE_STAMP",
+      "HANDOVER_GAP",
+      "MANIFEST_CHANGED",
+      "ROUTE_DEVIATION",
+      "SEAL_MISMATCH",
+      "STAGED_BREAKDOWN",
+      "UNEXPECTED_STOP"
+    ],
+    "entityIds": {},
+    "timeline": [
+      {
+        "at": 1952400,
+        "signalType": "DRIVER_CHANGED + EQUIPMENT_CARRIER_MISMATCH + FALSE_MILESTONE_STAMP + HANDOVER_GAP + MANIFEST_CHANGED + ROUTE_DEVIATION + SEAL_MISMATCH + STAGED_BREAKDOWN + UNEXPECTED_STOP"
+      },
+      {
+        "at": 1952400,
+        "signalType": "EQUIPMENT_CARRIER_MISMATCH + HANDOVER_GAP + MANIFEST_CHANGED"
+      }
+    ],
+    "signals": [],
+    "sites": [],
+    "unsitedSignalCount": null,
+    "siteSpread": null,
+    "classificationReason": null,
+    "classificationReasonNote": null,
+    "relatedPatterns": [],
+    "resemblanceNotes": [],
+    "legitimateExplanations": [],
+    "countermeasures": []
+  }
+}
