@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0044",
   "canonical_risk_id": "fraud-watch:mo:MO-0044",
-  "statement": "Synthetic Fraud Watch potential MO MO-0044: Possible GPS Spoofing and Telematics Manipulation (DUPLICATE_ASSET_ID, SEAL_MISMATCH).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0044: Possible GPS Spoofing and Telematics Manipulation (DUPLICATE_ASSET_ID, GPS_SIGNAL_LOST, SEAL_MISMATCH).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0044",
-    "captured_at": "2026-10-16T16:44:38.896Z",
+    "captured_at": "2026-10-16T21:18:01.183Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "2565f76362f27866abc3b97f85f65750d2df4430ef6d9cdfed3c5f58c74a8e1e",
+    "hypothesis_context_sha256": "66a6ec413683180b864a4760e37ff16a6beb3e09e42ce8b2f4ff8bdef9efe209",
     "mode_of_operation_id": "FFT-008",
     "likelihood": null,
     "impact": null,
@@ -37,16 +37,17 @@
     "classification": "KNOWN_MO",
     "title": "Possible GPS Spoofing and Telematics Manipulation",
     "signature": "DUPLICATE_ASSET_ID+SEAL_MISMATCH",
-    "correlationIndex": 23,
+    "correlationIndex": 14,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
-    "confidenceBand": "WATCH",
+    "confidenceBand": "MINIMAL",
     "recurrenceCount": 4,
     "firstObservedAt": 2148000,
     "openedAt": 2154900,
-    "lastObservedAt": 2158200,
+    "lastObservedAt": 2179200,
     "relatedPatternId": "FFT-008",
     "signalTypes": [
       "DUPLICATE_ASSET_ID",
+      "GPS_SIGNAL_LOST",
       "SEAL_MISMATCH"
     ],
     "entityIds": {
@@ -64,6 +65,10 @@
       {
         "at": 2154900,
         "signalType": "DUPLICATE_ASSET_ID"
+      },
+      {
+        "at": 2177700,
+        "signalType": "GPS_SIGNAL_LOST"
       }
     ],
     "signals": [
@@ -82,6 +87,14 @@
         "at": 2154900,
         "facilityId": "FAC-008",
         "facilityName": "Inland Depot Ost"
+      },
+      {
+        "signalType": "GPS_SIGNAL_LOST",
+        "contribution": 1.2,
+        "reliability": 0.6,
+        "at": 2177700,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
     "sites": [
@@ -91,7 +104,7 @@
         "signalCount": 1
       }
     ],
-    "unsitedSignalCount": 1,
+    "unsitedSignalCount": 2,
     "siteSpread": "PARTLY_UNSITED",
     "classificationReason": "SIGHTINGS_AT_OR_ABOVE_FLOOR",
     "classificationReasonNote": "this combination has recurred at or above the familiarity floor in this run. Familiar, which is not the same as understood.",
@@ -99,9 +112,10 @@
       {
         "id": "FFT-008",
         "name": "GPS Spoofing and Telematics Manipulation",
-        "votes": 5,
+        "votes": 6,
         "keywords": [
           "gnss",
+          "gps",
           "position",
           "spoof",
           "telemat",
@@ -127,7 +141,7 @@
       }
     ],
     "resemblanceNotes": [
-      "This signal combination has recurred, and shares most vocabulary with GPS Spoofing and Telematics Manipulation (5 shared keywords). Recurrence is a fact about this simulation's own history, not about the pattern.",
+      "This signal combination has recurred, and shares most vocabulary with GPS Spoofing and Telematics Manipulation (6 shared keywords). Recurrence is a fact about this simulation's own history, not about the pattern.",
       "Shares some vocabulary with: Systematic Pilferage, Fictitious Pickup.",
       "Nothing here compares the case's signal types against the pattern's documented indicators. Resemblance is a keyword vote over the pattern's name, category and aliases, and a vote count cannot produce a difference. A section headed \"What makes this different\" listing resemblance sentences stated a comparison nobody made."
     ],
