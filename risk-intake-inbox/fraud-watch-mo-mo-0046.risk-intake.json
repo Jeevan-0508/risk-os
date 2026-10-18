@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0046",
-    "captured_at": "2026-10-18T04:41:39.487Z",
+    "captured_at": "2026-10-18T11:17:00.492Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "bed93daf467d16c1a8bf6e1ea9bdce090cb08c0ada47e210699b6b0852aff533",
+    "hypothesis_context_sha256": "25a4709b25382bec239419505f893b491d51b958f6fe0309297d37f8c391b5af",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
@@ -37,13 +37,13 @@
     "classification": "KNOWN_MO",
     "title": "Possible Carrier Identity Takeover",
     "signature": "EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
-    "correlationIndex": 100,
+    "correlationIndex": 27,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
-    "confidenceBand": "STRONG",
+    "confidenceBand": "WATCH",
     "recurrenceCount": 6,
     "firstObservedAt": 2287771,
     "openedAt": 2288100,
-    "lastObservedAt": 2289600,
+    "lastObservedAt": 2295600,
     "relatedPatternId": "FFT-003",
     "signalTypes": [
       "EQUIPMENT_CARRIER_MISMATCH",
@@ -55,7 +55,7 @@
       "driver_id": "DRI-015",
       "trailer_id": "TRA-012",
       "carrier_id": "CAR-007",
-      "facility_id": "FAC-010"
+      "facility_id": null
     },
     "timeline": [
       {
@@ -77,6 +77,14 @@
       {
         "at": 2288700,
         "signalType": "SEAL_MISMATCH"
+      },
+      {
+        "at": 2290798,
+        "signalType": "MANIFEST_CHANGED"
+      },
+      {
+        "at": 2290800,
+        "signalType": "EQUIPMENT_CARRIER_MISMATCH"
       }
     ],
     "signals": [
@@ -119,6 +127,22 @@
         "at": 2288700,
         "facilityId": "FAC-010",
         "facilityName": "East Gate"
+      },
+      {
+        "signalType": "MANIFEST_CHANGED",
+        "contribution": 1.3,
+        "reliability": 0.65,
+        "at": 2290798,
+        "facilityId": null,
+        "facilityName": null
+      },
+      {
+        "signalType": "EQUIPMENT_CARRIER_MISMATCH",
+        "contribution": 2.1,
+        "reliability": 0.7,
+        "at": 2290800,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
     "sites": [
@@ -128,8 +152,8 @@
         "signalCount": 5
       }
     ],
-    "unsitedSignalCount": 0,
-    "siteSpread": "SINGLE_SITE",
+    "unsitedSignalCount": 2,
+    "siteSpread": "PARTLY_UNSITED",
     "classificationReason": "SIGHTINGS_AT_OR_ABOVE_FLOOR",
     "classificationReasonNote": "this combination has recurred at or above the familiarity floor in this run. Familiar, which is not the same as understood.",
     "relatedPatterns": [
