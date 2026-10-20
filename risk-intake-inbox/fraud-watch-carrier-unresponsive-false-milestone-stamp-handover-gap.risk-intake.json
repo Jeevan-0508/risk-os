@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
-    "captured_at": "2026-10-20T04:58:08.737Z",
+    "captured_at": "2026-10-20T11:47:01.382Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "4bd316ff76891b4657fbef0339b573f14e54905a6a07e1162fd0ad8ede392377",
+    "hypothesis_context_sha256": "e644bb0a146ff965fa5a78f7ea99bd9ba2265aa8433462619d407912d1fbb1f4",
     "mode_of_operation_id": "FFT-002",
     "likelihood": null,
     "impact": null,
