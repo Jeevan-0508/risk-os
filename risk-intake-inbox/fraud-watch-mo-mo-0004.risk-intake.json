@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0004",
-    "captured_at": "2026-10-20T21:41:49.442Z",
+    "captured_at": "2026-10-21T04:57:28.686Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "6dc3e48b4cb02f2aa36c5a69f8d9bc59191835070253389d065c754b441437d9",
+    "hypothesis_context_sha256": "bee53fb89823a28885c16fcb23be962422c0a8aaf9212a07efb7181973090dff",
     "mode_of_operation_id": null,
     "likelihood": null,
     "impact": null,
