@@ -1,0 +1,75 @@
+{
+  "schema_version": "risk-intake.v1",
+  "kind": "risk-intake",
+  "intake_id": "fraud-watch:ACCOUNT_TAKEOVER+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
+  "canonical_risk_id": "fraud-watch:ACCOUNT_TAKEOVER+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:ACCOUNT_TAKEOVER+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED (ACCOUNT_TAKEOVER, EQUIPMENT_CARRIER_MISMATCH, MANIFEST_CHANGED).",
+  "source": {
+    "system": "Fraud Watch",
+    "repository": "Jeevan-0508/fraud-watch",
+    "revision": null,
+    "uri": "https://github.com/Jeevan-0508/fraud-watch",
+    "identity": "fraud-watch:ACCOUNT_TAKEOVER+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
+    "captured_at": "2026-10-21T17:18:51.715Z",
+    "data_class": "synthetic_simulation"
+  },
+  "claim": {
+    "evidence_ids": [],
+    "contradicting_evidence_ids": [],
+    "hypothesis_context_sha256": "2517d160c2861cda9ec4020d3dee811afcc948daab660455af6ca878f8f4af6d",
+    "mode_of_operation_id": "FFT-003",
+    "likelihood": null,
+    "impact": null,
+    "financial_impact": null,
+    "owner_id": null,
+    "control_effectiveness": null,
+    "confidence": null
+  },
+  "lifecycle": {
+    "state": "hypothesis",
+    "authority": "synthetic"
+  },
+  "idempotency_key": "fraud-watch:ACCOUNT_TAKEOVER+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
+  "synthetic_context": {
+    "kind": "fraud-watch-candidate.v1",
+    "disclaimer": "Synthetic simulation context only. This candidate groups simulator observations; it is not real-world evidence, a probability, a finding, or an accepted risk.",
+    "status": null,
+    "classification": null,
+    "title": null,
+    "signature": "ACCOUNT_TAKEOVER+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
+    "correlationIndex": null,
+    "correlationIndexSemantics": "synthetic_signal_index_not_probability",
+    "confidenceBand": null,
+    "recurrenceCount": null,
+    "firstObservedAt": 54900,
+    "openedAt": 2550600,
+    "lastObservedAt": null,
+    "relatedPatternId": null,
+    "signalTypes": [
+      "ACCOUNT_TAKEOVER",
+      "EQUIPMENT_CARRIER_MISMATCH",
+      "MANIFEST_CHANGED"
+    ],
+    "entityIds": {},
+    "timeline": [
+      {
+        "at": 2550600,
+        "signalType": "ACCOUNT_TAKEOVER + EQUIPMENT_CARRIER_MISMATCH + MANIFEST_CHANGED"
+      },
+      {
+        "at": 2550600,
+        "signalType": "ACCOUNT_TAKEOVER + EQUIPMENT_CARRIER_MISMATCH + MANIFEST_CHANGED"
+      }
+    ],
+    "signals": [],
+    "sites": [],
+    "unsitedSignalCount": null,
+    "siteSpread": null,
+    "classificationReason": null,
+    "classificationReasonNote": null,
+    "relatedPatterns": [],
+    "resemblanceNotes": [],
+    "legitimateExplanations": [],
+    "countermeasures": []
+  }
+}
