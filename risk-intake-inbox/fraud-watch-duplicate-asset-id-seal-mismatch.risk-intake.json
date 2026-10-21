@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:DUPLICATE_ASSET_ID+SEAL_MISMATCH",
-    "captured_at": "2026-10-21T17:18:51.715Z",
+    "captured_at": "2026-10-21T21:47:39.234Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "84301cb0dedd4433eed19c080b2d77ac9e8edccd7b1e3b204d325c6a9557b8ff",
+    "hypothesis_context_sha256": "66aa08dc277ab016099b1a859768a32acb2e7162064b27e7c343695e8cdc5cc1",
     "mode_of_operation_id": "FFT-008",
     "likelihood": null,
     "impact": null,
