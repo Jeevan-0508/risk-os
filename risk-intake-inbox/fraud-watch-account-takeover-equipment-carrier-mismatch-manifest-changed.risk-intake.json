@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:ACCOUNT_TAKEOVER+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
   "canonical_risk_id": "fraud-watch:ACCOUNT_TAKEOVER+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
-  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:ACCOUNT_TAKEOVER+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED (ACCOUNT_TAKEOVER, EQUIPMENT_CARRIER_MISMATCH, MANIFEST_CHANGED).",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:ACCOUNT_TAKEOVER+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED (ACCOUNT_TAKEOVER, EQUIPMENT_CARRIER_MISMATCH, MANIFEST_CHANGED, STAGED_BREAKDOWN, UNEXPECTED_STOP).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:ACCOUNT_TAKEOVER+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
-    "captured_at": "2026-10-23T17:14:25.094Z",
+    "captured_at": "2026-10-23T21:28:54.233Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "38a930782f3cf0f5a87b0414f555749f4e5a422f130ac5d608d60c1980fe4fc3",
+    "hypothesis_context_sha256": "957b4c4acfebc2ce59b99f74f7b3d9adb868e3b30881d0520c4cb7f9431630c5",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
@@ -48,7 +48,9 @@
     "signalTypes": [
       "ACCOUNT_TAKEOVER",
       "EQUIPMENT_CARRIER_MISMATCH",
-      "MANIFEST_CHANGED"
+      "MANIFEST_CHANGED",
+      "STAGED_BREAKDOWN",
+      "UNEXPECTED_STOP"
     ],
     "entityIds": {},
     "timeline": [
@@ -62,7 +64,7 @@
       },
       {
         "at": 2712300,
-        "signalType": "ACCOUNT_TAKEOVER + EQUIPMENT_CARRIER_MISMATCH + MANIFEST_CHANGED"
+        "signalType": "ACCOUNT_TAKEOVER + EQUIPMENT_CARRIER_MISMATCH + MANIFEST_CHANGED + STAGED_BREAKDOWN + UNEXPECTED_STOP"
       }
     ],
     "signals": [],
