@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0059",
-    "captured_at": "2026-10-26T22:43:55.878Z",
+    "captured_at": "2026-10-27T05:13:21.627Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "51f396350f0f2a30aa2169049d450abe33076ebd92b2cee8460abc6f787c966e",
+    "hypothesis_context_sha256": "00427c035394164c0eeddfe0886dc4a9afbbd8a3b9a5341174a3593c43825ae1",
     "mode_of_operation_id": "FFT-002",
     "likelihood": null,
     "impact": null,
@@ -43,7 +43,7 @@
     "recurrenceCount": 1,
     "firstObservedAt": 2985000,
     "openedAt": 2985300,
-    "lastObservedAt": 3001500,
+    "lastObservedAt": 3033900,
     "relatedPatternId": "FFT-002",
     "signalTypes": [
       "DRIVER_CHANGED",
@@ -68,6 +68,10 @@
       },
       {
         "at": 2994600,
+        "signalType": "DRIVER_CHANGED"
+      },
+      {
+        "at": 3027000,
         "signalType": "DRIVER_CHANGED"
       }
     ],
@@ -95,6 +99,14 @@
         "at": 2994600,
         "facilityId": "FAC-001",
         "facilityName": "North Gate"
+      },
+      {
+        "signalType": "DRIVER_CHANGED",
+        "contribution": 0.5,
+        "reliability": 0.5,
+        "at": 3027000,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
     "sites": [
@@ -104,7 +116,7 @@
         "signalCount": 1
       }
     ],
-    "unsitedSignalCount": 2,
+    "unsitedSignalCount": 3,
     "siteSpread": "PARTLY_UNSITED",
     "classificationReason": "VOCABULARY_THIN_AT_FIRST_SIGHTING",
     "classificationReasonNote": "first sighting of this combination, and its vocabulary overlap with the top-ranked pattern is below the declared floor. This is a statement about shared words, not about how often it has been seen.",
