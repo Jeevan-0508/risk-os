@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+HANDOVER_GAP+MANIFEST_CHANGED",
-    "captured_at": "2026-10-27T05:13:21.627Z",
+    "captured_at": "2026-10-27T12:21:15.655Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "f79964137789824df979ec17cfb2767d1eabff27e96c24ceb632895ed64cb28f",
+    "hypothesis_context_sha256": "7c3cd313c7a03454059ee419b24f8ae8a2a785a822d8fa087c384f535c78bff8",
     "mode_of_operation_id": "FFT-002",
     "likelihood": null,
     "impact": null,

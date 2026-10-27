@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0059",
   "canonical_risk_id": "fraud-watch:mo:MO-0059",
-  "statement": "Synthetic Fraud Watch potential MO MO-0059: Possible Phantom Carrier (DRIVER_CHANGED, MANIFEST_CHANGED, SEAL_MISMATCH).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0059: Possible Phantom Carrier (DRIVER_CHANGED, MANIFEST_CHANGED, SEAL_MISMATCH, TRAILER_SWAPPED).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0059",
-    "captured_at": "2026-10-27T05:13:21.627Z",
+    "captured_at": "2026-10-27T12:21:15.655Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "00427c035394164c0eeddfe0886dc4a9afbbd8a3b9a5341174a3593c43825ae1",
+    "hypothesis_context_sha256": "2be7f90417e0b2136e3c13acf38f6ffb4676d1eef7917a2381271fbecbe210de",
     "mode_of_operation_id": "FFT-002",
     "likelihood": null,
     "impact": null,
@@ -43,12 +43,13 @@
     "recurrenceCount": 1,
     "firstObservedAt": 2985000,
     "openedAt": 2985300,
-    "lastObservedAt": 3033900,
+    "lastObservedAt": 3061200,
     "relatedPatternId": "FFT-002",
     "signalTypes": [
       "DRIVER_CHANGED",
       "MANIFEST_CHANGED",
-      "SEAL_MISMATCH"
+      "SEAL_MISMATCH",
+      "TRAILER_SWAPPED"
     ],
     "entityIds": {
       "truck_id": "TRU-020",
@@ -73,6 +74,10 @@
       {
         "at": 3027000,
         "signalType": "DRIVER_CHANGED"
+      },
+      {
+        "at": 3054300,
+        "signalType": "TRAILER_SWAPPED"
       }
     ],
     "signals": [
@@ -107,6 +112,14 @@
         "at": 3027000,
         "facilityId": null,
         "facilityName": null
+      },
+      {
+        "signalType": "TRAILER_SWAPPED",
+        "contribution": 0.5,
+        "reliability": 0.5,
+        "at": 3054300,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
     "sites": [
@@ -116,7 +129,7 @@
         "signalCount": 1
       }
     ],
-    "unsitedSignalCount": 3,
+    "unsitedSignalCount": 4,
     "siteSpread": "PARTLY_UNSITED",
     "classificationReason": "VOCABULARY_THIN_AT_FIRST_SIGHTING",
     "classificationReasonNote": "first sighting of this combination, and its vocabulary overlap with the top-ranked pattern is below the declared floor. This is a statement about shared words, not about how often it has been seen.",
