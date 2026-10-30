@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:FALSE_MILESTONE_STAMP+HANDOVER_GAP+STAGED_BREAKDOWN+UNEXPECTED_STOP",
-    "captured_at": "2026-10-30T13:05:10.332Z",
+    "captured_at": "2026-10-30T22:26:42.362Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "29d599a5d71c6867eaa3c2371042f287185475ee97c2f5650aa662516f5c04ab",
+    "hypothesis_context_sha256": "5cd3d5667151316a039db6243ae892d9e761aadea718fc1dab423c063e53f673",
     "mode_of_operation_id": "FFT-010",
     "likelihood": null,
     "impact": null,
