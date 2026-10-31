@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0069",
   "canonical_risk_id": "fraud-watch:mo:MO-0069",
-  "statement": "Synthetic Fraud Watch potential MO MO-0069: Possible GPS Spoofing and Telematics Manipulation (DUPLICATE_ASSET_ID, HANDOVER_GAP, ROUTE_DEVIATION).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0069: Possible GPS Spoofing and Telematics Manipulation (DRIVER_CHANGED, DUPLICATE_ASSET_ID, HANDOVER_GAP, ROUTE_DEVIATION).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0069",
-    "captured_at": "2026-10-31T05:53:12.823Z",
+    "captured_at": "2026-10-31T12:42:54.326Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "6ff2be3460be7d710831bf7fc8a70a8ed63c5920ffb9ec84a9c097c2dd44a642",
+    "hypothesis_context_sha256": "6d8aeec0e72ddcfd9259b3723597ed3f8a70c6f71955082c928421fb004be6df",
     "mode_of_operation_id": "FFT-008",
     "likelihood": null,
     "impact": null,
@@ -37,15 +37,16 @@
     "classification": "MO_VARIANT",
     "title": "Possible GPS Spoofing and Telematics Manipulation",
     "signature": "DUPLICATE_ASSET_ID+HANDOVER_GAP+ROUTE_DEVIATION",
-    "correlationIndex": 13,
+    "correlationIndex": 6,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
     "confidenceBand": "MINIMAL",
     "recurrenceCount": 1,
     "firstObservedAt": 3361200,
     "openedAt": 3364200,
-    "lastObservedAt": 3368100,
+    "lastObservedAt": 3403200,
     "relatedPatternId": "FFT-008",
     "signalTypes": [
+      "DRIVER_CHANGED",
       "DUPLICATE_ASSET_ID",
       "HANDOVER_GAP",
       "ROUTE_DEVIATION"
@@ -69,6 +70,10 @@
       {
         "at": 3364200,
         "signalType": "ROUTE_DEVIATION"
+      },
+      {
+        "at": 3396300,
+        "signalType": "DRIVER_CHANGED"
       }
     ],
     "signals": [
@@ -95,6 +100,14 @@
         "at": 3364200,
         "facilityId": null,
         "facilityName": null
+      },
+      {
+        "signalType": "DRIVER_CHANGED",
+        "contribution": 0.5,
+        "reliability": 0.5,
+        "at": 3396300,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
     "sites": [
@@ -104,7 +117,7 @@
         "signalCount": 1
       }
     ],
-    "unsitedSignalCount": 2,
+    "unsitedSignalCount": 3,
     "siteSpread": "PARTLY_UNSITED",
     "classificationReason": "VOCABULARY_SHARED_AT_FIRST_SIGHTING",
     "classificationReasonNote": "first sighting of this combination, and its vocabulary overlap with the top-ranked pattern is at or above the declared floor.",
@@ -134,17 +147,18 @@
         ]
       },
       {
-        "id": "FFT-005",
-        "name": "Systematic Pilferage",
-        "votes": 1,
+        "id": "FFT-009",
+        "name": "Insider Collusion",
+        "votes": 2,
         "keywords": [
-          "load theft"
+          "collusion",
+          "insider"
         ]
       }
     ],
     "resemblanceNotes": [
       "Shares most vocabulary with GPS Spoofing and Telematics Manipulation (6 shared keywords). This exact combination of signal types has not recurred in this simulation.",
-      "Shares some vocabulary with: Fictitious Pickup, Systematic Pilferage.",
+      "Shares some vocabulary with: Fictitious Pickup, Insider Collusion.",
       "Nothing here compares the case's signal types against the pattern's documented indicators. Resemblance is a keyword vote over the pattern's name, category and aliases, and a vote count cannot produce a difference. A section headed \"What makes this different\" listing resemblance sentences stated a comparison nobody made."
     ],
     "legitimateExplanations": [
