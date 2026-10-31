@@ -1,0 +1,76 @@
+{
+  "schema_version": "risk-intake.v1",
+  "kind": "risk-intake",
+  "intake_id": "fraud-watch:MANIFEST_CHANGED+SEAL_MISMATCH",
+  "canonical_risk_id": "fraud-watch:MANIFEST_CHANGED+SEAL_MISMATCH",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:MANIFEST_CHANGED+SEAL_MISMATCH (DRIVER_CHANGED, MANIFEST_CHANGED, SEAL_MISMATCH, TRAILER_SWAPPED).",
+  "source": {
+    "system": "Fraud Watch",
+    "repository": "Jeevan-0508/fraud-watch",
+    "revision": null,
+    "uri": "https://github.com/Jeevan-0508/fraud-watch",
+    "identity": "fraud-watch:MANIFEST_CHANGED+SEAL_MISMATCH",
+    "captured_at": "2026-10-31T05:53:12.823Z",
+    "data_class": "synthetic_simulation"
+  },
+  "claim": {
+    "evidence_ids": [],
+    "contradicting_evidence_ids": [],
+    "hypothesis_context_sha256": "1eac81124a13bb239a06aa43983a65fb95a29b1d2911826254b77c970f107fa8",
+    "mode_of_operation_id": "FFT-002",
+    "likelihood": null,
+    "impact": null,
+    "financial_impact": null,
+    "owner_id": null,
+    "control_effectiveness": null,
+    "confidence": null
+  },
+  "lifecycle": {
+    "state": "hypothesis",
+    "authority": "synthetic"
+  },
+  "idempotency_key": "fraud-watch:MANIFEST_CHANGED+SEAL_MISMATCH",
+  "synthetic_context": {
+    "kind": "fraud-watch-candidate.v1",
+    "disclaimer": "Synthetic simulation context only. This candidate groups simulator observations; it is not real-world evidence, a probability, a finding, or an accepted risk.",
+    "status": null,
+    "classification": null,
+    "title": null,
+    "signature": "MANIFEST_CHANGED+SEAL_MISMATCH",
+    "correlationIndex": null,
+    "correlationIndexSemantics": "synthetic_signal_index_not_probability",
+    "confidenceBand": null,
+    "recurrenceCount": null,
+    "firstObservedAt": 2985300,
+    "openedAt": 3384900,
+    "lastObservedAt": null,
+    "relatedPatternId": null,
+    "signalTypes": [
+      "DRIVER_CHANGED",
+      "MANIFEST_CHANGED",
+      "SEAL_MISMATCH",
+      "TRAILER_SWAPPED"
+    ],
+    "entityIds": {},
+    "timeline": [
+      {
+        "at": 3384900,
+        "signalType": "DRIVER_CHANGED + MANIFEST_CHANGED + SEAL_MISMATCH + TRAILER_SWAPPED"
+      },
+      {
+        "at": 3384900,
+        "signalType": "MANIFEST_CHANGED + SEAL_MISMATCH"
+      }
+    ],
+    "signals": [],
+    "sites": [],
+    "unsitedSignalCount": null,
+    "siteSpread": null,
+    "classificationReason": null,
+    "classificationReasonNote": null,
+    "relatedPatterns": [],
+    "resemblanceNotes": [],
+    "legitimateExplanations": [],
+    "countermeasures": []
+  }
+}
