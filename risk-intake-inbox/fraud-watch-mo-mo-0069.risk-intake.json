@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0069",
-    "captured_at": "2026-10-31T12:42:54.326Z",
+    "captured_at": "2026-10-31T21:41:36.525Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "6d8aeec0e72ddcfd9259b3723597ed3f8a70c6f71955082c928421fb004be6df",
+    "hypothesis_context_sha256": "bd30d475c78732de73aafc3891f0c0a629077dc794917074644db147c9bd2929",
     "mode_of_operation_id": "FFT-008",
     "likelihood": null,
     "impact": null,
@@ -33,7 +33,7 @@
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "NEW",
+    "status": "DISMISSED",
     "classification": "MO_VARIANT",
     "title": "Possible GPS Spoofing and Telematics Manipulation",
     "signature": "DUPLICATE_ASSET_ID+HANDOVER_GAP+ROUTE_DEVIATION",

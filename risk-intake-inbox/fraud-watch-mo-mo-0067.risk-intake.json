@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0067",
-    "captured_at": "2026-10-31T12:42:54.326Z",
+    "captured_at": "2026-10-31T21:41:36.525Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "09e48f12cb52d8798ccda6dd65743161f6aea100f70f4c720f55a2636ac9557d",
+    "hypothesis_context_sha256": "2dec7b4cc8203d8e951ff1d27704464c7b9c51fd2fcfbd91bdfe8a393e1649f8",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
@@ -33,7 +33,7 @@
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "NEW",
+    "status": "DISMISSED",
     "classification": "MO_VARIANT",
     "title": "Possible Carrier Identity Takeover",
     "signature": "DRIVER_CHANGED+EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED",
