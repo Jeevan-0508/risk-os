@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0072",
   "canonical_risk_id": "fraud-watch:mo:MO-0072",
-  "statement": "Synthetic Fraud Watch potential MO MO-0072: Possible Phantom Carrier (ACCOUNT_TAKEOVER, CARRIER_UNRESPONSIVE, FALSE_MILESTONE_STAMP, HANDOVER_GAP, TRAILER_SWAPPED).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0072: Possible Phantom Carrier (ACCOUNT_TAKEOVER, CARRIER_UNRESPONSIVE, DUPLICATE_ASSET_ID, FALSE_MILESTONE_STAMP, HANDOVER_GAP, TRAILER_SWAPPED).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0072",
-    "captured_at": "2026-11-01T22:07:59.337Z",
+    "captured_at": "2026-11-02T06:19:10.189Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "e38cecffd496495db88e6a8d0b266a56a7d7b6affe550c29c36f23b7149caf42",
+    "hypothesis_context_sha256": "1664ffba13242ab506fb4fddcbc5eda885a3399513bad7c364468c77e2d8a2c9",
     "mode_of_operation_id": "FFT-002",
     "likelihood": null,
     "impact": null,
@@ -37,17 +37,18 @@
     "classification": "KNOWN_MO",
     "title": "Possible Phantom Carrier",
     "signature": "CARRIER_UNRESPONSIVE+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
-    "correlationIndex": 22,
+    "correlationIndex": 6,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
-    "confidenceBand": "WATCH",
+    "confidenceBand": "MINIMAL",
     "recurrenceCount": 4,
     "firstObservedAt": 3464334,
     "openedAt": 3468300,
-    "lastObservedAt": 3519300,
+    "lastObservedAt": 3542400,
     "relatedPatternId": "FFT-002",
     "signalTypes": [
       "ACCOUNT_TAKEOVER",
       "CARRIER_UNRESPONSIVE",
+      "DUPLICATE_ASSET_ID",
       "FALSE_MILESTONE_STAMP",
       "HANDOVER_GAP",
       "TRAILER_SWAPPED"
@@ -79,6 +80,14 @@
       {
         "at": 3512400,
         "signalType": "ACCOUNT_TAKEOVER"
+      },
+      {
+        "at": 3532800,
+        "signalType": "DUPLICATE_ASSET_ID"
+      },
+      {
+        "at": 3538800,
+        "signalType": "TRAILER_SWAPPED"
       }
     ],
     "signals": [
@@ -121,13 +130,29 @@
         "at": 3512400,
         "facilityId": "FAC-016",
         "facilityName": "Inland Depot West"
+      },
+      {
+        "signalType": "DUPLICATE_ASSET_ID",
+        "contribution": 2,
+        "reliability": 0.65,
+        "at": 3532800,
+        "facilityId": "FAC-002",
+        "facilityName": "South Gate"
+      },
+      {
+        "signalType": "TRAILER_SWAPPED",
+        "contribution": 0.5,
+        "reliability": 0.5,
+        "at": 3538800,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
     "sites": [
       {
         "facilityId": "FAC-002",
         "facilityName": "South Gate",
-        "signalCount": 1
+        "signalCount": 2
       },
       {
         "facilityId": "FAC-016",
@@ -135,7 +160,7 @@
         "signalCount": 1
       }
     ],
-    "unsitedSignalCount": 3,
+    "unsitedSignalCount": 4,
     "siteSpread": "MULTI_SITE_PARTLY_UNSITED",
     "classificationReason": "SIGHTINGS_AT_OR_ABOVE_FLOOR",
     "classificationReasonNote": "this combination has recurred at or above the familiarity floor in this run. Familiar, which is not the same as understood.",
