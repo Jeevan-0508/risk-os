@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED+SEAL_MISMATCH",
-    "captured_at": "2026-11-02T06:19:10.189Z",
+    "captured_at": "2026-11-02T21:45:18.346Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "42d0805beec8bfa2a23397d3898c76fd6fc3c9aade785df814af8ca7727aacf4",
+    "hypothesis_context_sha256": "5da4c18cde18cdc664bef67b9e87ddabaaed14e8376f790246ab7d10d9c16dad",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,

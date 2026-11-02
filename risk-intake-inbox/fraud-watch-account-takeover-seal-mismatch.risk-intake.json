@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:ACCOUNT_TAKEOVER+SEAL_MISMATCH",
-    "captured_at": "2026-11-02T06:19:10.189Z",
+    "captured_at": "2026-11-02T21:45:18.346Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "dbea9cf2c4ca8732b82fe97fc1430290a91b6fe7b81a33f7cc0cde0a323350cb",
+    "hypothesis_context_sha256": "c668cb32ffa8b7b94640ec35c741586a3db8b907061f5531964f064bf97d2933",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
