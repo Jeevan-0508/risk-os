@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0075",
-    "captured_at": "2026-11-03T06:55:41.390Z",
+    "captured_at": "2026-11-03T19:33:05.361Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "517cd6ea8a5439cfdb18714ea963f9c8694304835cfe86cd992cee81b7aba616",
+    "hypothesis_context_sha256": "ca367224c03a343e9741debfc32de0961d128f5d3590725bcd0add41c77ec083",
     "mode_of_operation_id": "FFT-006",
     "likelihood": null,
     "impact": null,
@@ -33,7 +33,7 @@
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "NEW",
+    "status": "DISMISSED",
     "classification": "POTENTIAL_NEW_MO",
     "title": "Possible Unsecured Parking Theft",
     "signature": "SEAL_MISMATCH+STAGED_BREAKDOWN+UNEXPECTED_STOP",
@@ -43,7 +43,7 @@
     "recurrenceCount": 2,
     "firstObservedAt": 3618900,
     "openedAt": 3621300,
-    "lastObservedAt": 3650400,
+    "lastObservedAt": 3652800,
     "relatedPatternId": "FFT-006",
     "signalTypes": [
       "DRIVER_CHANGED",
