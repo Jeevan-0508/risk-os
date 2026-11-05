@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0078",
-    "captured_at": "2026-11-05T06:56:48.522Z",
+    "captured_at": "2026-11-05T20:02:12.346Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "e20f3b1853d0a2b432bdfbadf107f2dce177379ac0d31684b34bb0e61b4e71b4",
+    "hypothesis_context_sha256": "e529b242411c0318019f2a7fdf2a7117e3fd349d8f61e7c3d3e3b1f251b95024",
     "mode_of_operation_id": "FFT-010",
     "likelihood": null,
     "impact": null,
@@ -33,7 +33,7 @@
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "NEW",
+    "status": "DISMISSED",
     "classification": "MO_VARIANT",
     "title": "Possible Transport Document Fraud",
     "signature": "DRIVER_CHANGED+FALSE_MILESTONE_STAMP+HANDOVER_GAP+MANIFEST_CHANGED",
