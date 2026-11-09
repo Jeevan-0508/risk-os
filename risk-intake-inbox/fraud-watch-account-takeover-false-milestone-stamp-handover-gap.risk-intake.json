@@ -1,0 +1,77 @@
+{
+  "schema_version": "risk-intake.v1",
+  "kind": "risk-intake",
+  "intake_id": "fraud-watch:ACCOUNT_TAKEOVER+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
+  "canonical_risk_id": "fraud-watch:ACCOUNT_TAKEOVER+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:ACCOUNT_TAKEOVER+FALSE_MILESTONE_STAMP+HANDOVER_GAP (ACCOUNT_TAKEOVER, FALSE_MILESTONE_STAMP, GPS_SIGNAL_LOST, HANDOVER_GAP, SEAL_MISMATCH).",
+  "source": {
+    "system": "Fraud Watch",
+    "repository": "Jeevan-0508/fraud-watch",
+    "revision": null,
+    "uri": "https://github.com/Jeevan-0508/fraud-watch",
+    "identity": "fraud-watch:ACCOUNT_TAKEOVER+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
+    "captured_at": "2026-11-09T22:27:53.251Z",
+    "data_class": "synthetic_simulation"
+  },
+  "claim": {
+    "evidence_ids": [],
+    "contradicting_evidence_ids": [],
+    "hypothesis_context_sha256": "47e2e56680cce7984d308b43b9f0555c3f7c35b8d5191520b2e66136b1ecd1c2",
+    "mode_of_operation_id": "FFT-003",
+    "likelihood": null,
+    "impact": null,
+    "financial_impact": null,
+    "owner_id": null,
+    "control_effectiveness": null,
+    "confidence": null
+  },
+  "lifecycle": {
+    "state": "hypothesis",
+    "authority": "synthetic"
+  },
+  "idempotency_key": "fraud-watch:ACCOUNT_TAKEOVER+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
+  "synthetic_context": {
+    "kind": "fraud-watch-candidate.v1",
+    "disclaimer": "Synthetic simulation context only. This candidate groups simulator observations; it is not real-world evidence, a probability, a finding, or an accepted risk.",
+    "status": null,
+    "classification": null,
+    "title": null,
+    "signature": "ACCOUNT_TAKEOVER+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
+    "correlationIndex": null,
+    "correlationIndexSemantics": "synthetic_signal_index_not_probability",
+    "confidenceBand": null,
+    "recurrenceCount": null,
+    "firstObservedAt": 3658800,
+    "openedAt": 4137600,
+    "lastObservedAt": null,
+    "relatedPatternId": null,
+    "signalTypes": [
+      "ACCOUNT_TAKEOVER",
+      "FALSE_MILESTONE_STAMP",
+      "GPS_SIGNAL_LOST",
+      "HANDOVER_GAP",
+      "SEAL_MISMATCH"
+    ],
+    "entityIds": {},
+    "timeline": [
+      {
+        "at": 4137600,
+        "signalType": "ACCOUNT_TAKEOVER + FALSE_MILESTONE_STAMP + GPS_SIGNAL_LOST + HANDOVER_GAP"
+      },
+      {
+        "at": 4137600,
+        "signalType": "ACCOUNT_TAKEOVER + FALSE_MILESTONE_STAMP + GPS_SIGNAL_LOST + HANDOVER_GAP + SEAL_MISMATCH"
+      }
+    ],
+    "signals": [],
+    "sites": [],
+    "unsitedSignalCount": null,
+    "siteSpread": null,
+    "classificationReason": null,
+    "classificationReasonNote": null,
+    "relatedPatterns": [],
+    "resemblanceNotes": [],
+    "legitimateExplanations": [],
+    "countermeasures": []
+  }
+}

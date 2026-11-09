@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0083",
   "canonical_risk_id": "fraud-watch:mo:MO-0083",
-  "statement": "Synthetic Fraud Watch potential MO MO-0083: Possible Transport Document Fraud (FALSE_MILESTONE_STAMP, GPS_SIGNAL_LOST, HANDOVER_GAP, ROUTE_DEVIATION).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0083: Possible Transport Document Fraud (FALSE_MILESTONE_STAMP, GPS_SIGNAL_LOST, HANDOVER_GAP, ROUTE_DEVIATION, UNEXPECTED_STOP).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0083",
-    "captured_at": "2026-11-09T06:46:28.013Z",
+    "captured_at": "2026-11-09T22:27:53.251Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "13ba348c0c65804cfd9abda8af05d7398a5300ac4706075b8033ec4a4b0b5298",
+    "hypothesis_context_sha256": "2e8ff205a98f0bdc259d8b52f95ae78ddb9a92867a366f99abd002995003f07a",
     "mode_of_operation_id": "FFT-010",
     "likelihood": null,
     "impact": null,
@@ -33,23 +33,24 @@
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "NEW",
+    "status": "DISMISSED",
     "classification": "POTENTIAL_NEW_MO",
     "title": "Possible Transport Document Fraud",
     "signature": "FALSE_MILESTONE_STAMP+HANDOVER_GAP+ROUTE_DEVIATION",
-    "correlationIndex": 14,
+    "correlationIndex": 7,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
     "confidenceBand": "MINIMAL",
     "recurrenceCount": 3,
     "firstObservedAt": 4096860,
     "openedAt": 4097700,
-    "lastObservedAt": 4125600,
+    "lastObservedAt": 4152600,
     "relatedPatternId": "FFT-010",
     "signalTypes": [
       "FALSE_MILESTONE_STAMP",
       "GPS_SIGNAL_LOST",
       "HANDOVER_GAP",
-      "ROUTE_DEVIATION"
+      "ROUTE_DEVIATION",
+      "UNEXPECTED_STOP"
     ],
     "entityIds": {
       "truck_id": "TRU-021",
@@ -74,6 +75,10 @@
       {
         "at": 4125300,
         "signalType": "GPS_SIGNAL_LOST"
+      },
+      {
+        "at": 4151100,
+        "signalType": "UNEXPECTED_STOP"
       }
     ],
     "signals": [
@@ -108,11 +113,25 @@
         "at": 4125300,
         "facilityId": null,
         "facilityName": null
+      },
+      {
+        "signalType": "UNEXPECTED_STOP",
+        "contribution": 0.6,
+        "reliability": 0.6,
+        "at": 4151100,
+        "facilityId": "FAC-002",
+        "facilityName": "South Gate"
       }
     ],
-    "sites": [],
+    "sites": [
+      {
+        "facilityId": "FAC-002",
+        "facilityName": "South Gate",
+        "signalCount": 1
+      }
+    ],
     "unsitedSignalCount": 4,
-    "siteSpread": "UNSITED",
+    "siteSpread": "PARTLY_UNSITED",
     "classificationReason": "TOO_FEW_SIGHTINGS",
     "classificationReasonNote": "seen before but fewer times than the familiarity floor, so the sighting count says nothing either way. Its vocabulary overlap may be wide; on this branch it was not consulted.",
     "relatedPatterns": [

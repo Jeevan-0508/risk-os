@@ -1,0 +1,208 @@
+{
+  "schema_version": "risk-intake.v1",
+  "kind": "risk-intake",
+  "intake_id": "fraud-watch:mo:MO-0084",
+  "canonical_risk_id": "fraud-watch:mo:MO-0084",
+  "statement": "Synthetic Fraud Watch potential MO MO-0084: Possible Carrier Identity Takeover (ACCOUNT_TAKEOVER, FALSE_MILESTONE_STAMP, GPS_SIGNAL_LOST, HANDOVER_GAP, SEAL_MISMATCH).",
+  "source": {
+    "system": "Fraud Watch",
+    "repository": "Jeevan-0508/fraud-watch",
+    "revision": null,
+    "uri": "https://github.com/Jeevan-0508/fraud-watch",
+    "identity": "MO-0084",
+    "captured_at": "2026-11-09T22:27:53.251Z",
+    "data_class": "synthetic_simulation"
+  },
+  "claim": {
+    "evidence_ids": [],
+    "contradicting_evidence_ids": [],
+    "hypothesis_context_sha256": "7ebda7de3cfa19a741defa18f9ffa498a5c18be47e5ef024a4407c9060934926",
+    "mode_of_operation_id": "FFT-003",
+    "likelihood": null,
+    "impact": null,
+    "financial_impact": null,
+    "owner_id": null,
+    "control_effectiveness": null,
+    "confidence": null
+  },
+  "lifecycle": {
+    "state": "hypothesis",
+    "authority": "synthetic"
+  },
+  "idempotency_key": "fraud-watch:mo:MO-0084",
+  "synthetic_context": {
+    "kind": "fraud-watch-mo.v1",
+    "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
+    "status": "NEW",
+    "classification": "POTENTIAL_NEW_MO",
+    "title": "Possible Carrier Identity Takeover",
+    "signature": "ACCOUNT_TAKEOVER+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
+    "correlationIndex": 14,
+    "correlationIndexSemantics": "synthetic_signal_index_not_probability",
+    "confidenceBand": "MINIMAL",
+    "recurrenceCount": 3,
+    "firstObservedAt": 4135200,
+    "openedAt": 4137600,
+    "lastObservedAt": 4188900,
+    "relatedPatternId": "FFT-003",
+    "signalTypes": [
+      "ACCOUNT_TAKEOVER",
+      "FALSE_MILESTONE_STAMP",
+      "GPS_SIGNAL_LOST",
+      "HANDOVER_GAP",
+      "SEAL_MISMATCH"
+    ],
+    "entityIds": {
+      "truck_id": "TRU-022",
+      "driver_id": "DRI-003",
+      "trailer_id": "TRA-005",
+      "carrier_id": "CAR-002",
+      "facility_id": null
+    },
+    "timeline": [
+      {
+        "at": 4135200,
+        "signalType": "ACCOUNT_TAKEOVER"
+      },
+      {
+        "at": 4137464,
+        "signalType": "HANDOVER_GAP"
+      },
+      {
+        "at": 4137600,
+        "signalType": "FALSE_MILESTONE_STAMP"
+      },
+      {
+        "at": 4152600,
+        "signalType": "SEAL_MISMATCH"
+      },
+      {
+        "at": 4187400,
+        "signalType": "GPS_SIGNAL_LOST"
+      }
+    ],
+    "signals": [
+      {
+        "signalType": "ACCOUNT_TAKEOVER",
+        "contribution": 1.8,
+        "reliability": 0.6,
+        "at": 4135200,
+        "facilityId": null,
+        "facilityName": null
+      },
+      {
+        "signalType": "HANDOVER_GAP",
+        "contribution": 1.1,
+        "reliability": 0.55,
+        "at": 4137464,
+        "facilityId": null,
+        "facilityName": null
+      },
+      {
+        "signalType": "FALSE_MILESTONE_STAMP",
+        "contribution": 1.7,
+        "reliability": 0.55,
+        "at": 4137600,
+        "facilityId": null,
+        "facilityName": null
+      },
+      {
+        "signalType": "SEAL_MISMATCH",
+        "contribution": 2.3,
+        "reliability": 0.75,
+        "at": 4152600,
+        "facilityId": null,
+        "facilityName": null
+      },
+      {
+        "signalType": "GPS_SIGNAL_LOST",
+        "contribution": 1.2,
+        "reliability": 0.6,
+        "at": 4187400,
+        "facilityId": "FAC-009",
+        "facilityName": "Inland Depot Sud"
+      }
+    ],
+    "sites": [
+      {
+        "facilityId": "FAC-009",
+        "facilityName": "Inland Depot Sud",
+        "signalCount": 1
+      }
+    ],
+    "unsitedSignalCount": 4,
+    "siteSpread": "PARTLY_UNSITED",
+    "classificationReason": "TOO_FEW_SIGHTINGS",
+    "classificationReasonNote": "seen before but fewer times than the familiarity floor, so the sighting count says nothing either way. Its vocabulary overlap may be wide; on this branch it was not consulted.",
+    "relatedPatterns": [
+      {
+        "id": "FFT-003",
+        "name": "Carrier Identity Takeover",
+        "votes": 5,
+        "keywords": [
+          "hijack",
+          "identity",
+          "impersonation",
+          "operator",
+          "takeover"
+        ]
+      },
+      {
+        "id": "FFT-004",
+        "name": "Fictitious Pickup",
+        "votes": 5,
+        "keywords": [
+          "cargo",
+          "collection",
+          "deception",
+          "load theft",
+          "pickup"
+        ]
+      },
+      {
+        "id": "FFT-010",
+        "name": "Transport Document Fraud",
+        "votes": 5,
+        "keywords": [
+          "consignment",
+          "document",
+          "falsif",
+          "forgery",
+          "proof of delivery"
+        ]
+      }
+    ],
+    "resemblanceNotes": [
+      "Shares most vocabulary with Carrier Identity Takeover (5 shared keywords). This exact combination of signal types has not recurred in this simulation.",
+      "Shares some vocabulary with: Fictitious Pickup, Transport Document Fraud.",
+      "Nothing here compares the case's signal types against the pattern's documented indicators. Resemblance is a keyword vote over the pattern's name, category and aliases, and a vote count cannot produce a difference. A section headed \"What makes this different\" listing resemblance sentences stated a comparison nobody made."
+    ],
+    "legitimateExplanations": [
+      {
+        "title": "Contact details for an existing carrier have changed.",
+        "actually": "Genuine rebranding, domain migration, office relocation, or acquisition.",
+        "ruleOut": "Confirm the change through the pre-existing channel, not the new one, and require confirmation from a known contact. A genuine change survives verification through the old channel; a takeover does not."
+      },
+      {
+        "title": "Bank account name differs from the operator name.",
+        "actually": "Legitimate use of a factoring company or a group treasury account, which is common in road freight.",
+        "ruleOut": "Require a written assignment or factoring agreement, and verify it with the factor directly. Legitimate factoring is documented and verifiable."
+      },
+      {
+        "title": "A primary administrator or account owner changes shortly before a movement.",
+        "actually": "A genuine ownership transfer, staff change, leave cover or managed-service transition.",
+        "ruleOut": "Verify the change through the previously known operator channel, record the effective date and preserve the old-to-new administrator audit trail."
+      }
+    ],
+    "countermeasures": [
+      {
+        "bucket": "detective",
+        "text": "Run automated lookalike-domain detection against the domains of onboarded carriers."
+      },
+      {
+        "bucket": "responsive",
+        "text": "Notify the impersonated operator, which is a victim and will usually cooperate, and which may already hold evidence."
+      }
+    ]
+  }
+}

@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:FALSE_MILESTONE_STAMP+HANDOVER_GAP+ROUTE_DEVIATION",
   "canonical_risk_id": "fraud-watch:FALSE_MILESTONE_STAMP+HANDOVER_GAP+ROUTE_DEVIATION",
-  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:FALSE_MILESTONE_STAMP+HANDOVER_GAP+ROUTE_DEVIATION (FALSE_MILESTONE_STAMP, GPS_SIGNAL_LOST, HANDOVER_GAP, ROUTE_DEVIATION).",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:FALSE_MILESTONE_STAMP+HANDOVER_GAP+ROUTE_DEVIATION (FALSE_MILESTONE_STAMP, GPS_SIGNAL_LOST, HANDOVER_GAP, ROUTE_DEVIATION, UNEXPECTED_STOP).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:FALSE_MILESTONE_STAMP+HANDOVER_GAP+ROUTE_DEVIATION",
-    "captured_at": "2026-11-09T06:46:28.013Z",
+    "captured_at": "2026-11-09T22:27:53.251Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "143827cb9da0bc371c91d7db4229f37734d5a7fa19fe73e0ebe12fbe13330dac",
+    "hypothesis_context_sha256": "e1212de5db73bd5254f40227c261f87abe3ad4c98e2fc5013c6993000f6aa63b",
     "mode_of_operation_id": "FFT-010",
     "likelihood": null,
     "impact": null,
@@ -49,7 +49,8 @@
       "FALSE_MILESTONE_STAMP",
       "GPS_SIGNAL_LOST",
       "HANDOVER_GAP",
-      "ROUTE_DEVIATION"
+      "ROUTE_DEVIATION",
+      "UNEXPECTED_STOP"
     ],
     "entityIds": {},
     "timeline": [
@@ -59,7 +60,7 @@
       },
       {
         "at": 4097700,
-        "signalType": "FALSE_MILESTONE_STAMP + GPS_SIGNAL_LOST + HANDOVER_GAP + ROUTE_DEVIATION"
+        "signalType": "FALSE_MILESTONE_STAMP + GPS_SIGNAL_LOST + HANDOVER_GAP + ROUTE_DEVIATION + UNEXPECTED_STOP"
       }
     ],
     "signals": [],
