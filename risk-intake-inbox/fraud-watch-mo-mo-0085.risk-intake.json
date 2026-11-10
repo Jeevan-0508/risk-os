@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0085",
   "canonical_risk_id": "fraud-watch:mo:MO-0085",
-  "statement": "Synthetic Fraud Watch potential MO MO-0085: Possible Carrier Identity Takeover (EQUIPMENT_CARRIER_MISMATCH, FALSE_MILESTONE_STAMP, HANDOVER_GAP, MANIFEST_CHANGED).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0085: Possible Carrier Identity Takeover (EQUIPMENT_CARRIER_MISMATCH, FALSE_MILESTONE_STAMP, HANDOVER_GAP, MANIFEST_CHANGED, UNEXPECTED_STOP).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0085",
-    "captured_at": "2026-11-09T22:27:53.251Z",
+    "captured_at": "2026-11-10T07:26:34.988Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "bf57672ff63badda2a41916847003f4527407b5716e7faeeee589f2186ddef2f",
+    "hypothesis_context_sha256": "adec5f64e285368f8dd6c308ffc6a0ce1a6180d942396a32e67952cf8c2d73cd",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
@@ -37,19 +37,20 @@
     "classification": "KNOWN_MO",
     "title": "Possible Carrier Identity Takeover",
     "signature": "EQUIPMENT_CARRIER_MISMATCH+FALSE_MILESTONE_STAMP+HANDOVER_GAP+MANIFEST_CHANGED",
-    "correlationIndex": 13,
+    "correlationIndex": 7,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
     "confidenceBand": "MINIMAL",
     "recurrenceCount": 4,
     "firstObservedAt": 4172971,
     "openedAt": 4174200,
-    "lastObservedAt": 4181100,
+    "lastObservedAt": 4197900,
     "relatedPatternId": "FFT-003",
     "signalTypes": [
       "EQUIPMENT_CARRIER_MISMATCH",
       "FALSE_MILESTONE_STAMP",
       "HANDOVER_GAP",
-      "MANIFEST_CHANGED"
+      "MANIFEST_CHANGED",
+      "UNEXPECTED_STOP"
     ],
     "entityIds": {
       "truck_id": "TRU-001",
@@ -74,6 +75,10 @@
       {
         "at": 4174200,
         "signalType": "FALSE_MILESTONE_STAMP"
+      },
+      {
+        "at": 4196400,
+        "signalType": "UNEXPECTED_STOP"
       }
     ],
     "signals": [
@@ -108,10 +113,18 @@
         "at": 4174200,
         "facilityId": null,
         "facilityName": null
+      },
+      {
+        "signalType": "UNEXPECTED_STOP",
+        "contribution": 0.6,
+        "reliability": 0.6,
+        "at": 4196400,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
     "sites": [],
-    "unsitedSignalCount": 4,
+    "unsitedSignalCount": 5,
     "siteSpread": "UNSITED",
     "classificationReason": "SIGHTINGS_AT_OR_ABOVE_FLOOR",
     "classificationReasonNote": "this combination has recurred at or above the familiarity floor in this run. Familiar, which is not the same as understood.",
