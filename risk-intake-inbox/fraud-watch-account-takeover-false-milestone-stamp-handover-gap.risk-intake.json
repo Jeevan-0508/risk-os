@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:ACCOUNT_TAKEOVER+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
   "canonical_risk_id": "fraud-watch:ACCOUNT_TAKEOVER+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
-  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:ACCOUNT_TAKEOVER+FALSE_MILESTONE_STAMP+HANDOVER_GAP (ACCOUNT_TAKEOVER, FALSE_MILESTONE_STAMP, GPS_SIGNAL_LOST, HANDOVER_GAP, ROUTE_DEVIATION, SEAL_MISMATCH).",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:ACCOUNT_TAKEOVER+FALSE_MILESTONE_STAMP+HANDOVER_GAP (ACCOUNT_TAKEOVER, FALSE_MILESTONE_STAMP, GPS_SIGNAL_LOST, HANDOVER_GAP, ROUTE_DEVIATION, SEAL_MISMATCH, TRAILER_SWAPPED).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:ACCOUNT_TAKEOVER+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
-    "captured_at": "2026-11-10T07:26:34.988Z",
+    "captured_at": "2026-11-10T19:49:25.384Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "0a524ac80a7d9a19afa055afd1fdb4302402aefe8a036c6cd692c0731e73d383",
+    "hypothesis_context_sha256": "68cfbca1b188919a084e03470ce083266f0796cd0efbbb6ae7851f6145ef0908",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
@@ -51,7 +51,8 @@
       "GPS_SIGNAL_LOST",
       "HANDOVER_GAP",
       "ROUTE_DEVIATION",
-      "SEAL_MISMATCH"
+      "SEAL_MISMATCH",
+      "TRAILER_SWAPPED"
     ],
     "entityIds": {},
     "timeline": [
@@ -61,7 +62,7 @@
       },
       {
         "at": 4137600,
-        "signalType": "ACCOUNT_TAKEOVER + FALSE_MILESTONE_STAMP + GPS_SIGNAL_LOST + HANDOVER_GAP + ROUTE_DEVIATION + SEAL_MISMATCH"
+        "signalType": "ACCOUNT_TAKEOVER + FALSE_MILESTONE_STAMP + GPS_SIGNAL_LOST + HANDOVER_GAP + ROUTE_DEVIATION + SEAL_MISMATCH + TRAILER_SWAPPED"
       }
     ],
     "signals": [],
