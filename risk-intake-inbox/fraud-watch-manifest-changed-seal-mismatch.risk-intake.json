@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:MANIFEST_CHANGED+SEAL_MISMATCH",
   "canonical_risk_id": "fraud-watch:MANIFEST_CHANGED+SEAL_MISMATCH",
-  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:MANIFEST_CHANGED+SEAL_MISMATCH (DRIVER_CHANGED, MANIFEST_CHANGED, SEAL_MISMATCH, TRAILER_SWAPPED).",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:MANIFEST_CHANGED+SEAL_MISMATCH (DRIVER_CHANGED, FALSE_MILESTONE_STAMP, HANDOVER_GAP, MANIFEST_CHANGED, SEAL_MISMATCH, TRAILER_SWAPPED).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:MANIFEST_CHANGED+SEAL_MISMATCH",
-    "captured_at": "2026-11-13T19:49:16.220Z",
+    "captured_at": "2026-11-14T06:37:16.005Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "3d2e7c3b419d596ae79bcfce0d9d7247b1acc160c5af52ad9ef43ae066a76469",
+    "hypothesis_context_sha256": "76c06a80dffd9d66a87a6c3283be40f4f0f4fbbb9d2169fc66e588afecc3eabe",
     "mode_of_operation_id": "FFT-002",
     "likelihood": null,
     "impact": null,
@@ -47,6 +47,8 @@
     "relatedPatternId": null,
     "signalTypes": [
       "DRIVER_CHANGED",
+      "FALSE_MILESTONE_STAMP",
+      "HANDOVER_GAP",
       "MANIFEST_CHANGED",
       "SEAL_MISMATCH",
       "TRAILER_SWAPPED"
@@ -63,7 +65,7 @@
       },
       {
         "at": 4503300,
-        "signalType": "MANIFEST_CHANGED + SEAL_MISMATCH"
+        "signalType": "FALSE_MILESTONE_STAMP + HANDOVER_GAP + MANIFEST_CHANGED + SEAL_MISMATCH"
       }
     ],
     "signals": [],
