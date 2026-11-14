@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+MANIFEST_CHANGED+TRAILER_SWAPPED",
-    "captured_at": "2026-11-14T06:37:16.005Z",
+    "captured_at": "2026-11-14T18:13:18.753Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "e9181b92885e39d9c0694f914abf6adbaf6fb1eb4bb4be7cb9724a8b3ed48599",
+    "hypothesis_context_sha256": "d81bdb55369e01650c37a5bfc0db899cc5688cf6fae35e83b9a18ce7b5a39889",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
