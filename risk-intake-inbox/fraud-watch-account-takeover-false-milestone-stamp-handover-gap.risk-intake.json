@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:ACCOUNT_TAKEOVER+FALSE_MILESTONE_STAMP+HANDOVER_GAP",
-    "captured_at": "2026-11-14T18:13:18.753Z",
+    "captured_at": "2026-11-14T22:32:20.460Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "5ff1ec74aabec7cb525c3b01c4ed978ee715e703271e1972ab61671e08a9b164",
+    "hypothesis_context_sha256": "6137d053ae34811d15b3cbf954dd55b251091a7e582995a435ff316c9ecbe062",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
