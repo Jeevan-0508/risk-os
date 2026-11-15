@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0097",
   "canonical_risk_id": "fraud-watch:mo:MO-0097",
-  "statement": "Synthetic Fraud Watch potential MO MO-0097: Possible Carrier Identity Takeover (ACCOUNT_TAKEOVER, DUPLICATE_ASSET_ID, MANIFEST_CHANGED).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0097: Possible Carrier Identity Takeover (ACCOUNT_TAKEOVER, DUPLICATE_ASSET_ID, EQUIPMENT_CARRIER_MISMATCH, MANIFEST_CHANGED).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0097",
-    "captured_at": "2026-11-15T06:43:37.564Z",
+    "captured_at": "2026-11-15T18:55:45.340Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "781de62ded63b0ff8f58e015be2c10ed38fa71143f17b04ce192c3ee03256f2b",
+    "hypothesis_context_sha256": "dc5546b829a1a95e21cc41c13f36adbe214775891f675a984c522969f7c202ef",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
@@ -33,21 +33,22 @@
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "NEW",
+    "status": "DISMISSED",
     "classification": "POTENTIAL_NEW_MO",
     "title": "Possible Carrier Identity Takeover",
     "signature": "ACCOUNT_TAKEOVER+DUPLICATE_ASSET_ID",
-    "correlationIndex": 16,
+    "correlationIndex": 41,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
-    "confidenceBand": "MINIMAL",
+    "confidenceBand": "ELEVATED",
     "recurrenceCount": 3,
     "firstObservedAt": 4617900,
     "openedAt": 4619700,
-    "lastObservedAt": 4628700,
+    "lastObservedAt": 4654500,
     "relatedPatternId": "FFT-003",
     "signalTypes": [
       "ACCOUNT_TAKEOVER",
       "DUPLICATE_ASSET_ID",
+      "EQUIPMENT_CARRIER_MISMATCH",
       "MANIFEST_CHANGED"
     ],
     "entityIds": {
@@ -69,6 +70,14 @@
       {
         "at": 4625400,
         "signalType": "MANIFEST_CHANGED"
+      },
+      {
+        "at": 4651113,
+        "signalType": "MANIFEST_CHANGED"
+      },
+      {
+        "at": 4651200,
+        "signalType": "EQUIPMENT_CARRIER_MISMATCH"
       }
     ],
     "signals": [
@@ -95,9 +104,30 @@
         "at": 4625400,
         "facilityId": null,
         "facilityName": null
+      },
+      {
+        "signalType": "MANIFEST_CHANGED",
+        "contribution": 1.3,
+        "reliability": 0.65,
+        "at": 4651113,
+        "facilityId": "FAC-019",
+        "facilityName": "East Border Gate"
+      },
+      {
+        "signalType": "EQUIPMENT_CARRIER_MISMATCH",
+        "contribution": 2.1,
+        "reliability": 0.7,
+        "at": 4651200,
+        "facilityId": "FAC-019",
+        "facilityName": "East Border Gate"
       }
     ],
     "sites": [
+      {
+        "facilityId": "FAC-019",
+        "facilityName": "East Border Gate",
+        "signalCount": 2
+      },
       {
         "facilityId": "FAC-018",
         "facilityName": "Central Gate",
@@ -105,7 +135,7 @@
       }
     ],
     "unsitedSignalCount": 2,
-    "siteSpread": "PARTLY_UNSITED",
+    "siteSpread": "MULTI_SITE_PARTLY_UNSITED",
     "classificationReason": "TOO_FEW_SIGHTINGS",
     "classificationReasonNote": "seen before but fewer times than the familiarity floor, so the sighting count says nothing either way. Its vocabulary overlap may be wide; on this branch it was not consulted.",
     "relatedPatterns": [
