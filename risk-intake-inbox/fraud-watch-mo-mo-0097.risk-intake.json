@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0097",
   "canonical_risk_id": "fraud-watch:mo:MO-0097",
-  "statement": "Synthetic Fraud Watch potential MO MO-0097: Possible Carrier Identity Takeover (ACCOUNT_TAKEOVER, DUPLICATE_ASSET_ID).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0097: Possible Carrier Identity Takeover (ACCOUNT_TAKEOVER, DUPLICATE_ASSET_ID, MANIFEST_CHANGED).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0097",
-    "captured_at": "2026-11-14T22:32:20.460Z",
+    "captured_at": "2026-11-15T06:43:37.564Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "c99752a50264a7d4d87e0a89f663c0428f4e677aeddb7bd802cba159e48ec0f4",
+    "hypothesis_context_sha256": "781de62ded63b0ff8f58e015be2c10ed38fa71143f17b04ce192c3ee03256f2b",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
@@ -37,17 +37,18 @@
     "classification": "POTENTIAL_NEW_MO",
     "title": "Possible Carrier Identity Takeover",
     "signature": "ACCOUNT_TAKEOVER+DUPLICATE_ASSET_ID",
-    "correlationIndex": 22,
+    "correlationIndex": 16,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
-    "confidenceBand": "WATCH",
+    "confidenceBand": "MINIMAL",
     "recurrenceCount": 3,
     "firstObservedAt": 4617900,
     "openedAt": 4619700,
-    "lastObservedAt": 4622400,
+    "lastObservedAt": 4628700,
     "relatedPatternId": "FFT-003",
     "signalTypes": [
       "ACCOUNT_TAKEOVER",
-      "DUPLICATE_ASSET_ID"
+      "DUPLICATE_ASSET_ID",
+      "MANIFEST_CHANGED"
     ],
     "entityIds": {
       "truck_id": "TRU-002",
@@ -64,6 +65,10 @@
       {
         "at": 4619700,
         "signalType": "ACCOUNT_TAKEOVER"
+      },
+      {
+        "at": 4625400,
+        "signalType": "MANIFEST_CHANGED"
       }
     ],
     "signals": [
@@ -82,6 +87,14 @@
         "at": 4619700,
         "facilityId": null,
         "facilityName": null
+      },
+      {
+        "signalType": "MANIFEST_CHANGED",
+        "contribution": 1.3,
+        "reliability": 0.65,
+        "at": 4625400,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
     "sites": [
@@ -91,7 +104,7 @@
         "signalCount": 1
       }
     ],
-    "unsitedSignalCount": 1,
+    "unsitedSignalCount": 2,
     "siteSpread": "PARTLY_UNSITED",
     "classificationReason": "TOO_FEW_SIGHTINGS",
     "classificationReasonNote": "seen before but fewer times than the familiarity floor, so the sighting count says nothing either way. Its vocabulary overlap may be wide; on this branch it was not consulted.",
@@ -123,9 +136,10 @@
       {
         "id": "FFT-002",
         "name": "Phantom Carrier",
-        "votes": 1,
+        "votes": 2,
         "keywords": [
-          "identity"
+          "identity",
+          "phantom"
         ]
       }
     ],
