@@ -1,0 +1,76 @@
+{
+  "schema_version": "risk-intake.v1",
+  "kind": "risk-intake",
+  "intake_id": "fraud-watch:SEAL_MISMATCH+STAGED_BREAKDOWN+UNEXPECTED_STOP",
+  "canonical_risk_id": "fraud-watch:SEAL_MISMATCH+STAGED_BREAKDOWN+UNEXPECTED_STOP",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:SEAL_MISMATCH+STAGED_BREAKDOWN+UNEXPECTED_STOP (DRIVER_CHANGED, SEAL_MISMATCH, STAGED_BREAKDOWN, UNEXPECTED_STOP).",
+  "source": {
+    "system": "Fraud Watch",
+    "repository": "Jeevan-0508/fraud-watch",
+    "revision": null,
+    "uri": "https://github.com/Jeevan-0508/fraud-watch",
+    "identity": "fraud-watch:SEAL_MISMATCH+STAGED_BREAKDOWN+UNEXPECTED_STOP",
+    "captured_at": "2026-11-16T22:15:05.237Z",
+    "data_class": "synthetic_simulation"
+  },
+  "claim": {
+    "evidence_ids": [],
+    "contradicting_evidence_ids": [],
+    "hypothesis_context_sha256": "392da40f37b2c22b4e08da507d502de053556462adf31bf80f22d9abd1b12b14",
+    "mode_of_operation_id": "FFT-006",
+    "likelihood": null,
+    "impact": null,
+    "financial_impact": null,
+    "owner_id": null,
+    "control_effectiveness": null,
+    "confidence": null
+  },
+  "lifecycle": {
+    "state": "hypothesis",
+    "authority": "synthetic"
+  },
+  "idempotency_key": "fraud-watch:SEAL_MISMATCH+STAGED_BREAKDOWN+UNEXPECTED_STOP",
+  "synthetic_context": {
+    "kind": "fraud-watch-candidate.v1",
+    "disclaimer": "Synthetic simulation context only. This candidate groups simulator observations; it is not real-world evidence, a probability, a finding, or an accepted risk.",
+    "status": null,
+    "classification": null,
+    "title": null,
+    "signature": "SEAL_MISMATCH+STAGED_BREAKDOWN+UNEXPECTED_STOP",
+    "correlationIndex": null,
+    "correlationIndexSemantics": "synthetic_signal_index_not_probability",
+    "confidenceBand": null,
+    "recurrenceCount": null,
+    "firstObservedAt": 3621300,
+    "openedAt": 4780200,
+    "lastObservedAt": null,
+    "relatedPatternId": null,
+    "signalTypes": [
+      "DRIVER_CHANGED",
+      "SEAL_MISMATCH",
+      "STAGED_BREAKDOWN",
+      "UNEXPECTED_STOP"
+    ],
+    "entityIds": {},
+    "timeline": [
+      {
+        "at": 4780200,
+        "signalType": "DRIVER_CHANGED + SEAL_MISMATCH + STAGED_BREAKDOWN + UNEXPECTED_STOP"
+      },
+      {
+        "at": 4780200,
+        "signalType": "SEAL_MISMATCH + STAGED_BREAKDOWN + UNEXPECTED_STOP"
+      }
+    ],
+    "signals": [],
+    "sites": [],
+    "unsitedSignalCount": null,
+    "siteSpread": null,
+    "classificationReason": null,
+    "classificationReasonNote": null,
+    "relatedPatterns": [],
+    "resemblanceNotes": [],
+    "legitimateExplanations": [],
+    "countermeasures": []
+  }
+}
