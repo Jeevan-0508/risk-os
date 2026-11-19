@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:MANIFEST_CHANGED+SEAL_MISMATCH",
-    "captured_at": "2026-11-19T07:34:32.224Z",
+    "captured_at": "2026-11-19T20:44:22.253Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "6a96d3a0c9dcef0277acee08ef625f1902e2f39a892d2725d5b5b8110e4534f3",
+    "hypothesis_context_sha256": "172c2d48203fc8908e40bde7a71021230dfb0048c32c22b66ee69e38e8e2eb9b",
     "mode_of_operation_id": "FFT-002",
     "likelihood": null,
     "impact": null,
