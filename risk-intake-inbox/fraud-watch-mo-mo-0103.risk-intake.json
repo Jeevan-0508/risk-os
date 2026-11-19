@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0103",
   "canonical_risk_id": "fraud-watch:mo:MO-0103",
-  "statement": "Synthetic Fraud Watch potential MO MO-0103: Possible Transport Document Fraud (FALSE_MILESTONE_STAMP, HANDOVER_GAP, MANIFEST_CHANGED, STAGED_BREAKDOWN).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0103: Possible Transport Document Fraud (FALSE_MILESTONE_STAMP, GPS_SIGNAL_LOST, HANDOVER_GAP, MANIFEST_CHANGED, STAGED_BREAKDOWN).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0103",
-    "captured_at": "2026-11-18T20:38:39.449Z",
+    "captured_at": "2026-11-19T07:34:32.224Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "acf95618e66beaadec12b5d7d75aae1732d5d7e4b8f961482f76126407380344",
+    "hypothesis_context_sha256": "356cdfe6cd7b07ac467883db8cf72cc6dfddccf3e4102948b3ed3252b94046bf",
     "mode_of_operation_id": "FFT-010",
     "likelihood": null,
     "impact": null,
@@ -33,20 +33,21 @@
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "NEW",
+    "status": "DISMISSED",
     "classification": "POTENTIAL_NEW_MO",
     "title": "Possible Transport Document Fraud",
     "signature": "FALSE_MILESTONE_STAMP+HANDOVER_GAP+STAGED_BREAKDOWN",
-    "correlationIndex": 16,
+    "correlationIndex": 14,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
     "confidenceBand": "MINIMAL",
     "recurrenceCount": 2,
     "firstObservedAt": 4924800,
     "openedAt": 4927500,
-    "lastObservedAt": 4963800,
+    "lastObservedAt": 4976700,
     "relatedPatternId": "FFT-010",
     "signalTypes": [
       "FALSE_MILESTONE_STAMP",
+      "GPS_SIGNAL_LOST",
       "HANDOVER_GAP",
       "MANIFEST_CHANGED",
       "STAGED_BREAKDOWN"
@@ -78,6 +79,10 @@
       {
         "at": 4960500,
         "signalType": "MANIFEST_CHANGED"
+      },
+      {
+        "at": 4975200,
+        "signalType": "GPS_SIGNAL_LOST"
       }
     ],
     "signals": [
@@ -120,6 +125,14 @@
         "at": 4960500,
         "facilityId": null,
         "facilityName": null
+      },
+      {
+        "signalType": "GPS_SIGNAL_LOST",
+        "contribution": 1.2,
+        "reliability": 0.6,
+        "at": 4975200,
+        "facilityId": "FAC-016",
+        "facilityName": "Inland Depot West"
       }
     ],
     "sites": [
@@ -127,10 +140,15 @@
         "facilityId": "FAC-001",
         "facilityName": "North Gate",
         "signalCount": 1
+      },
+      {
+        "facilityId": "FAC-016",
+        "facilityName": "Inland Depot West",
+        "signalCount": 1
       }
     ],
     "unsitedSignalCount": 4,
-    "siteSpread": "PARTLY_UNSITED",
+    "siteSpread": "MULTI_SITE_PARTLY_UNSITED",
     "classificationReason": "TOO_FEW_SIGHTINGS",
     "classificationReasonNote": "seen before but fewer times than the familiarity floor, so the sighting count says nothing either way. Its vocabulary overlap may be wide; on this branch it was not consulted.",
     "relatedPatterns": [
