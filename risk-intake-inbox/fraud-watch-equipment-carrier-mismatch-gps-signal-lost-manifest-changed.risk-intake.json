@@ -1,0 +1,76 @@
+{
+  "schema_version": "risk-intake.v1",
+  "kind": "risk-intake",
+  "intake_id": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+GPS_SIGNAL_LOST+MANIFEST_CHANGED",
+  "canonical_risk_id": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+GPS_SIGNAL_LOST+MANIFEST_CHANGED",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:EQUIPMENT_CARRIER_MISMATCH+GPS_SIGNAL_LOST+MANIFEST_CHANGED (DUPLICATE_ASSET_ID, EQUIPMENT_CARRIER_MISMATCH, GPS_SIGNAL_LOST, MANIFEST_CHANGED).",
+  "source": {
+    "system": "Fraud Watch",
+    "repository": "Jeevan-0508/fraud-watch",
+    "revision": null,
+    "uri": "https://github.com/Jeevan-0508/fraud-watch",
+    "identity": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+GPS_SIGNAL_LOST+MANIFEST_CHANGED",
+    "captured_at": "2026-11-21T19:23:46.137Z",
+    "data_class": "synthetic_simulation"
+  },
+  "claim": {
+    "evidence_ids": [],
+    "contradicting_evidence_ids": [],
+    "hypothesis_context_sha256": "f555ea668f656d9558cceb3f76c60b99baad6747197fa4e1d414ff89841dbf41",
+    "mode_of_operation_id": "FFT-008",
+    "likelihood": null,
+    "impact": null,
+    "financial_impact": null,
+    "owner_id": null,
+    "control_effectiveness": null,
+    "confidence": null
+  },
+  "lifecycle": {
+    "state": "hypothesis",
+    "authority": "synthetic"
+  },
+  "idempotency_key": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+GPS_SIGNAL_LOST+MANIFEST_CHANGED",
+  "synthetic_context": {
+    "kind": "fraud-watch-candidate.v1",
+    "disclaimer": "Synthetic simulation context only. This candidate groups simulator observations; it is not real-world evidence, a probability, a finding, or an accepted risk.",
+    "status": null,
+    "classification": null,
+    "title": null,
+    "signature": "EQUIPMENT_CARRIER_MISMATCH+GPS_SIGNAL_LOST+MANIFEST_CHANGED",
+    "correlationIndex": null,
+    "correlationIndexSemantics": "synthetic_signal_index_not_probability",
+    "confidenceBand": null,
+    "recurrenceCount": null,
+    "firstObservedAt": 4813800,
+    "openedAt": 5227200,
+    "lastObservedAt": null,
+    "relatedPatternId": null,
+    "signalTypes": [
+      "DUPLICATE_ASSET_ID",
+      "EQUIPMENT_CARRIER_MISMATCH",
+      "GPS_SIGNAL_LOST",
+      "MANIFEST_CHANGED"
+    ],
+    "entityIds": {},
+    "timeline": [
+      {
+        "at": 5227200,
+        "signalType": "DUPLICATE_ASSET_ID + EQUIPMENT_CARRIER_MISMATCH + GPS_SIGNAL_LOST + MANIFEST_CHANGED"
+      },
+      {
+        "at": 5227200,
+        "signalType": "EQUIPMENT_CARRIER_MISMATCH + GPS_SIGNAL_LOST + MANIFEST_CHANGED"
+      }
+    ],
+    "signals": [],
+    "sites": [],
+    "unsitedSignalCount": null,
+    "siteSpread": null,
+    "classificationReason": null,
+    "classificationReasonNote": null,
+    "relatedPatterns": [],
+    "resemblanceNotes": [],
+    "legitimateExplanations": [],
+    "countermeasures": []
+  }
+}
