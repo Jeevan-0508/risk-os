@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+GPS_SIGNAL_LOST+MANIFEST_CHANGED",
   "canonical_risk_id": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+GPS_SIGNAL_LOST+MANIFEST_CHANGED",
-  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:EQUIPMENT_CARRIER_MISMATCH+GPS_SIGNAL_LOST+MANIFEST_CHANGED (DUPLICATE_ASSET_ID, EQUIPMENT_CARRIER_MISMATCH, GPS_SIGNAL_LOST, MANIFEST_CHANGED).",
+  "statement": "Synthetic Fraud Watch candidate hypothesis fraud-watch:EQUIPMENT_CARRIER_MISMATCH+GPS_SIGNAL_LOST+MANIFEST_CHANGED (DUPLICATE_ASSET_ID, EQUIPMENT_CARRIER_MISMATCH, GPS_SIGNAL_LOST, HANDOVER_GAP, MANIFEST_CHANGED).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+GPS_SIGNAL_LOST+MANIFEST_CHANGED",
-    "captured_at": "2026-11-21T19:23:46.137Z",
+    "captured_at": "2026-11-22T07:00:04.114Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "f555ea668f656d9558cceb3f76c60b99baad6747197fa4e1d414ff89841dbf41",
+    "hypothesis_context_sha256": "56d3009876fa828c0fd3fe6ef750777b35e27734b7efe685a4a774f4d811e5dd",
     "mode_of_operation_id": "FFT-008",
     "likelihood": null,
     "impact": null,
@@ -49,6 +49,7 @@
       "DUPLICATE_ASSET_ID",
       "EQUIPMENT_CARRIER_MISMATCH",
       "GPS_SIGNAL_LOST",
+      "HANDOVER_GAP",
       "MANIFEST_CHANGED"
     ],
     "entityIds": {},
@@ -59,7 +60,7 @@
       },
       {
         "at": 5227200,
-        "signalType": "EQUIPMENT_CARRIER_MISMATCH + GPS_SIGNAL_LOST + MANIFEST_CHANGED"
+        "signalType": "EQUIPMENT_CARRIER_MISMATCH + GPS_SIGNAL_LOST + HANDOVER_GAP + MANIFEST_CHANGED"
       }
     ],
     "signals": [],
