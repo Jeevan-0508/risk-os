@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0110",
   "canonical_risk_id": "fraud-watch:mo:MO-0110",
-  "statement": "Synthetic Fraud Watch potential MO MO-0110: Possible Carrier Identity Takeover (ACCOUNT_TAKEOVER, MANIFEST_CHANGED).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0110: Possible Carrier Identity Takeover (ACCOUNT_TAKEOVER, DRIVER_CHANGED, MANIFEST_CHANGED, ROUTE_DEVIATION).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0110",
-    "captured_at": "2026-11-23T23:59:12.126Z",
+    "captured_at": "2026-11-24T10:01:28.249Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "dc2bd5c9f4d8b8c0805330cbabe09d55918fa9bb13f7fc9634fa053642f27c8a",
+    "hypothesis_context_sha256": "552df8e6f3b78579e22ac73d4eae009f6af49f82b1075ec0abf85958f02d3134",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
@@ -37,17 +37,19 @@
     "classification": "MO_VARIANT",
     "title": "Possible Carrier Identity Takeover",
     "signature": "ACCOUNT_TAKEOVER+MANIFEST_CHANGED",
-    "correlationIndex": 22,
+    "correlationIndex": 6,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
-    "confidenceBand": "WATCH",
+    "confidenceBand": "MINIMAL",
     "recurrenceCount": 1,
     "firstObservedAt": 5406600,
     "openedAt": 5408100,
-    "lastObservedAt": 5413500,
+    "lastObservedAt": 5464800,
     "relatedPatternId": "FFT-003",
     "signalTypes": [
       "ACCOUNT_TAKEOVER",
-      "MANIFEST_CHANGED"
+      "DRIVER_CHANGED",
+      "MANIFEST_CHANGED",
+      "ROUTE_DEVIATION"
     ],
     "entityIds": {
       "truck_id": "TRU-024",
@@ -68,6 +70,14 @@
       {
         "at": 5408100,
         "signalType": "MANIFEST_CHANGED"
+      },
+      {
+        "at": 5437500,
+        "signalType": "ROUTE_DEVIATION"
+      },
+      {
+        "at": 5463000,
+        "signalType": "DRIVER_CHANGED"
       }
     ],
     "signals": [
@@ -94,6 +104,22 @@
         "at": 5408100,
         "facilityId": "FAC-001",
         "facilityName": "North Gate"
+      },
+      {
+        "signalType": "ROUTE_DEVIATION",
+        "contribution": 1.4,
+        "reliability": 0.7,
+        "at": 5437500,
+        "facilityId": null,
+        "facilityName": null
+      },
+      {
+        "signalType": "DRIVER_CHANGED",
+        "contribution": 0.5,
+        "reliability": 0.5,
+        "at": 5463000,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
     "sites": [
@@ -103,7 +129,7 @@
         "signalCount": 2
       }
     ],
-    "unsitedSignalCount": 1,
+    "unsitedSignalCount": 3,
     "siteSpread": "PARTLY_UNSITED",
     "classificationReason": "VOCABULARY_SHARED_AT_FIRST_SIGHTING",
     "classificationReasonNote": "first sighting of this combination, and its vocabulary overlap with the top-ranked pattern is at or above the declared floor.",
@@ -130,17 +156,18 @@
         ]
       },
       {
-        "id": "FFT-001",
-        "name": "Double Brokering",
-        "votes": 1,
+        "id": "FFT-008",
+        "name": "GPS Spoofing and Telematics Manipulation",
+        "votes": 2,
         "keywords": [
-          "broker"
+          "gps",
+          "spoof"
         ]
       }
     ],
     "resemblanceNotes": [
       "Shares most vocabulary with Carrier Identity Takeover (5 shared keywords). This exact combination of signal types has not recurred in this simulation.",
-      "Shares some vocabulary with: Phantom Carrier, Double Brokering.",
+      "Shares some vocabulary with: Phantom Carrier, GPS Spoofing and Telematics Manipulation.",
       "Nothing here compares the case's signal types against the pattern's documented indicators. Resemblance is a keyword vote over the pattern's name, category and aliases, and a vote count cannot produce a difference. A section headed \"What makes this different\" listing resemblance sentences stated a comparison nobody made."
     ],
     "legitimateExplanations": [
