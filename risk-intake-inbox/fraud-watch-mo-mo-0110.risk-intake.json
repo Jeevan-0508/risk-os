@@ -1,0 +1,174 @@
+{
+  "schema_version": "risk-intake.v1",
+  "kind": "risk-intake",
+  "intake_id": "fraud-watch:mo:MO-0110",
+  "canonical_risk_id": "fraud-watch:mo:MO-0110",
+  "statement": "Synthetic Fraud Watch potential MO MO-0110: Possible Carrier Identity Takeover (ACCOUNT_TAKEOVER, MANIFEST_CHANGED).",
+  "source": {
+    "system": "Fraud Watch",
+    "repository": "Jeevan-0508/fraud-watch",
+    "revision": null,
+    "uri": "https://github.com/Jeevan-0508/fraud-watch",
+    "identity": "MO-0110",
+    "captured_at": "2026-11-23T23:59:12.126Z",
+    "data_class": "synthetic_simulation"
+  },
+  "claim": {
+    "evidence_ids": [],
+    "contradicting_evidence_ids": [],
+    "hypothesis_context_sha256": "dc2bd5c9f4d8b8c0805330cbabe09d55918fa9bb13f7fc9634fa053642f27c8a",
+    "mode_of_operation_id": "FFT-003",
+    "likelihood": null,
+    "impact": null,
+    "financial_impact": null,
+    "owner_id": null,
+    "control_effectiveness": null,
+    "confidence": null
+  },
+  "lifecycle": {
+    "state": "hypothesis",
+    "authority": "synthetic"
+  },
+  "idempotency_key": "fraud-watch:mo:MO-0110",
+  "synthetic_context": {
+    "kind": "fraud-watch-mo.v1",
+    "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
+    "status": "NEW",
+    "classification": "MO_VARIANT",
+    "title": "Possible Carrier Identity Takeover",
+    "signature": "ACCOUNT_TAKEOVER+MANIFEST_CHANGED",
+    "correlationIndex": 22,
+    "correlationIndexSemantics": "synthetic_signal_index_not_probability",
+    "confidenceBand": "WATCH",
+    "recurrenceCount": 1,
+    "firstObservedAt": 5406600,
+    "openedAt": 5408100,
+    "lastObservedAt": 5413500,
+    "relatedPatternId": "FFT-003",
+    "signalTypes": [
+      "ACCOUNT_TAKEOVER",
+      "MANIFEST_CHANGED"
+    ],
+    "entityIds": {
+      "truck_id": "TRU-024",
+      "driver_id": "DRI-029",
+      "trailer_id": "TRA-026",
+      "carrier_id": "CAR-005",
+      "facility_id": null
+    },
+    "timeline": [
+      {
+        "at": 5406600,
+        "signalType": "ACCOUNT_TAKEOVER"
+      },
+      {
+        "at": 5407800,
+        "signalType": "MANIFEST_CHANGED"
+      },
+      {
+        "at": 5408100,
+        "signalType": "MANIFEST_CHANGED"
+      }
+    ],
+    "signals": [
+      {
+        "signalType": "ACCOUNT_TAKEOVER",
+        "contribution": 1.8,
+        "reliability": 0.6,
+        "at": 5406600,
+        "facilityId": null,
+        "facilityName": null
+      },
+      {
+        "signalType": "MANIFEST_CHANGED",
+        "contribution": 1.3,
+        "reliability": 0.65,
+        "at": 5407800,
+        "facilityId": "FAC-001",
+        "facilityName": "North Gate"
+      },
+      {
+        "signalType": "MANIFEST_CHANGED",
+        "contribution": 1.3,
+        "reliability": 0.65,
+        "at": 5408100,
+        "facilityId": "FAC-001",
+        "facilityName": "North Gate"
+      }
+    ],
+    "sites": [
+      {
+        "facilityId": "FAC-001",
+        "facilityName": "North Gate",
+        "signalCount": 2
+      }
+    ],
+    "unsitedSignalCount": 1,
+    "siteSpread": "PARTLY_UNSITED",
+    "classificationReason": "VOCABULARY_SHARED_AT_FIRST_SIGHTING",
+    "classificationReasonNote": "first sighting of this combination, and its vocabulary overlap with the top-ranked pattern is at or above the declared floor.",
+    "relatedPatterns": [
+      {
+        "id": "FFT-003",
+        "name": "Carrier Identity Takeover",
+        "votes": 5,
+        "keywords": [
+          "hijack",
+          "identity",
+          "impersonation",
+          "operator",
+          "takeover"
+        ]
+      },
+      {
+        "id": "FFT-002",
+        "name": "Phantom Carrier",
+        "votes": 2,
+        "keywords": [
+          "identity",
+          "phantom"
+        ]
+      },
+      {
+        "id": "FFT-001",
+        "name": "Double Brokering",
+        "votes": 1,
+        "keywords": [
+          "broker"
+        ]
+      }
+    ],
+    "resemblanceNotes": [
+      "Shares most vocabulary with Carrier Identity Takeover (5 shared keywords). This exact combination of signal types has not recurred in this simulation.",
+      "Shares some vocabulary with: Phantom Carrier, Double Brokering.",
+      "Nothing here compares the case's signal types against the pattern's documented indicators. Resemblance is a keyword vote over the pattern's name, category and aliases, and a vote count cannot produce a difference. A section headed \"What makes this different\" listing resemblance sentences stated a comparison nobody made."
+    ],
+    "legitimateExplanations": [
+      {
+        "title": "Contact details for an existing carrier have changed.",
+        "actually": "Genuine rebranding, domain migration, office relocation, or acquisition.",
+        "ruleOut": "Confirm the change through the pre-existing channel, not the new one, and require confirmation from a known contact. A genuine change survives verification through the old channel; a takeover does not."
+      },
+      {
+        "title": "Bank account name differs from the operator name.",
+        "actually": "Legitimate use of a factoring company or a group treasury account, which is common in road freight.",
+        "ruleOut": "Require a written assignment or factoring agreement, and verify it with the factor directly. Legitimate factoring is documented and verifiable."
+      },
+      {
+        "title": "A primary administrator or account owner changes shortly before a movement.",
+        "actually": "A genuine ownership transfer, staff change, leave cover or managed-service transition.",
+        "ruleOut": "Verify the change through the previously known operator channel, record the effective date and preserve the old-to-new administrator audit trail."
+      }
+    ],
+    "countermeasures": [
+      {
+        "bucket": "detective",
+        "text": "Run automated lookalike-domain detection against the domains of onboarded carriers."
+      },
+      {
+        "bucket": "responsive",
+        "text": "Notify the impersonated operator, which is a victim and will usually cooperate, and which may already hold evidence."
+      }
+    ]
+  }
+}

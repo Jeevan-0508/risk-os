@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0108",
   "canonical_risk_id": "fraud-watch:mo:MO-0108",
-  "statement": "Synthetic Fraud Watch potential MO MO-0108: Possible Transport Document Fraud (FALSE_MILESTONE_STAMP, HANDOVER_GAP, ROUTE_DEVIATION).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0108: Possible Transport Document Fraud (FALSE_MILESTONE_STAMP, GPS_SIGNAL_LOST, HANDOVER_GAP, ROUTE_DEVIATION).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0108",
-    "captured_at": "2026-11-23T07:49:11.955Z",
+    "captured_at": "2026-11-23T23:59:12.126Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "a28a6cce2cc50842cc837644ab7b6ed1ab4df6afb6c1fa206884dfe4cbe4dffd",
+    "hypothesis_context_sha256": "ef11b9af2bb166144d18873225991bd694fb6c435e59466d02c787968b7ed182",
     "mode_of_operation_id": "FFT-010",
     "likelihood": null,
     "impact": null,
@@ -33,20 +33,21 @@
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "NEW",
+    "status": "DISMISSED",
     "classification": "KNOWN_MO",
     "title": "Possible Transport Document Fraud",
     "signature": "FALSE_MILESTONE_STAMP+HANDOVER_GAP+ROUTE_DEVIATION",
-    "correlationIndex": 13,
+    "correlationIndex": 14,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
     "confidenceBand": "MINIMAL",
     "recurrenceCount": 4,
     "firstObservedAt": 5337234,
     "openedAt": 5339700,
-    "lastObservedAt": 5344200,
+    "lastObservedAt": 5362800,
     "relatedPatternId": "FFT-010",
     "signalTypes": [
       "FALSE_MILESTONE_STAMP",
+      "GPS_SIGNAL_LOST",
       "HANDOVER_GAP",
       "ROUTE_DEVIATION"
     ],
@@ -69,6 +70,10 @@
       {
         "at": 5339700,
         "signalType": "ROUTE_DEVIATION"
+      },
+      {
+        "at": 5361300,
+        "signalType": "GPS_SIGNAL_LOST"
       }
     ],
     "signals": [
@@ -95,6 +100,14 @@
         "at": 5339700,
         "facilityId": "FAC-002",
         "facilityName": "South Gate"
+      },
+      {
+        "signalType": "GPS_SIGNAL_LOST",
+        "contribution": 1.2,
+        "reliability": 0.6,
+        "at": 5361300,
+        "facilityId": null,
+        "facilityName": null
       }
     ],
     "sites": [
@@ -109,8 +122,8 @@
         "signalCount": 1
       }
     ],
-    "unsitedSignalCount": 0,
-    "siteSpread": "MULTI_SITE",
+    "unsitedSignalCount": 1,
+    "siteSpread": "MULTI_SITE_PARTLY_UNSITED",
     "classificationReason": "SIGHTINGS_AT_OR_ABOVE_FLOOR",
     "classificationReasonNote": "this combination has recurred at or above the familiarity floor in this run. Familiar, which is not the same as understood.",
     "relatedPatterns": [
@@ -140,11 +153,12 @@
       {
         "id": "FFT-008",
         "name": "GPS Spoofing and Telematics Manipulation",
-        "votes": 3,
+        "votes": 4,
         "keywords": [
           "falsif",
           "gps",
-          "spoof"
+          "spoof",
+          "telemat"
         ]
       }
     ],

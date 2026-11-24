@@ -3,20 +3,20 @@
   "kind": "risk-intake",
   "intake_id": "fraud-watch:mo:MO-0107",
   "canonical_risk_id": "fraud-watch:mo:MO-0107",
-  "statement": "Synthetic Fraud Watch potential MO MO-0107: Possible Carrier Identity Takeover (ACCOUNT_TAKEOVER, HANDOVER_GAP, SEAL_MISMATCH).",
+  "statement": "Synthetic Fraud Watch potential MO MO-0107: Possible Carrier Identity Takeover (ACCOUNT_TAKEOVER, HANDOVER_GAP, SEAL_MISMATCH, UNEXPECTED_STOP).",
   "source": {
     "system": "Fraud Watch",
     "repository": "Jeevan-0508/fraud-watch",
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0107",
-    "captured_at": "2026-11-23T07:49:11.955Z",
+    "captured_at": "2026-11-23T23:59:12.126Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "a399e3a5278643021891e6f2a3f67db4e41d0c81c78b1421d9716ca4a9beda1a",
+    "hypothesis_context_sha256": "32c3469e5accc5d907d497a1ca6baa222a53fb0fb7b5ba37e38a492dfd091293",
     "mode_of_operation_id": "FFT-003",
     "likelihood": null,
     "impact": null,
@@ -33,22 +33,23 @@
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "NEW",
+    "status": "DISMISSED",
     "classification": "KNOWN_MO",
     "title": "Possible Carrier Identity Takeover",
     "signature": "ACCOUNT_TAKEOVER+SEAL_MISMATCH",
-    "correlationIndex": 22,
+    "correlationIndex": 7,
     "correlationIndexSemantics": "synthetic_signal_index_not_probability",
-    "confidenceBand": "WATCH",
+    "confidenceBand": "MINIMAL",
     "recurrenceCount": 6,
     "firstObservedAt": 5322600,
     "openedAt": 5328900,
-    "lastObservedAt": 5356800,
+    "lastObservedAt": 5386200,
     "relatedPatternId": "FFT-003",
     "signalTypes": [
       "ACCOUNT_TAKEOVER",
       "HANDOVER_GAP",
-      "SEAL_MISMATCH"
+      "SEAL_MISMATCH",
+      "UNEXPECTED_STOP"
     ],
     "entityIds": {
       "truck_id": "TRU-021",
@@ -77,6 +78,10 @@
       {
         "at": 5350500,
         "signalType": "ACCOUNT_TAKEOVER"
+      },
+      {
+        "at": 5384700,
+        "signalType": "UNEXPECTED_STOP"
       }
     ],
     "signals": [
@@ -119,6 +124,14 @@
         "at": 5350500,
         "facilityId": null,
         "facilityName": null
+      },
+      {
+        "signalType": "UNEXPECTED_STOP",
+        "contribution": 0.6,
+        "reliability": 0.6,
+        "at": 5384700,
+        "facilityId": "FAC-015",
+        "facilityName": "Inland Depot Nord"
       }
     ],
     "sites": [
@@ -126,10 +139,15 @@
         "facilityId": "FAC-014",
         "facilityName": "Cross-dock C (east)",
         "signalCount": 1
+      },
+      {
+        "facilityId": "FAC-015",
+        "facilityName": "Inland Depot Nord",
+        "signalCount": 1
       }
     ],
     "unsitedSignalCount": 4,
-    "siteSpread": "PARTLY_UNSITED",
+    "siteSpread": "MULTI_SITE_PARTLY_UNSITED",
     "classificationReason": "SIGHTINGS_AT_OR_ABOVE_FLOOR",
     "classificationReasonNote": "this combination has recurred at or above the familiarity floor in this run. Familiar, which is not the same as understood.",
     "relatedPatterns": [
