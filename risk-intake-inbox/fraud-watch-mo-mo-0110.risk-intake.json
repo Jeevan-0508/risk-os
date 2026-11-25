@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "MO-0110",
-    "captured_at": "2026-11-24T22:32:44.561Z",
+    "captured_at": "2026-11-25T08:45:19.494Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "814f0a5a42a2276d4f3876aeeb0852a431a7e20160a514954f19c61463357f49",
+    "hypothesis_context_sha256": "4a4df85173ab09644d2067b70dce09303487babe73e377ba94931cee19f557a6",
     "mode_of_operation_id": "FFT-002",
     "likelihood": null,
     "impact": null,
@@ -33,7 +33,7 @@
   "synthetic_context": {
     "kind": "fraud-watch-mo.v1",
     "disclaimer": "Synthetic simulation context only. These fields describe the simulator record and taxonomy context; they are not real-world evidence, a probability, a finding, or an accepted risk.",
-    "status": "NEW",
+    "status": "DISMISSED",
     "classification": "MO_VARIANT",
     "title": "Possible Phantom Carrier",
     "signature": "ACCOUNT_TAKEOVER+MANIFEST_CHANGED",
@@ -43,7 +43,7 @@
     "recurrenceCount": 1,
     "firstObservedAt": 5406600,
     "openedAt": 5408100,
-    "lastObservedAt": 5508000,
+    "lastObservedAt": 5517900,
     "relatedPatternId": "FFT-002",
     "signalTypes": [
       "ACCOUNT_TAKEOVER",
