@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:EQUIPMENT_CARRIER_MISMATCH+GPS_SIGNAL_LOST+MANIFEST_CHANGED",
-    "captured_at": "2026-11-26T08:30:30.746Z",
+    "captured_at": "2026-11-26T21:40:10.389Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "7a10dc6d402ebedbd105c39c18dda339e202d4fb6e6381ed46f089d51dd03c28",
+    "hypothesis_context_sha256": "3c3ffc2bfea167595ce904b2c30e35d2c26e6bbebe0da885487163103a6a4129",
     "mode_of_operation_id": "FFT-008",
     "likelihood": null,
     "impact": null,
