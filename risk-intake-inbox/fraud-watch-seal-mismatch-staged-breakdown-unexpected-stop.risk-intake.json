@@ -10,13 +10,13 @@
     "revision": null,
     "uri": "https://github.com/Jeevan-0508/fraud-watch",
     "identity": "fraud-watch:SEAL_MISMATCH+STAGED_BREAKDOWN+UNEXPECTED_STOP",
-    "captured_at": "2026-11-27T08:44:31.742Z",
+    "captured_at": "2026-11-27T21:25:11.416Z",
     "data_class": "synthetic_simulation"
   },
   "claim": {
     "evidence_ids": [],
     "contradicting_evidence_ids": [],
-    "hypothesis_context_sha256": "67321e9633ee14584959cda3aa85c4987ac684259616e0f229783f53993d62ca",
+    "hypothesis_context_sha256": "25ce2c613cd19723bb0851db006e40b5776ef89258f25c7972a0ee2fab53d287",
     "mode_of_operation_id": "FFT-006",
     "likelihood": null,
     "impact": null,
